@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Módulo 1 — Calistenia</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --card: #1c1c1c;
+    --border: #2a2a2a;
+    --accent: #b5f23c;
+    --accent-dim: #8ab82c;
+    --text: #e8e8e8;
+    --muted: #666;
+    --done-bg: #1a2208;
+    --done-border: #4a7a10;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 60px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 24px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  header .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    line-height: 1;
+  }
+  header .subtitle {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 3px;
+    font-family: 'DM Mono', monospace;
+  }
+  .progress-wrap {
+    text-align: right;
+  }
+  .progress-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .progress-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+  .progress-bar-outer {
+    width: 120px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-inner {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    padding: 24px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.18s ease, border-color 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+  }
+  .card:hover { transform: translateY(-2px); border-color: #3a3a3a; }
+  .card.done {
+    background: var(--done-bg);
+    border-color: var(--done-border);
+  }
+  .card.done:hover { border-color: var(--accent-dim); }
+
+  /* CARD HEADER */
+  .card-head {
+    padding: 14px 16px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+  }
+  .card.done .card-head { border-bottom-color: var(--done-border); }
+  .treino-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.35rem;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    transition: color 0.25s;
+  }
+  .card.done .treino-num { color: var(--accent); }
+  .check-btn {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.22s ease;
+    flex-shrink: 0;
+  }
+  .card.done .check-btn {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .check-icon {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.2s ease;
+  }
+  .card.done .check-icon {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* EXERCISES */
+  .exercises {
+    padding: 12px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .ex-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 0.82rem;
+  }
+  .ex-qty {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent-dim);
+    min-width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+    transition: color 0.25s;
+  }
+  .card.done .ex-qty { color: var(--accent); }
+  .ex-name {
+    color: #aaa;
+    line-height: 1.3;
+    transition: color 0.25s;
+  }
+  .card.done .ex-name { color: #d0e8a0; }
+
+  /* SETS BADGE */
+  .sets-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #222;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    transition: all 0.25s;
+  }
+  .card.done .sets-badge {
+    background: #1f2f08;
+    border-color: var(--done-border);
+    color: var(--accent-dim);
+  }
+
+  /* DONE OVERLAY TEXT */
+  .done-stamp {
+    position: absolute;
+    top: 10px; right: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .card.done .done-stamp {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+
+  /* RESET BTN */
+  .reset-wrap {
+    text-align: center;
+    padding: 8px 20px 0;
+  }
+  .reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover {
+    border-color: #ff4444;
+    color: #ff4444;
+  }
+
+  /* DATE TAG */
+  .date-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 4px;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .card.done .date-tag {
+    opacity: 0.8;
+    height: 14px;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 480px) {
+    .grid { padding: 16px 12px; gap: 10px; }
+    header { padding: 20px 16px 16px; }
+    header .logo { font-size: 1.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="logo">MÓDULO 1</div>
+    <div class="subtitle">Calistenia · 15 Treinos</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-count" id="doneCount">0/15</div>
+    <div class="progress-label">Concluídos</div>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar" style="width:0%"></div>
+    </div>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<div class="reset-wrap">
+  <button class="reset-btn" onclick="resetAll()">↺ Reiniciar Progresso</button>
+</div>
+
+<script>
+const workouts = [
+  { id: 1, sets: 3, exercises: [
+    { qty: "30", name: "Polichinelo" },
+    { qty: "6", name: "Barra" },
+    { qty: "30s", name: "Prancha" },
+    { qty: "máx", name: "Flexão de joelhos" },
+    { qty: "15", name: "Agachamento c/ salto" },
+    { qty: "30s", name: "Pé na bunda" },
+    { qty: "5", name: "Barra australiana" },
+    { qty: "máx", name: "Flexão inclinada" },
+  ]},
+  { id: 2, sets: 3, exercises: [
+    { qty: "30s", name: "Step-up" },
+    { qty: "10", name: "Agachamento" },
+    { qty: "10", name: "Afundo" },
+    { qty: "10", name: "Agachamento c/ salto" },
+    { qty: "10", name: "Afundo c/ elevação" },
+    { qty: "15", name: "Sumo" },
+    { qty: "30s", name: "Isometria" },
+    { qty: "15", name: "Pantu unilateral" },
+  ]},
+  { id: 3, sets: 3, exercises: [
+    { qty: "30s", name: "Skipping" },
+    { qty: "8", name: "Dips" },
+    { qty: "20s", name: "Prancha lateral" },
+    { qty: "máx", name: "Tríceps na trave" },
+    { qty: "10", name: "Alternado" },
+    { qty: "máx", name: "Flexão ou de joelhos" },
+    { qty: "máx", name: "Flexão inclinada" },
+    { qty: "20", name: "Crunches" },
+  ]},
+  { id: 4, sets: 3, exercises: [
+    { qty: "30s", name: "False rope" },
+    { qty: "2", name: "Barra (A, M, F)" },
+    { qty: "10", name: "Toe touches" },
+    { qty: "6", name: "Barra supinada" },
+    { qty: "40s", name: "Prancha" },
+    { qty: "5", name: "Barra aust. (A, M, F)" },
+    { qty: "30s", name: "Leg flutters" },
+    { qty: "máx", name: "Bíceps na barra" },
+  ]},
+  { id: 5, sets: 3, exercises: [
+    { qty: "8", name: "Half burpee" },
+    { qty: "máx", name: "Flexão pike" },
+    { qty: "30s", name: "Bike" },
+    { qty: "10", name: "Flexão militar" },
+    { qty: "15", name: "Side crunches" },
+    { qty: "10", name: "Pike caminhada" },
+    { qty: "8", name: "Prancha alta p/ trave" },
+    { qty: "8", name: "Caminhada chão" },
+  ]},
+  { id: 6, sets: 3, exercises: [
+    { qty: "40s", name: "Skipping" },
+    { qty: "30s", name: "Agacha c/ salto" },
+    { qty: "10", name: "Afundo saltando" },
+    { qty: "45s", name: "Step-up" },
+    { qty: "10", name: "Afundo explosivo" },
+    { qty: "25", name: "Sumo" },
+    { qty: "15", name: "Passada lateral" },
+    { qty: "20s", name: "Iso afundo" },
+  ]},
+  { id: 7, sets: 3, exercises: [
+    { qty: "40s", name: "Skipping" },
+    { qty: "30s", name: "Agacha c/ salto" },
+    { qty: "10", name: "Afundo saltando" },
+    { qty: "45s", name: "Step-up" },
+    { qty: "10", name: "Afundo explosivo" },
+    { qty: "25", name: "Sumo" },
+    { qty: "15", name: "Passada lateral" },
+    { qty: "20s", name: "Iso afundo" },
+  ]},
+  { id: 8, sets: 3, exercises: [
+    { qty: "45s", name: "Heel taps" },
+    { qty: "10", name: "Dips" },
+    { qty: "30s", name: "Prancha lateral" },
+    { qty: "8", name: "Extensão de tríceps" },
+    { qty: "15", name: "Knee raises" },
+    { qty: "máx", name: "Flexão explosiva" },
+    { qty: "20", name: "Tríceps na trave" },
+    { qty: "30s", name: "In&outs A/F" },
+    { qty: "máx", name: "Prancha alcance" },
+  ]},
+  { id: 9, sets: 3, exercises: [
+    { qty: "45s", name: "False rope" },
+    { qty: "3", name: "Barra (A, M, F)" },
+    { qty: "15", name: "Alternado" },
+    { qty: "8", name: "Barra supinada" },
+    { qty: "1min", name: "Prancha" },
+    { qty: "8", name: "Barra aust. (A, M, F)" },
+    { qty: "40s", name: "Mountain climbers" },
+    { qty: "máx", name: "Barra aust. sup." },
+    { qty: "45s", name: "Prancha A/F" },
+  ]},
+  { id: 10, sets: 3, exercises: [
+    { qty: "10", name: "Half burpee" },
+    { qty: "máx", name: "Caminhada" },
+    { qty: "20", name: "Leg raises" },
+    { qty: "10", name: "Pike shoulder tap" },
+    { qty: "8", name: "Flexão pike c/ elev." },
+    { qty: "45s", name: "Crunches" },
+    { qty: "máx", name: "Flexão declinada" },
+    { qty: "máx", name: "Prancha na parede" },
+    { qty: "máx", name: "Dips" },
+  ]},
+  { id: 11, sets: 3, exercises: [
+    { qty: "50", name: "Polichinelo" },
+    { qty: "10", name: "Barra" },
+    { qty: "45s", name: "Prancha alternate" },
+    { qty: "máx", name: "Diamante" },
+    { qty: "10", name: "Canivete" },
+    { qty: "5", name: "Barra sup. (A, M, F)" },
+    { qty: "3", name: "Caminhada" },
+    { qty: "10", name: "Dips" },
+    { qty: "50", name: "Crunches" },
+    { qty: "máx", name: "Barra aust. arqueiro" },
+  ]},
+  { id: 12, sets: 3, exercises: [
+    { qty: "10", name: "Half burpee" },
+    { qty: "30s", name: "Afundo saltando" },
+    { qty: "15", name: "Afundo c/ elev." },
+    { qty: "8", name: "Pistol c/ suporte" },
+    { qty: "10", name: "Salto frontal" },
+    { qty: "8", name: "Agacha + afundo" },
+    { qty: "15", name: "Ponte" },
+    { qty: "20", name: "Panturrilha" },
+    { qty: "máx", name: "Iso ponta do pé" },
+  ]},
+  { id: 13, sets: 3, exercises: [
+    { qty: "8", name: "Burpee" },
+    { qty: "12", name: "Dips" },
+    { qty: "10", name: "Prancha J/C" },
+    { qty: "10", name: "P.A p/ B + F.M" },
+    { qty: "máx", name: "Tuck L-sit" },
+    { qty: "máx", name: "Diamante p/ regular" },
+    { qty: "40s", name: "Mountain climbers" },
+    { qty: "máx", name: "Flexão inclinada exp." },
+    { qty: "40s", name: "Bike" },
+    { qty: "máx", name: "Flexão hold" },
+  ]},
+  { id: 14, sets: 3, exercises: [
+    { qty: "10", name: "Escápula" },
+    { qty: "10", name: "Barra" },
+    { qty: "10", name: "Corner raises" },
+    { qty: "10", name: "Barra tradicional" },
+    { qty: "15", name: "Knee raises" },
+    { qty: "10", name: "Barra aust. sup. (A, M, F)" },
+    { qty: "15", name: "Leg raises" },
+    { qty: "máx", name: "Barra aust. sup. arq." },
+    { qty: "40s", name: "Leg X" },
+    { qty: "20", name: "Bíceps na barra" },
+  ]},
+  { id: 15, sets: 3, exercises: [
+    { qty: "12", name: "Half burpee" },
+    { qty: "10", name: "Pike c/ elev." },
+    { qty: "8", name: "Ombro p/ ombro" },
+    { qty: "15", name: "Sit-ups" },
+    { qty: "máx", name: "Pike hold" },
+    { qty: "20", name: "Pike caminhada" },
+    { qty: "20", name: "Remador" },
+    { qty: "máx", name: "HS hold" },
+    { qty: "15", name: "Flexão militar" },
+    { qty: "máx", name: "Caminhada" },
+  ]},
+];
+
+const STORAGE_KEY = 'calistenia-m1-done';
+let doneMap = {}; // { id: dateString }
+
+async function loadState() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY);
+    if (result && result.value) {
+      doneMap = JSON.parse(result.value);
+    }
+  } catch(e) {
+    doneMap = {};
+  }
+  render();
+}
+
+async function saveState() {
+  try {
+    await window.storage.set(STORAGE_KEY, JSON.stringify(doneMap));
+  } catch(e) {}
+  updateProgress();
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+async function toggleDone(id) {
+  if (doneMap[id]) {
+    delete doneMap[id];
+  } else {
+    doneMap[id] = new Date().toISOString();
+  }
+  await saveState();
+  const card = document.querySelector(`[data-id="${id}"]`);
+  if (card) {
+    const isDone = !!doneMap[id];
+    card.classList.toggle('done', isDone);
+    const dateTag = card.querySelector('.date-tag');
+    if (dateTag) dateTag.textContent = isDone ? `Feito em ${formatDate(doneMap[id])}` : '';
+  }
+}
+
+function updateProgress() {
+  const count = Object.keys(doneMap).length;
+  const total = workouts.length;
+  document.getElementById('doneCount').textContent = `${count}/${total}`;
+  document.getElementById('progressBar').style.width = `${(count / total) * 100}%`;
+}
+
+async function resetAll() {
+  if (!confirm('Zerar todo o progresso?')) return;
+  doneMap = {};
+  await saveState();
+  document.querySelectorAll('.card.done').forEach(c => {
+    c.classList.remove('done');
+    const dt = c.querySelector('.date-tag');
+    if (dt) dt.textContent = '';
+  });
+}
+
+function render() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+
+  workouts.forEach(w => {
+    const isDone = !!doneMap[w.id];
+    const card = document.createElement('div');
+    card.className = 'card' + (isDone ? ' done' : '');
+    card.dataset.id = w.id;
+    card.addEventListener('click', () => toggleDone(w.id));
+
+    const exRows = w.exercises.map(e => `
+      <div class="ex-row">
+        <span class="ex-qty">${e.qty}</span>
+        <span class="ex-name">${e.name}</span>
+      </div>
+    `).join('');
+
+    card.innerHTML = `
+      <div class="card-head">
+        <div>
+          <div class="treino-num">TREINO ${String(w.id).padStart(2,'0')}</div>
+          <span class="sets-badge">× ${w.sets} séries</span>
+        </div>
+        <div class="check-btn">
+          <svg class="check-icon" width="13" height="10" viewBox="0 0 13 10" fill="none">
+            <path d="M1.5 5L5 8.5L11.5 1.5" stroke="#0e0e0e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+      <div class="exercises">${exRows}</div>
+      <div style="padding: 0 16px 12px">
+        <div class="date-tag">${isDone ? `Feito em ${formatDate(doneMap[w.id])}` : ''}</div>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+  updateProgress();
+}
+
+// Init
+if (window.storage) {
+  loadState();
+} else {
+  render();
+}
+</script>
+</body>
+</html>
