@@ -1,0 +1,146 @@
+
+<h2 class="sr-only">Plano de treino para o TAF da PRF — 3 dias por semana, partindo do zero, em 4 fases de 4 semanas.</h2>
+
+<div style="padding:1rem 0;">
+
+<div style="display:flex; gap:8px; margin-bottom:1.5rem; border-bottom:0.5px solid var(--color-border-tertiary); padding-bottom:0;">
+  <button onclick="setTab(0)" id="tab0" style="padding:8px 16px; border:none; border-bottom:2px solid var(--color-text-primary); background:transparent; font-size:14px; font-weight:500; color:var(--color-text-primary); cursor:pointer;">Fases</button>
+  <button onclick="setTab(1)" id="tab1" style="padding:8px 16px; border:none; border-bottom:2px solid transparent; background:transparent; font-size:14px; color:var(--color-text-secondary); cursor:pointer;">Sessões</button>
+  <button onclick="setTab(2)" id="tab2" style="padding:8px 16px; border:none; border-bottom:2px solid transparent; background:transparent; font-size:14px; color:var(--color-text-secondary); cursor:pointer;">Metas do TAF</button>
+</div>
+
+<div id="panel0">
+  <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1.2rem;">16 semanas · 3 dias/semana · ~45–60 min por sessão</p>
+  <div style="display:flex; flex-direction:column; gap:12px;">
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #378ADD; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+        <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#E6F1FB; color:#0C447C;">Fase 1 — Sem. 1 a 4</span>
+        <span style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Adaptação — construir o hábito</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; font-size:13px;">
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Corrida</span><br>Alternância trote/caminhada<br><span style="color:var(--color-text-secondary);">1 min trote + 2 min caminhada × 8 séries</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Barra</span><br>Remada invertida ou elástico<br><span style="color:var(--color-text-secondary);">3 × 8–10 remadas horizontais</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Abdominal</span><br>Técnica do TAF<br><span style="color:var(--color-text-secondary);">3 × 15 reps, sem pressa, forma certa</span></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #EF9F27; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+        <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#FAEEDA; color:#633806;">Fase 2 — Sem. 5 a 8</span>
+        <span style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Construção — primeiras barras reais</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; font-size:13px;">
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Corrida</span><br>Trote contínuo<br><span style="color:var(--color-text-secondary);">15–20 min sem parar, ritmo lento</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Barra</span><br>Negativas + tentativas<br><span style="color:var(--color-text-secondary);">4 × descida lenta 5s + máx. completas</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Abdominal</span><br>Volume crescente<br><span style="color:var(--color-text-secondary);">3 × 25 reps, ritmo moderado</span></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #639922; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+        <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#EAF3DE; color:#27500A;">Fase 3 — Sem. 9 a 12</span>
+        <span style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Desenvolvimento — ritmo e repetições</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; font-size:13px;">
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Corrida</span><br>Contínuo + tiros<br><span style="color:var(--color-text-secondary);">25–30 min 2×/sem + 400m × 6 tiros 1×/sem</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Barra</span><br>Grease the groove<br><span style="color:var(--color-text-secondary);">3–5 rep completas + séries submáximas no dia a dia</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Abdominal</span><br>Cronometrado<br><span style="color:var(--color-text-secondary);">3 × 35 reps com 1 min de descanso</span></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #D4537E; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
+        <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#FBEAF0; color:#72243E;">Fase 4 — Sem. 13 a 16</span>
+        <span style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Específico — simulação do TAF</span>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; font-size:13px;">
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Corrida</span><br>Simulado Cooper<br><span style="color:var(--color-text-secondary);">1×/sem mede distância em 12 min, anota e bate progressivamente</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Barra</span><br>Máximo na barra<br><span style="color:var(--color-text-secondary);">Teste semanal de máximo + grease the groove diário</span></div>
+        <div><span style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.04em;">Abdominal</span><br>Simulação TAF<br><span style="color:var(--color-text-secondary);">1 min cronometrado, conta e registra, meta 40+ reps</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="panel1" style="display:none;">
+  <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1.2rem;">Estrutura fixa dos 3 dias — o conteúdo evolui por fase, a estrutura não muda</p>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;">
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;">Dia A — ex: segunda</div>
+      <div style="font-size:14px; font-weight:500; margin-bottom:12px; color:var(--color-text-primary);">Corrida principal</div>
+      <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-run" style="font-size:16px; margin-top:2px; color:#378ADD;" aria-hidden="true"></i><div><strong style="font-weight:500;">Corrida</strong><br><span style="color:var(--color-text-secondary);">sessão longa ou intervalada conforme a fase</span></div></div>
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-trending-up" style="font-size:16px; margin-top:2px; color:#639922;" aria-hidden="true"></i><div><strong style="font-weight:500;">Abdominal</strong><br><span style="color:var(--color-text-secondary);">séries da fase, técnica do edital</span></div></div>
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-waves" style="font-size:16px; margin-top:2px; color:#888;" aria-hidden="true"></i><div><strong style="font-weight:500;">Natação</strong><br><span style="color:var(--color-text-secondary);">se possível, 30 min livres uma vez por semana</span></div></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;">Dia B — ex: quarta</div>
+      <div style="font-size:14px; font-weight:500; margin-bottom:12px; color:var(--color-text-primary);">Força — tronco e braços</div>
+      <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-barbell" style="font-size:16px; margin-top:2px; color:#EF9F27;" aria-hidden="true"></i><div><strong style="font-weight:500;">Barra fixa</strong><br><span style="color:var(--color-text-secondary);">remada / negativa / completa — conforme a fase</span></div></div>
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-arrow-down" style="font-size:16px; margin-top:2px; color:#EF9F27;" aria-hidden="true"></i><div><strong style="font-weight:500;">Flexão de braço</strong><br><span style="color:var(--color-text-secondary);">suporte para a barra, 3 × máx.</span></div></div>
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-trending-up" style="font-size:16px; margin-top:2px; color:#639922;" aria-hidden="true"></i><div><strong style="font-weight:500;">Abdominal</strong><br><span style="color:var(--color-text-secondary);">séries da fase</span></div></div>
+      </div>
+    </div>
+
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
+      <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px;">Dia C — ex: sexta</div>
+      <div style="font-size:14px; font-weight:500; margin-bottom:12px; color:var(--color-text-primary);">Misto — tudo junto</div>
+      <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-run" style="font-size:16px; margin-top:2px; color:#378ADD;" aria-hidden="true"></i><div><strong style="font-weight:500;">Corrida curta</strong><br><span style="color:var(--color-text-secondary);">15–20 min em ritmo confortável</span></div></div>
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-barbell" style="font-size:16px; margin-top:2px; color:#EF9F27;" aria-hidden="true"></i><div><strong style="font-weight:500;">Barra + flexão</strong><br><span style="color:var(--color-text-secondary);">repetições da semana</span></div></div>
+        <div style="display:flex; gap:8px; align-items:flex-start;"><i class="ti ti-trending-up" style="font-size:16px; margin-top:2px; color:#639922;" aria-hidden="true"></i><div><strong style="font-weight:500;">Abdominal</strong><br><span style="color:var(--color-text-secondary);">séries finais da semana</span></div></div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:12px; background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:.875rem 1.25rem; font-size:13px; color:var(--color-text-secondary);">
+    Nos outros dias da semana, aplique o <strong style="font-weight:500;">grease the groove para barra</strong>: sempre que passar em uma barra (academia, parque, batente de porta), faça séries de 50–60% do seu máximo. Não conta como treino, não gera fadiga — só acumula volume.
+  </div>
+</div>
+
+<div id="panel2" style="display:none;">
+  <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1.2rem;">Referência das últimas edições · confirme sempre no edital vigente</p>
+  <div style="display:flex; flex-direction:column; gap:10px;">
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; align-items:center;">
+      <div><div style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Cooper 12 minutos</div><div style="font-size:12px; color:var(--color-text-secondary); margin-top:2px;">prova mais eliminatória · ritmo é tudo</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">mínimo (até 30 anos)</div><div style="font-size:16px; font-weight:500; color:#378ADD;">2.400 m</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">meta confortável</div><div style="font-size:16px; font-weight:500; color:#0C447C;">2.600 m</div></div>
+    </div>
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; align-items:center;">
+      <div><div style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Barra fixa</div><div style="font-size:12px; color:var(--color-text-secondary); margin-top:2px;">pegada pronada · sem balançar</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">mínimo para passar</div><div style="font-size:16px; font-weight:500; color:#EF9F27;">7 reps</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">nota máxima</div><div style="font-size:16px; font-weight:500; color:#633806;">10+ reps</div></div>
+    </div>
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; align-items:center;">
+      <div><div style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Abdominal — 1 minuto</div><div style="font-size:12px; color:var(--color-text-secondary); margin-top:2px;">mãos na nuca · cotovelo toca joelho</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">mínimo para passar</div><div style="font-size:16px; font-weight:500; color:#639922;">30 reps</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">meta confortável</div><div style="font-size:16px; font-weight:500; color:#27500A;">40+ reps</div></div>
+    </div>
+    <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem 1.25rem; display:grid; grid-template-columns:2fr 1fr 1fr; gap:8px; align-items:center;">
+      <div><div style="font-size:14px; font-weight:500; color:var(--color-text-primary);">Natação — 50 metros</div><div style="font-size:12px; color:var(--color-text-secondary); margin-top:2px;">qualquer estilo · sem tempo mínimo</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">requisito</div><div style="font-size:16px; font-weight:500; color:#888;">completar</div></div>
+      <div><div style="font-size:11px; color:var(--color-text-secondary);">preparo</div><div style="font-size:16px; font-weight:500; color:#444;">2×/sem</div></div>
+    </div>
+    <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-lg); padding:.875rem 1.25rem; font-size:13px; color:var(--color-text-secondary);">
+      Faixas etárias diferentes têm distâncias mínimas menores no Cooper. Verifique sua faixa no edital — pode fazer diferença na estratégia de treino.
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function setTab(n) {
+  [0,1,2].forEach(i => {
+    document.getElementById('panel'+i).style.display = i===n ? 'block' : 'none';
+    const btn = document.getElementById('tab'+i);
+    btn.style.borderBottom = i===n ? '2px solid var(--color-text-primary)' : '2px solid transparent';
+    btn.style.color = i===n ? 'var(--color-text-primary)' : 'var(--color-text-secondary)';
+    btn.style.fontWeight = i===n ? '500' : '400';
+  });
+}
+</script>
