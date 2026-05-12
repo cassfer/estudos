@@ -1,261 +1,619 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plano de Estudos — PRF</title>
-  <style>
-    :root {
-      --color-text-primary: #1a1a1a;
-      --color-text-secondary: #6b7280;
-      --color-background-primary: #ffffff;
-      --color-background-secondary: #f4f5f7;
-      --color-border-tertiary: #e2e4e9;
-      --border-radius-lg: 10px;
-      --border-radius-md: 6px;
-    }
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Plano de Estudos — PRF</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@300;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--surface:#111318;--surface2:#161b26;--border:#1e2330;
+  --gold:#c9a84c;--gold-bg:rgba(201,168,76,.12);--text:#dce3f0;--muted:#6b7796;
+  --blue:#2b5faa;--blue-bg:rgba(43,95,170,.18);--green:#639922;--green-bg:rgba(99,153,34,.18);
+  --amber:#d4831a;--amber-bg:rgba(212,131,26,.18);--red:#c0392b;--red-bg:rgba(192,57,43,.18);
+  --radius:8px;--radius-sm:4px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;
+  background-image:repeating-linear-gradient(-55deg,transparent,transparent 60px,rgba(201,168,76,.025) 60px,rgba(201,168,76,.025) 61px);
+  pointer-events:none;z-index:0}
+/* Header */
+.ph{position:sticky;top:0;z-index:100;background:rgba(10,12,16,.92);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  padding:12px 20px;display:flex;align-items:center;gap:14px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);
+  text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--surface);transition:color .2s,border-color .2s}
+.back:hover{color:var(--text);border-color:rgba(201,168,76,.4)}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ph-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:.06em;color:var(--text)}
+.ph-title span{color:var(--gold)}
+/* Tabs */
+.tabs{position:sticky;top:49px;z-index:99;background:rgba(10,12,16,.92);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  padding:0 20px;display:flex;gap:0;overflow-x:auto}
+.tab{padding:11px 16px;border:none;border-bottom:2px solid transparent;
+  background:transparent;font-size:13px;font-family:'Barlow',sans-serif;
+  color:var(--muted);cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover:not(.active){color:var(--text)}
+/* Panels */
+.panels{max-width:880px;margin:0 auto;padding:24px 20px 60px}
+.panel{display:none}.panel.active{display:block}
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:.05em;color:var(--text);margin-bottom:4px}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+/* Day grid */
+.day-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.day-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px}
+.day-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.day-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.day-detail{font-size:12px;color:var(--muted);margin-bottom:8px}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:3px;font-family:'Barlow Condensed'}
+.tag-blue{background:var(--blue-bg);color:#6eaaef}
+.tag-amber{background:var(--amber-bg);color:#e8a84a}
+.tag-green{background:var(--green-bg);color:#8bc34a}
+.tag-gray{background:rgba(107,119,150,.15);color:var(--muted)}
+/* Phase cards */
+.phase-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:12px}
+.phase-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.phase-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--radius-sm)}
+.phase-title{font-size:14px;font-weight:500;color:var(--text)}
+.ex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.ex-col{background:var(--surface2);border-radius:var(--radius-sm);padding:12px}
+.ex-lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.ex-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:4px}
+.ex-detail{font-size:12px;color:var(--muted);line-height:1.5}
+/* Chart area */
+#distChart{max-height:220px}
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ===== POMODORO ===== */
+.pom-wrap{display:flex;flex-direction:column;align-items:center;gap:24px;padding:8px 0}
+.pom-modes{display:flex;gap:8px;margin-bottom:4px}
+.pom-mode-btn{padding:6px 16px;border:1px solid var(--border);border-radius:20px;
+  background:transparent;font-size:12px;color:var(--muted);cursor:pointer;transition:all .2s;font-family:'Barlow'}
+.pom-mode-btn.active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.pom-ring-wrap{position:relative;width:220px;height:220px}
+.pom-ring-wrap svg{transform:rotate(-90deg)}
+.pom-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.pom-time{font-family:'Bebas Neue';font-size:52px;letter-spacing:.04em;color:var(--text);line-height:1}
+.pom-mode-lbl{font-family:'Barlow Condensed';font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
+.pom-sessions{display:flex;gap:8px;align-items:center}
+.pom-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:background .3s}
+.pom-dot.done{background:var(--gold)}
+.pom-controls{display:flex;gap:10px}
+.pom-btn{padding:10px 24px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--surface2);color:var(--text);font-size:13px;cursor:pointer;font-family:'Barlow';
+  transition:all .2s}
+.pom-btn.primary{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.pom-btn:hover{border-color:rgba(201,168,76,.4);color:var(--gold)}
+.pom-info{font-size:12px;color:var(--muted);text-align:center;max-width:300px;line-height:1.6}
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f0f2f5;
-      color: var(--color-text-primary);
-      min-height: 100vh;
-      padding: 24px 16px;
-    }
-
-    .page-header {
-      max-width: 860px;
-      margin: 0 auto 20px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: var(--color-text-secondary);
-      text-decoration: none;
-      padding: 6px 12px;
-      border: 1px solid var(--color-border-tertiary);
-      border-radius: var(--border-radius-md);
-      background: var(--color-background-primary);
-      transition: color 0.2s, border-color 0.2s;
-    }
-    .back-btn:hover { color: var(--color-text-primary); border-color: #adb5bd; }
-    .back-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-    .page-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--color-text-primary);
-    }
-
-    .card {
-      max-width: 860px;
-      margin: 0 auto;
-      background: var(--color-background-primary);
-      border: 1px solid var(--color-border-tertiary);
-      border-radius: var(--border-radius-lg);
-      padding: 1.5rem;
-    }
-  </style>
+/* ===== REGISTRO ===== */
+.reg-form{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
+.reg-form h3{font-family:'Bebas Neue';font-size:20px;letter-spacing:.05em;color:var(--text);margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-grid.three{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.form-group input,.form-group select,.form-group textarea{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text);padding:8px 10px;font-size:13px;font-family:'Barlow';
+  transition:border-color .2s;outline:none}
+.form-group input:focus,.form-group select,.form-group select:focus,.form-group textarea:focus{border-color:rgba(201,168,76,.5)}
+.form-group select option{background:var(--surface2)}
+.form-group textarea{resize:vertical;min-height:70px}
+.toggle-row{display:flex;gap:8px;align-items:center;margin:4px 0}
+.toggle-btn{padding:7px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--surface);color:var(--muted);font-size:13px;cursor:pointer;font-family:'Barlow';transition:all .2s}
+.toggle-btn.active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.prova-fields{margin-top:12px;display:none}
+.prova-fields.show{display:block}
+.calc-note{font-size:11px;color:var(--gold);margin-top:4px;min-height:16px}
+.btn-save{margin-top:16px;padding:10px 28px;background:var(--gold-bg);border:1px solid var(--gold);
+  border-radius:var(--radius-sm);color:var(--gold);font-size:13px;cursor:pointer;font-family:'Barlow';
+  font-weight:500;transition:all .2s}
+.btn-save:hover{background:var(--gold);color:#0a0c10}
+/* Log history */
+.log-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.log-header h3{font-family:'Bebas Neue';font-size:20px;letter-spacing:.05em;color:var(--text)}
+.log-stats{display:flex;gap:12px}
+.log-stat{font-size:12px;color:var(--muted)}
+.log-stat span{color:var(--gold);font-weight:500}
+.log-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.lf-btn{padding:4px 12px;border:1px solid var(--border);border-radius:20px;
+  background:transparent;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Barlow';transition:all .2s}
+.lf-btn.active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.log-list{display:flex;flex-direction:column;gap:10px}
+.log-entry{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;display:flex;gap:14px;align-items:flex-start;position:relative}
+.log-entry-left{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:44px}
+.log-date-d{font-family:'Bebas Neue';font-size:26px;color:var(--gold);line-height:1}
+.log-date-m{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.log-entry-body{flex:1}
+.log-entry-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.log-materia{font-size:14px;font-weight:500;color:var(--text)}
+.log-meio{font-size:11px;color:var(--muted)}
+.log-entry-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.log-tempo{color:var(--text)}
+.log-prova-badge{font-size:11px;padding:2px 8px;border-radius:3px;
+  background:var(--blue-bg);color:#6eaaef;font-family:'Barlow Condensed'}
+.log-pct{font-weight:600}
+.log-pct.hi{color:#8bc34a}
+.log-pct.mid{color:var(--amber)}
+.log-pct.lo{color:var(--red)}
+.log-obs{font-size:12px;color:var(--muted);margin-top:6px;font-style:italic}
+.log-del{position:absolute;top:10px;right:10px;background:none;border:none;
+  color:var(--muted);cursor:pointer;font-size:16px;opacity:.4;transition:opacity .2s}
+.log-del:hover{opacity:1;color:var(--red)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+@media(max-width:600px){.form-grid,.form-grid.three{grid-template-columns:1fr}
+  .day-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
+<div class="ph">
+  <a href="index.html" class="back">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Voltar
+  </a>
+  <div class="ph-title">Plano de <span>Estudos</span> — PRF</div>
+</div>
+<div class="tabs" id="tabs">
+  <button class="tab active" onclick="setTab(0)">Rotina</button>
+  <button class="tab" onclick="setTab(1)">Fases</button>
+  <button class="tab" onclick="setTab(2)">Distribuição</button>
+  <button class="tab" onclick="setTab(3)">⏱ Pomodoro</button>
+  <button class="tab" onclick="setTab(4)">📋 Registro</button>
+</div>
+<div class="panels">
 
-  <div class="page-header">
-    <a href="index.html" class="back-btn">
-      <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      Voltar
-    </a>
-    <span class="page-title">Plano de Estudos — PRF</span>
-  </div>
-
+<!-- PANEL 0: ROTINA -->
+<div class="panel active" id="p0">
   <div class="card">
-
-    <h2 class="sr-only">Plano de estudos para o concurso da PRF — rotina semanal, fases e distribuição de horas por matéria.</h2>
-
-    <div style="padding: 1rem 0;">
-
-    <div style="display:flex; gap:8px; margin-bottom:1.5rem; border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom:0;">
-      <button onclick="setTab(0)" id="tab0" style="padding:8px 16px; border:none; border-bottom:2px solid var(--color-text-primary); background:transparent; font-size:14px; font-weight:500; color:var(--color-text-primary); cursor:pointer;">Rotina semanal</button>
-      <button onclick="setTab(1)" id="tab1" style="padding:8px 16px; border:none; border-bottom:2px solid transparent; background:transparent; font-size:14px; color:var(--color-text-secondary); cursor:pointer;">Fases</button>
-      <button onclick="setTab(2)" id="tab2" style="padding:8px 16px; border:none; border-bottom:2px solid transparent; background:transparent; font-size:14px; color:var(--color-text-secondary); cursor:pointer;">Distribuição</button>
-    </div>
-
-    <div id="panel0">
-      <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1rem;">1h–2h por dia · foco nas fraquezas · simulado aos sábados</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px;">
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Segunda</div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">CTB — Infrações e penalidades</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">1h30 · resolução de questões</div>
-          <div style="margin-top:8px; display:inline-block; font-size:11px; padding:2px 8px; border-radius:var(--border-radius-md); background:#E6F1FB; color:#0C447C;">CTB</div>
-        </div>
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Terça <span style="font-size:10px;">(presencial)</span></div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">Direito Constitucional</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">1h · leitura + 20 questões</div>
-          <div style="margin-top:8px; display:inline-block; font-size:11px; padding:2px 8px; border-radius:var(--border-radius-md); background:#FAEEDA; color:#633806;">Direito</div>
-        </div>
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Quarta</div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">Português — interpretação</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">1h30 · textos CEBRASPE</div>
-          <div style="margin-top:8px; display:inline-block; font-size:11px; padding:2px 8px; border-radius:var(--border-radius-md); background:#EAF3DE; color:#27500A;">Português</div>
-        </div>
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Quinta</div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">CTB — Habilitação e sinalização</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">1h30 · resolução de questões</div>
-          <div style="margin-top:8px; display:inline-block; font-size:11px; padding:2px 8px; border-radius:var(--border-radius-md); background:#E6F1FB; color:#0C447C;">CTB</div>
-        </div>
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Sexta</div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">Dir. Administrativo ou Penal</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">1h30 · alterna a cada semana</div>
-          <div style="margin-top:8px; display:inline-block; font-size:11px; padding:2px 8px; border-radius:var(--border-radius-md); background:#FAEEDA; color:#633806;">Direito</div>
-        </div>
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Sábado</div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-primary); margin-bottom:4px;">Simulado + revisão de erros</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">2h · cronometrado</div>
-          <div style="margin-top:8px; display:inline-block; font-size:11px; padding:2px 8px; border-radius:var(--border-radius-md); background:#F1EFE8; color:#444441;">Simulado</div>
-        </div>
-        <div style="background:var(--color-background-secondary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:1rem;">
-          <div style="font-size:11px; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px;">Domingo</div>
-          <div style="font-size:14px; font-weight:500; color:var(--color-text-secondary); margin-bottom:4px;">Revisão leve ou descanso</div>
-          <div style="font-size:12px; color:var(--color-text-secondary);">Opcional · flashcards / revisão rápida</div>
-        </div>
+    <div class="card-title">Rotina Semanal</div>
+    <div class="card-sub">1h–2h por dia · foco nas fraquezas · simulado aos sábados</div>
+    <div class="day-grid">
+      <div class="day-card">
+        <div class="day-label">Segunda</div>
+        <div class="day-name">CTB — Infrações e penalidades</div>
+        <div class="day-detail">1h30 · resolução de questões</div>
+        <span class="tag tag-blue">CTB</span>
       </div>
-    </div>
-
-    <div id="panel1" style="display:none;">
-      <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1rem;">Sem edital aberto, o plano é dividido em ciclos · cada fase dura ~4 semanas</p>
-      <div style="display:flex; flex-direction:column; gap:12px;">
-
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #378ADD; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-            <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#E6F1FB; color:#0C447C;">Fase 1 — Semanas 1 a 4</span>
-            <span style="font-size:13px; font-weight:500; color:var(--color-text-primary);">Base legal e interpretação</span>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:13px;">
-            <div><span style="color:var(--color-text-secondary);">CTB</span><br>Partes I e II — infrações, penalidades, responsabilidade</div>
-            <div><span style="color:var(--color-text-secondary);">Const.</span><br>Art. 5º, 37, 144 — direitos fundamentais e segurança pública</div>
-            <div><span style="color:var(--color-text-secondary);">Português</span><br>Interpretação de texto com questões CEBRASPE antigas</div>
-          </div>
-        </div>
-
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #EF9F27; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-            <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#FAEEDA; color:#633806;">Fase 2 — Semanas 5 a 8</span>
-            <span style="font-size:13px; font-weight:500; color:var(--color-text-primary);">Aprofundamento e gramática</span>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:13px;">
-            <div><span style="color:var(--color-text-secondary);">CTB</span><br>Partes III e IV — habilitação, sinalização, fiscalização</div>
-            <div><span style="color:var(--color-text-secondary);">Dir. Adm.</span><br>Princípios LIMPE, atos administrativos, licitação básica</div>
-            <div><span style="color:var(--color-text-secondary);">Português</span><br>Concordância, regência, crase, ortografia pós-reforma</div>
-          </div>
-        </div>
-
-        <div style="background:var(--color-background-primary); border:0.5px solid var(--color-border-tertiary); border-left:3px solid #639922; border-radius:var(--border-radius-lg); padding:1rem 1.25rem;">
-          <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-            <span style="font-size:12px; font-weight:500; padding:3px 10px; border-radius:var(--border-radius-md); background:#EAF3DE; color:#27500A;">Fase 3 — Semanas 9 a 10</span>
-            <span style="font-size:13px; font-weight:500; color:var(--color-text-primary);">Revisão e simulados completos</span>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:13px;">
-            <div><span style="color:var(--color-text-secondary);">Dir. Penal</span><br>Crimes em espécie, prisão, flagrante, inquérito policial</div>
-            <div><span style="color:var(--color-text-secondary);">Secundárias</span><br>Primeiros socorros, Direitos Humanos, Informática básica</div>
-            <div><span style="color:var(--color-text-secondary);">Simulados</span><br>2 simulados completos cronometrados + revisão profunda de erros</div>
-          </div>
-        </div>
-
-        <div style="background:var(--color-background-secondary); border:0.5px solid var(--color-border-tertiary); border-radius:var(--border-radius-lg); padding:.875rem 1.25rem;">
-          <div style="font-size:13px; color:var(--color-text-secondary);">Ao abrir o edital, repita o ciclo com foco nas matérias do novo programa e aumente os simulados para 3x/semana nas últimas 3 semanas.</div>
-        </div>
+      <div class="day-card">
+        <div class="day-label">Terça <small>(presencial)</small></div>
+        <div class="day-name">Direito Constitucional</div>
+        <div class="day-detail">1h · leitura + 20 questões</div>
+        <span class="tag tag-amber">Direito</span>
       </div>
-    </div>
-
-    <div id="panel2" style="display:none;">
-      <p style="font-size:13px; color:var(--color-text-secondary); margin:0 0 1rem;">Distribuição semanal de ~10h de estudo</p>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin-bottom:1.5rem;">
-        <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:1rem;">
-          <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:4px;">CTB / Leg. PRF</div>
-          <div style="font-size:22px; font-weight:500; color:var(--color-text-primary);">3h</div>
-          <div style="font-size:11px; color:var(--color-text-secondary);">maior peso na prova</div>
-        </div>
-        <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:1rem;">
-          <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:4px;">Direito</div>
-          <div style="font-size:22px; font-weight:500; color:var(--color-text-primary);">3h</div>
-          <div style="font-size:11px; color:var(--color-text-secondary);">const. + adm. + penal</div>
-        </div>
-        <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:1rem;">
-          <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:4px;">Português</div>
-          <div style="font-size:22px; font-weight:500; color:var(--color-text-primary);">1h30</div>
-          <div style="font-size:11px; color:var(--color-text-secondary);">+ questões diárias</div>
-        </div>
-        <div style="background:var(--color-background-secondary); border-radius:var(--border-radius-md); padding:1rem;">
-          <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:4px;">Simulado/revisão</div>
-          <div style="font-size:22px; font-weight:500; color:var(--color-text-primary);">2h</div>
-          <div style="font-size:11px; color:var(--color-text-secondary);">sempre no sábado</div>
-        </div>
+      <div class="day-card">
+        <div class="day-label">Quarta</div>
+        <div class="day-name">Português — interpretação</div>
+        <div class="day-detail">1h30 · textos CEBRASPE</div>
+        <span class="tag tag-green">Português</span>
       </div>
-      <div style="position:relative; width:100%; height:220px;">
-        <canvas id="distChart" role="img" aria-label="Gráfico de barras horizontais com horas semanais por matéria: CTB 3h, Direito 3h, Português 1.5h, Simulado 2h, Outros 0.5h.">CTB: 3h, Direito: 3h, Português: 1.5h, Simulado: 2h, Outros: 0.5h</canvas>
+      <div class="day-card">
+        <div class="day-label">Quinta</div>
+        <div class="day-name">CTB — Habilitação e sinalização</div>
+        <div class="day-detail">1h30 · resolução de questões</div>
+        <span class="tag tag-blue">CTB</span>
       </div>
-      <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:12px; font-size:12px; color:var(--color-text-secondary);">
-        <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#378ADD;"></span>CTB / Leg. PRF</span>
-        <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#EF9F27;"></span>Direito</span>
-        <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#639922;"></span>Português</span>
-        <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#888780;"></span>Simulado</span>
-        <span style="display:flex; align-items:center; gap:4px;"><span style="width:10px;height:10px;border-radius:2px;background:#B4B2A9;"></span>Outros</span>
+      <div class="day-card">
+        <div class="day-label">Sexta</div>
+        <div class="day-name">Dir. Administrativo ou Penal</div>
+        <div class="day-detail">1h30 · alterna a cada semana</div>
+        <span class="tag tag-amber">Direito</span>
       </div>
-    </div>
-
+      <div class="day-card">
+        <div class="day-label">Sábado</div>
+        <div class="day-name">Simulado + revisão de erros</div>
+        <div class="day-detail">2h · cronometrado</div>
+        <span class="tag tag-gray">Simulado</span>
+      </div>
+      <div class="day-card" style="background:rgba(255,255,255,.02)">
+        <div class="day-label">Domingo</div>
+        <div class="day-name" style="color:var(--muted)">Revisão leve ou descanso</div>
+        <div class="day-detail">Opcional · flashcards</div>
+      </div>
     </div>
   </div>
+</div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-  <script>
-  function setTab(n) {
-    [0,1,2].forEach(i => {
-      document.getElementById('panel'+i).style.display = i===n ? 'block' : 'none';
-      const btn = document.getElementById('tab'+i);
-      btn.style.borderBottom = i===n ? '2px solid var(--color-text-primary)' : '2px solid transparent';
-      btn.style.color = i===n ? 'var(--color-text-primary)' : 'var(--color-text-secondary)';
-      btn.style.fontWeight = i===n ? '500' : '400';
-    });
-    if(n===2 && !window._chartDone) {
-      window._chartDone = true;
-      new Chart(document.getElementById('distChart'), {
-        type: 'bar',
-        data: {
-          labels: ['CTB / Leg. PRF','Direito','Simulado / revisão','Português','Outros'],
-          datasets: [{
-            data: [3, 3, 2, 1.5, 0.5],
-            backgroundColor: ['#378ADD','#EF9F27','#888780','#639922','#B4B2A9'],
-            borderRadius: 4,
-            borderSkipped: false
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.raw + 'h por semana' } } },
-          scales: {
-            x: { grid: { color: 'rgba(128,128,128,0.12)' }, ticks: { color: '#888', callback: v => v+'h', stepSize: 0.5 }, max: 3.5 },
-            y: { grid: { display: false }, ticks: { color: '#666', font: { size: 12 } } }
-          }
-        }
-      });
+<!-- PANEL 1: FASES -->
+<div class="panel" id="p1">
+  <div class="card">
+    <div class="card-title">Fases de Estudo</div>
+    <div class="card-sub">Sem edital aberto · cada fase dura ~4 semanas</div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <span class="phase-badge" style="background:var(--blue-bg);color:#6eaaef">Fase 1 — Sem. 1–4</span>
+        <span class="phase-title">Base legal e interpretação</span>
+      </div>
+      <div class="ex-grid">
+        <div class="ex-col"><div class="ex-lbl">CTB</div><div class="ex-title">Partes I e II</div><div class="ex-detail">Infrações, penalidades, responsabilidade</div></div>
+        <div class="ex-col"><div class="ex-lbl">Const.</div><div class="ex-title">Art. 5º, 37, 144</div><div class="ex-detail">Direitos fundamentais e segurança pública</div></div>
+        <div class="ex-col"><div class="ex-lbl">Português</div><div class="ex-title">Interpretação</div><div class="ex-detail">Questões CEBRASPE antigas</div></div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <span class="phase-badge" style="background:var(--amber-bg);color:#e8a84a">Fase 2 — Sem. 5–8</span>
+        <span class="phase-title">Aprofundamento e gramática</span>
+      </div>
+      <div class="ex-grid">
+        <div class="ex-col"><div class="ex-lbl">CTB</div><div class="ex-title">Partes III e IV</div><div class="ex-detail">Habilitação, sinalização, fiscalização</div></div>
+        <div class="ex-col"><div class="ex-lbl">Dir. Adm.</div><div class="ex-title">Princípios LIMPE</div><div class="ex-detail">Atos adm., licitação básica</div></div>
+        <div class="ex-col"><div class="ex-lbl">Português</div><div class="ex-title">Gramática</div><div class="ex-detail">Concordância, regência, crase</div></div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <span class="phase-badge" style="background:var(--green-bg);color:#8bc34a">Fase 3 — Sem. 9–12</span>
+        <span class="phase-title">Expansão e Dir. Penal</span>
+      </div>
+      <div class="ex-grid">
+        <div class="ex-col"><div class="ex-lbl">Dir. Penal</div><div class="ex-title">Crimes em espécie</div><div class="ex-detail">Prisão, flagrante, inquérito</div></div>
+        <div class="ex-col"><div class="ex-lbl">Secundárias</div><div class="ex-title">Multidisciplinar</div><div class="ex-detail">Primeiros socorros, Inf. básica</div></div>
+        <div class="ex-col"><div class="ex-lbl">CTB</div><div class="ex-title">Revisão geral</div><div class="ex-detail">Questões de toda a lei</div></div>
+      </div>
+    </div>
+    <div class="phase-card">
+      <div class="phase-header">
+        <span class="phase-badge" style="background:rgba(212,83,126,.18);color:#e87ab0">Fase 4 — Sem. 13–16</span>
+        <span class="phase-title">Revisão e simulados completos</span>
+      </div>
+      <div class="ex-grid">
+        <div class="ex-col"><div class="ex-lbl">Simulados</div><div class="ex-title">2 completos/semana</div><div class="ex-detail">Cronometrados + revisão profunda</div></div>
+        <div class="ex-col"><div class="ex-lbl">Revisão</div><div class="ex-title">Pontos fracos</div><div class="ex-detail">Matérias com mais erros nos simulados</div></div>
+        <div class="ex-col"><div class="ex-lbl">Flashcards</div><div class="ex-title">Memorização</div><div class="ex-detail">Artigos e números importantes</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL 2: DISTRIBUIÇÃO -->
+<div class="panel" id="p2">
+  <div class="card">
+    <div class="card-title">Distribuição Semanal</div>
+    <div class="card-sub">~10h de estudo por semana</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-bottom:20px">
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:14px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">CTB / Leg.</div>
+        <div style="font-size:24px;font-weight:500;color:var(--text)">3h</div>
+        <div style="font-size:11px;color:var(--muted)">maior peso</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:14px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Direito</div>
+        <div style="font-size:24px;font-weight:500;color:var(--text)">3h</div>
+        <div style="font-size:11px;color:var(--muted)">const+adm+penal</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:14px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Português</div>
+        <div style="font-size:24px;font-weight:500;color:var(--text)">1h30</div>
+        <div style="font-size:11px;color:var(--muted)">+ questões diárias</div>
+      </div>
+      <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:14px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px">Simulado</div>
+        <div style="font-size:24px;font-weight:500;color:var(--text)">2h</div>
+        <div style="font-size:11px;color:var(--muted)">sempre sábado</div>
+      </div>
+    </div>
+    <div style="position:relative;height:220px"><canvas id="distChart"></canvas></div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:14px;font-size:12px;color:var(--muted)">
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#2b5faa;display:inline-block"></span>CTB / Leg.</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#d4831a;display:inline-block"></span>Direito</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#639922;display:inline-block"></span>Português</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#6b7796;display:inline-block"></span>Simulado</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:#3a4260;display:inline-block"></span>Outros</span>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL 3: POMODORO -->
+<div class="panel" id="p3">
+  <div class="card">
+    <div class="card-title">Pomodoro</div>
+    <div class="card-sub">Técnica de foco em blocos · 4 sessões = pausa longa</div>
+    <div class="pom-wrap">
+      <div class="pom-modes">
+        <button class="pom-mode-btn active" id="pmb0" onclick="pomSetMode('work')">Foco 25min</button>
+        <button class="pom-mode-btn" id="pmb1" onclick="pomSetMode('short')">Pausa 5min</button>
+        <button class="pom-mode-btn" id="pmb2" onclick="pomSetMode('long')">Pausa longa 15min</button>
+      </div>
+      <div class="pom-ring-wrap">
+        <svg width="220" height="220" viewBox="0 0 220 220">
+          <circle cx="110" cy="110" r="95" fill="none" stroke="#1e2330" stroke-width="8"/>
+          <circle id="pomRing" cx="110" cy="110" r="95" fill="none"
+            stroke="#c9a84c" stroke-width="8" stroke-linecap="round"
+            stroke-dasharray="596.9" stroke-dashoffset="0"/>
+        </svg>
+        <div class="pom-center">
+          <div class="pom-time" id="pomTime">25:00</div>
+          <div class="pom-mode-lbl" id="pomModeLbl">FOCO</div>
+        </div>
+      </div>
+      <div class="pom-sessions">
+        <div class="pom-dot" id="pd0"></div>
+        <div class="pom-dot" id="pd1"></div>
+        <div class="pom-dot" id="pd2"></div>
+        <div class="pom-dot" id="pd3"></div>
+      </div>
+      <div class="pom-controls">
+        <button class="pom-btn primary" id="pomStartBtn" onclick="pomToggle()">▶ Iniciar</button>
+        <button class="pom-btn" onclick="pomReset()">↺ Reiniciar</button>
+        <button class="pom-btn" onclick="pomSkip()">⏭ Pular</button>
+      </div>
+      <p class="pom-info" id="pomInfo">Complete 4 sessões de foco para ganhar uma pausa longa de 15 minutos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PANEL 4: REGISTRO -->
+<div class="panel" id="p4">
+  <div class="reg-form">
+    <h3>Nova Sessão de Estudo</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" id="rData"/>
+      </div>
+      <div class="form-group">
+        <label>Matéria</label>
+        <select id="rMateria">
+          <option>CTB / Legislação PRF</option>
+          <option>Direito Constitucional</option>
+          <option>Direito Administrativo</option>
+          <option>Direito Penal</option>
+          <option>Português</option>
+          <option>Simulado</option>
+          <option>Primeiros Socorros</option>
+          <option>Informática</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Meio de estudo</label>
+        <select id="rMeio">
+          <option>Vídeo aula</option>
+          <option>Livro / PDF</option>
+          <option>Questões</option>
+          <option>Resumo / Mapa mental</option>
+          <option>Flashcards</option>
+          <option>Simulado completo</option>
+          <option>Revisão</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tempo estudado (min)</label>
+        <input type="number" id="rTempo" min="1" max="600" placeholder="ex: 90"/>
+      </div>
+    </div>
+    <div style="margin-top:12px">
+      <label style="font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)">Fez prova / questões?</label>
+      <div class="toggle-row" style="margin-top:6px">
+        <button class="toggle-btn active" id="tbNao" onclick="toggleProva(false)">Não</button>
+        <button class="toggle-btn" id="tbSim" onclick="toggleProva(true)">Sim</button>
+      </div>
+    </div>
+    <div class="prova-fields" id="provaFields">
+      <div class="form-grid three" style="margin-top:12px">
+        <div class="form-group">
+          <label>Total de questões</label>
+          <input type="number" id="rTotal" min="1" placeholder="ex: 30" oninput="calcProva('total')"/>
+        </div>
+        <div class="form-group">
+          <label>Acertos</label>
+          <input type="number" id="rAcertos" min="0" placeholder="ex: 24" oninput="calcProva('acertos')"/>
+          <div class="calc-note" id="calcNoteA"></div>
+        </div>
+        <div class="form-group">
+          <label>Porcentagem (%)</label>
+          <input type="number" id="rPct" min="0" max="100" step="0.1" placeholder="ex: 80" oninput="calcProva('pct')"/>
+          <div class="calc-note" id="calcNoteP"></div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" style="margin-top:12px">
+      <label>Observações (opcional)</label>
+      <textarea id="rObs" placeholder="Dificuldades, tópicos a revisar, dúvidas..."></textarea>
+    </div>
+    <button class="btn-save" onclick="saveEntry()">✓ Registrar sessão</button>
+  </div>
+
+  <div>
+    <div class="log-header">
+      <h3>Histórico de Estudos</h3>
+      <div class="log-stats">
+        <div class="log-stat">Total: <span id="statTotal">0</span> min</div>
+        <div class="log-stat">Sessões: <span id="statSessoes">0</span></div>
+      </div>
+    </div>
+    <div class="log-filter" id="logFilter">
+      <button class="lf-btn active" onclick="filterLog('Todos')">Todos</button>
+      <button class="lf-btn" onclick="filterLog('CTB / Legislação PRF')">CTB</button>
+      <button class="lf-btn" onclick="filterLog('Direito Constitucional')">Const.</button>
+      <button class="lf-btn" onclick="filterLog('Direito Administrativo')">Dir. Adm.</button>
+      <button class="lf-btn" onclick="filterLog('Direito Penal')">Dir. Penal</button>
+      <button class="lf-btn" onclick="filterLog('Português')">Português</button>
+      <button class="lf-btn" onclick="filterLog('Simulado')">Simulado</button>
+    </div>
+    <div class="log-list" id="logList"></div>
+  </div>
+</div>
+
+</div><!-- /panels -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+// ========== TABS ==========
+function setTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+  if(n===2&&!window._chart)initChart();
+}
+
+// ========== CHART ==========
+function initChart(){
+  window._chart=new Chart(document.getElementById('distChart'),{
+    type:'bar',
+    data:{
+      labels:['CTB / Leg.','Direito','Simulado','Português','Outros'],
+      datasets:[{data:[3,3,2,1.5,.5],
+        backgroundColor:['#2b5faa','#d4831a','#6b7796','#639922','#3a4260'],
+        borderRadius:4,borderSkipped:false}]
+    },
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw+'h/semana'}}},
+      scales:{x:{grid:{color:'rgba(255,255,255,.05)'},ticks:{color:'#6b7796',callback:v=>v+'h'},max:3.5},
+              y:{grid:{display:false},ticks:{color:'#6b7796',font:{size:12}}}}}
+  });
+}
+
+// ========== POMODORO ==========
+const DURATIONS={work:25*60,short:5*60,long:15*60};
+const LABELS={work:'FOCO',short:'PAUSA',long:'PAUSA LONGA'};
+const CIRC=2*Math.PI*95;
+let pomMode='work',pomSecs=25*60,pomRunning=false,pomTimer=null,pomDone=0;
+
+function pomSetMode(m){
+  if(pomRunning){pomToggle();}
+  pomMode=m;pomSecs=DURATIONS[m];pomRunning=false;
+  clearInterval(pomTimer);
+  ['work','short','long'].forEach((k,i)=>document.getElementById('pmb'+i).classList.toggle('active',k===m));
+  document.getElementById('pomModeLbl').textContent=LABELS[m];
+  document.getElementById('pomStartBtn').textContent='▶ Iniciar';
+  pomUpdateRing();pomUpdateTime();
+}
+function pomToggle(){
+  if(pomRunning){clearInterval(pomTimer);pomRunning=false;document.getElementById('pomStartBtn').textContent='▶ Iniciar';}
+  else{pomTimer=setInterval(pomTick,1000);pomRunning=true;document.getElementById('pomStartBtn').textContent='⏸ Pausar';}
+}
+function pomTick(){
+  pomSecs--;pomUpdateTime();pomUpdateRing();
+  if(pomSecs<=0){
+    clearInterval(pomTimer);pomRunning=false;
+    pomBeep();
+    if(pomMode==='work'){
+      pomDone=(pomDone+1)%4;
+      pomUpdateDots();
+      pomSetMode(pomDone===0?'long':'short');
+    } else {
+      pomSetMode('work');
+    }
+    document.getElementById('pomStartBtn').textContent='▶ Iniciar';
+  }
+}
+function pomReset(){clearInterval(pomTimer);pomRunning=false;pomSecs=DURATIONS[pomMode];pomUpdateTime();pomUpdateRing();document.getElementById('pomStartBtn').textContent='▶ Iniciar';}
+function pomSkip(){clearInterval(pomTimer);pomRunning=false;pomSecs=0;pomTick();}
+function pomUpdateTime(){const m=String(Math.floor(pomSecs/60)).padStart(2,'0'),s=String(pomSecs%60).padStart(2,'0');document.getElementById('pomTime').textContent=`${m}:${s}`;}
+function pomUpdateRing(){const p=(DURATIONS[pomMode]-pomSecs)/DURATIONS[pomMode];document.getElementById('pomRing').style.strokeDashoffset=CIRC*p;}
+function pomUpdateDots(){for(let i=0;i<4;i++)document.getElementById('pd'+i).classList.toggle('done',i<pomDone);}
+function pomBeep(){try{const ac=new(window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator();const g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;g.gain.setValueAtTime(.3,ac.currentTime);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.8);o.start();o.stop(ac.currentTime+.8);}catch(e){}}
+
+// ========== REGISTRO ==========
+let provaAtiva=false,filtroAtual='Todos';
+
+document.getElementById('rData').value=new Date().toISOString().slice(0,10);
+
+function toggleProva(v){
+  provaAtiva=v;
+  document.getElementById('tbSim').classList.toggle('active',v);
+  document.getElementById('tbNao').classList.toggle('active',!v);
+  document.getElementById('provaFields').classList.toggle('show',v);
+  if(!v){document.getElementById('rTotal').value='';document.getElementById('rAcertos').value='';document.getElementById('rPct').value='';}
+}
+
+function calcProva(changed){
+  const t=parseFloat(document.getElementById('rTotal').value)||0;
+  const a=parseFloat(document.getElementById('rAcertos').value)||0;
+  const p=parseFloat(document.getElementById('rPct').value)||0;
+  document.getElementById('calcNoteA').textContent='';
+  document.getElementById('calcNoteP').textContent='';
+  if(t>0){
+    if(changed==='acertos'&&a>=0&&a<=t){
+      const pct=((a/t)*100).toFixed(1);
+      document.getElementById('rPct').value=pct;
+      document.getElementById('calcNoteP').textContent='→ calculado';
+    }
+    if(changed==='pct'&&p>=0&&p<=100){
+      const ac=Math.round((p/100)*t);
+      document.getElementById('rAcertos').value=ac;
+      document.getElementById('calcNoteA').textContent='→ calculado';
+    }
+    if(changed==='total'){
+      if(a>0){const pct=((a/t)*100).toFixed(1);document.getElementById('rPct').value=pct;document.getElementById('calcNoteP').textContent='→ calculado';}
+      else if(p>0){const ac=Math.round((p/100)*t);document.getElementById('rAcertos').value=ac;document.getElementById('calcNoteA').textContent='→ calculado';}
     }
   }
-  </script>
+}
 
+function saveEntry(){
+  const data=document.getElementById('rData').value;
+  const materia=document.getElementById('rMateria').value;
+  const meio=document.getElementById('rMeio').value;
+  const tempo=parseInt(document.getElementById('rTempo').value)||0;
+  if(!data||!tempo){alert('Preencha data e tempo estudado.');return;}
+  const entry={id:Date.now(),data,materia,meio,tempo,
+    fezProva:provaAtiva,
+    total:provaAtiva?parseInt(document.getElementById('rTotal').value)||0:0,
+    acertos:provaAtiva?parseInt(document.getElementById('rAcertos').value)||0:0,
+    pct:provaAtiva?parseFloat(document.getElementById('rPct').value)||0:0,
+    obs:document.getElementById('rObs').value.trim()};
+  const log=getLog();log.unshift(entry);saveLog(log);
+  document.getElementById('rTempo').value='';
+  document.getElementById('rObs').value='';
+  document.getElementById('rTotal').value='';
+  document.getElementById('rAcertos').value='';
+  document.getElementById('rPct').value='';
+  toggleProva(false);
+  renderLog();
+}
+
+function getLog(){try{return JSON.parse(localStorage.getItem('prf_log')||'[]');}catch{return[];}}
+function saveLog(l){localStorage.setItem('prf_log',JSON.stringify(l));}
+
+function filterLog(f){
+  filtroAtual=f;
+  document.querySelectorAll('.lf-btn').forEach(b=>b.classList.toggle('active',b.textContent===f||(f==='Todos'&&b.textContent==='Todos')));
+  renderLog();
+}
+
+const MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+function renderLog(){
+  const log=getLog();
+  const filtered=filtroAtual==='Todos'?log:log.filter(e=>e.materia===filtroAtual||e.materia.startsWith(filtroAtual));
+  const totalMin=log.reduce((s,e)=>s+e.tempo,0);
+  document.getElementById('statTotal').textContent=totalMin>=60?`${Math.floor(totalMin/60)}h${totalMin%60>0?' '+totalMin%60+'min':''}`:totalMin+'min';
+  document.getElementById('statSessoes').textContent=log.length;
+  if(!filtered.length){document.getElementById('logList').innerHTML='<div class="empty-state">Nenhum registro encontrado.</div>';return;}
+  document.getElementById('logList').innerHTML=filtered.map(e=>{
+    const d=new Date(e.data+'T12:00:00');
+    const dd=String(d.getDate()).padStart(2,'0');
+    const mm=MESES[d.getMonth()];
+    const pctClass=e.pct>=70?'hi':e.pct>=50?'mid':'lo';
+    return`<div class="log-entry">
+      <div class="log-entry-left"><div class="log-date-d">${dd}</div><div class="log-date-m">${mm}</div></div>
+      <div class="log-entry-body">
+        <div class="log-entry-top">
+          <span class="log-materia">${e.materia}</span>
+          <span class="log-meio">${e.meio}</span>
+        </div>
+        <div class="log-entry-meta">
+          <span class="log-tempo">⏱ ${e.tempo}min</span>
+          ${e.fezProva?`<span class="log-prova-badge">Prova</span><span class="log-pct ${pctClass}">${e.acertos}/${e.total} — ${e.pct.toFixed(1)}%</span>`:''}
+        </div>
+        ${e.obs?`<div class="log-obs">${e.obs}</div>`:''}
+      </div>
+      <button class="log-del" onclick="delEntry(${e.id})" title="Remover">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function delEntry(id){
+  const log=getLog().filter(e=>e.id!==id);saveLog(log);renderLog();
+}
+
+renderLog();
+</script>
 </body>
 </html>

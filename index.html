@@ -6,379 +6,175 @@
   <title>PRF — Central de Planos</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@300;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #0a0c10;
-      --surface: #111318;
-      --border: #1e2330;
-      --gold: #c9a84c;
-      --gold-light: #e8c96a;
-      --blue: #1a3a6b;
-      --blue-bright: #2b5faa;
-      --text: #dce3f0;
-      --muted: #6b7796;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: 'Barlow', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-    }
-
-    /* Grain texture overlay */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.4;
-    }
-
-    /* Diagonal accent lines background */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: repeating-linear-gradient(
-        -55deg,
-        transparent,
-        transparent 60px,
-        rgba(201,168,76,0.03) 60px,
-        rgba(201,168,76,0.03) 61px
-      );
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 680px;
-      padding: 48px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-
-    /* Badge / emblem */
-    .badge {
-      width: 72px;
-      height: 72px;
-      border: 2px solid var(--gold);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      margin-bottom: 32px;
-      animation: pulse-ring 3s ease-in-out infinite;
-    }
-
-    .badge::before {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      border-radius: 50%;
-      border: 1px solid rgba(201,168,76,0.2);
-      animation: pulse-ring 3s ease-in-out infinite 0.5s;
-    }
-
-    .badge svg {
-      width: 36px;
-      height: 36px;
-      fill: var(--gold);
-    }
-
-    @keyframes pulse-ring {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-
-    /* Header */
-    .label {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 300;
-      font-size: 11px;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 10px;
-      opacity: 0;
-      animation: fade-up 0.6s forwards 0.1s;
-    }
-
-    h1 {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(56px, 12vw, 88px);
-      letter-spacing: 0.04em;
-      line-height: 0.92;
-      text-align: center;
-      color: var(--text);
-      margin-bottom: 6px;
-      opacity: 0;
-      animation: fade-up 0.6s forwards 0.2s;
-    }
-
-    h1 span {
-      color: var(--gold);
-    }
-
-    .subtitle {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 300;
-      font-size: 14px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 52px;
-      opacity: 0;
-      animation: fade-up 0.6s forwards 0.3s;
-    }
-
-    /* Divider */
-    .divider {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 40px;
-      opacity: 0;
-      animation: fade-up 0.6s forwards 0.4s;
-    }
-
-    .divider::before,
-    .divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(to right, transparent, var(--border));
-    }
-    .divider::after {
-      background: linear-gradient(to left, transparent, var(--border));
-    }
-
-    .divider span {
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    /* Cards */
-    .cards {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    .card {
-      position: relative;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 32px 28px;
-      text-decoration: none;
-      color: inherit;
-      overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s;
-      opacity: 0;
-    }
-
-    .card:nth-child(1) { animation: fade-up 0.5s forwards 0.5s; }
-    .card:nth-child(2) { animation: fade-up 0.5s forwards 0.65s; }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(to right, transparent, var(--gold), transparent);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at top left, rgba(201,168,76,0.06) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .card:hover {
-      border-color: rgba(201,168,76,0.4);
-      transform: translateY(-3px);
-    }
-
-    .card:hover::before,
-    .card:hover::after { opacity: 1; }
-
-    .card-icon {
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      transition: border-color 0.3s;
-    }
-
-    .card:hover .card-icon {
-      border-color: rgba(201,168,76,0.5);
-    }
-
-    .card-icon svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--gold);
-      fill: none;
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .card-tag {
-      font-size: 9px;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--gold);
-      font-family: 'Barlow Condensed', sans-serif;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px;
-      letter-spacing: 0.05em;
-      color: var(--text);
-      line-height: 1.1;
-      margin-bottom: 10px;
-    }
-
-    .card-desc {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      font-weight: 400;
-    }
-
-    .card-arrow {
-      position: absolute;
-      bottom: 24px;
-      right: 24px;
-      width: 28px;
-      height: 28px;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.3s, background 0.3s;
-    }
-
-    .card-arrow svg {
-      width: 12px;
-      height: 12px;
-      stroke: var(--muted);
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: stroke 0.3s;
-    }
-
-    .card:hover .card-arrow {
-      border-color: var(--gold);
-      background: rgba(201,168,76,0.1);
-    }
-
-    .card:hover .card-arrow svg { stroke: var(--gold); }
-
-    /* Footer */
-    .footer {
-      margin-top: 48px;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.1em;
-      opacity: 0;
-      animation: fade-up 0.5s forwards 0.8s;
-    }
-
-    @keyframes fade-up {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 480px) {
-      .cards { grid-template-columns: 1fr; }
-    }
+    :root{--bg:#0a0c10;--surface:#111318;--border:#1e2330;--gold:#c9a84c;--text:#dce3f0;--muted:#6b7796}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;
+      min-height:100vh;display:flex;flex-direction:column;align-items:center;
+      justify-content:center;overflow-x:hidden;padding:40px 20px 60px}
+    body::before{content:'';position:fixed;inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events:none;z-index:0;opacity:.4}
+    body::after{content:'';position:fixed;inset:0;
+      background-image:repeating-linear-gradient(-55deg,transparent,transparent 60px,rgba(201,168,76,.03) 60px,rgba(201,168,76,.03) 61px);
+      pointer-events:none;z-index:0}
+    .wrapper{position:relative;z-index:1;width:100%;max-width:820px;
+      display:flex;flex-direction:column;align-items:center}
+    .badge{width:68px;height:68px;border:2px solid var(--gold);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      position:relative;margin-bottom:28px;animation:pulse-ring 3s ease-in-out infinite}
+    .badge::before{content:'';position:absolute;inset:-8px;border-radius:50%;
+      border:1px solid rgba(201,168,76,.2);animation:pulse-ring 3s ease-in-out infinite .5s}
+    .badge svg{width:34px;height:34px;fill:var(--gold)}
+    @keyframes pulse-ring{0%,100%{opacity:1}50%{opacity:.6}}
+    .lbl{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:11px;
+      letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;
+      opacity:0;animation:fadeup .6s forwards .1s}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,11vw,84px);
+      letter-spacing:.04em;line-height:.92;text-align:center;color:var(--text);
+      margin-bottom:6px;opacity:0;animation:fadeup .6s forwards .2s}
+    h1 span{color:var(--gold)}
+    .sub{font-family:'Barlow Condensed',sans-serif;font-weight:300;font-size:14px;
+      letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+      margin-bottom:44px;opacity:0;animation:fadeup .6s forwards .3s}
+    .divider{width:100%;display:flex;align-items:center;gap:16px;margin-bottom:20px;opacity:0;animation:fadeup .6s forwards .4s}
+    .divider.d2{animation-delay:.9s;margin-top:44px}
+    .divider::before{content:'';flex:1;height:1px;background:linear-gradient(to right,transparent,var(--border))}
+    .divider::after{content:'';flex:1;height:1px;background:linear-gradient(to left,transparent,var(--border))}
+    .divider span{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+    /* 3-column cards */
+    .cards{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+    .card{position:relative;background:var(--surface);border:1px solid var(--border);
+      border-radius:4px;padding:28px 22px 52px;text-decoration:none;color:inherit;
+      overflow:hidden;transition:border-color .3s,transform .3s;opacity:0}
+    .card:nth-child(1){animation:fadeup .5s forwards .5s}
+    .card:nth-child(2){animation:fadeup .5s forwards .62s}
+    .card:nth-child(3){animation:fadeup .5s forwards .74s}
+    .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+    .card::after{content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse at top left,rgba(201,168,76,.06) 0%,transparent 70%);opacity:0;transition:opacity .3s}
+    .card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-3px)}
+    .card:hover::before,.card:hover::after{opacity:1}
+    .card-icon{width:38px;height:38px;border:1px solid var(--border);border-radius:3px;
+      display:flex;align-items:center;justify-content:center;margin-bottom:18px;transition:border-color .3s}
+    .card:hover .card-icon{border-color:rgba(201,168,76,.5)}
+    .card-icon svg{width:19px;height:19px;stroke:var(--gold);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+    .card-tag{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-family:'Barlow Condensed';margin-bottom:7px}
+    .card-title{font-family:'Bebas Neue';font-size:23px;letter-spacing:.05em;color:var(--text);line-height:1.1;margin-bottom:8px}
+    .card-desc{font-size:12px;color:var(--muted);line-height:1.6}
+    /* Progress bar for calistenia card */
+    .card-progress{position:absolute;bottom:20px;left:22px;right:22px}
+    .cp-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+    .cp-label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-family:'Barlow Condensed'}
+    .cp-count{font-size:11px;color:var(--gold);font-family:'Bebas Neue';letter-spacing:.05em}
+    .cp-bar{height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+    .cp-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .5s ease}
+    .card-arrow{position:absolute;bottom:22px;right:22px;width:26px;height:26px;
+      border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;
+      justify-content:center;transition:border-color .3s,background .3s}
+    .card-arrow svg{width:11px;height:11px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s}
+    .card:hover .card-arrow{border-color:var(--gold);background:rgba(201,168,76,.1)}
+    .card:hover .card-arrow svg{stroke:var(--gold)}
+    /* Motivational */
+    .motiv-grid{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    .mc{background:var(--surface);border:1px solid var(--border);border-radius:4px;
+      padding:17px 15px;position:relative;overflow:hidden;opacity:0}
+    .mc:nth-child(1){animation:fadeup .5s forwards 1.05s}
+    .mc:nth-child(2){animation:fadeup .5s forwards 1.15s}
+    .mc:nth-child(3){animation:fadeup .5s forwards 1.25s}
+    .mc::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(to right,transparent,rgba(201,168,76,.35),transparent)}
+    .mc-icon{font-size:17px;margin-bottom:7px;display:block}
+    .mc-lbl{font-family:'Barlow Condensed';font-size:9px;letter-spacing:.3em;
+      text-transform:uppercase;color:var(--gold);margin-bottom:9px;display:block}
+    .mc-txt{font-size:12px;color:var(--muted);line-height:1.65;font-style:italic}
+    .footer{margin-top:40px;font-size:11px;color:var(--muted);letter-spacing:.1em;
+      opacity:0;animation:fadeup .5s forwards 1.4s}
+    @keyframes fadeup{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:600px){.cards,.motiv-grid{grid-template-columns:1fr}}
+    @media(min-width:601px) and (max-width:820px){.cards{grid-template-columns:1fr 1fr}.cards .card:nth-child(3){grid-column:1/-1;max-width:50%;margin:0 auto;width:100%}}
   </style>
 </head>
 <body>
-  <div class="wrapper">
-
-    <div class="badge">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/>
-      </svg>
-    </div>
-
-    <p class="label">Preparação PRF 2026</p>
-    <h1>Central de<br /><span>Planos</span></h1>
-    <p class="subtitle">Polícia Rodoviária Federal</p>
-
-    <div class="divider"><span>selecione um plano</span></div>
-
-    <div class="cards">
-
-      <!-- Card 1: Plano de Estudos -->
-      <a href="plano_estudos_prf.html" class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        </div>
-        <p class="card-tag">Teórico</p>
-        <h2 class="card-title">Plano de Estudos</h2>
-        <p class="card-desc">Cronograma de matérias, revisões e simulados para o concurso.</p>
-        <div class="card-arrow">
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-      <!-- Card 2: Plano TAF -->
-      <a href="plano_taf_prf.html" class="card">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a5.5 5.5 0 0 0 0 4"/><path d="M17.5 8a5.5 5.5 0 0 1 0 4"/><path d="M12 8v4l2.5 2.5"/><path d="M8 21l2-6h4l2 6"/></svg>
-        </div>
-        <p class="card-tag">Físico</p>
-        <h2 class="card-title">Plano TAF</h2>
-        <p class="card-desc">Treinos e metas para o Teste de Aptidão Física da PRF.</p>
-        <div class="card-arrow">
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
-      </a>
-
-    </div>
-
-    <p class="footer">Foco &nbsp;·&nbsp; Disciplina &nbsp;·&nbsp; Aprovação</p>
-
+<div class="wrapper">
+  <div class="badge">
+    <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/></svg>
   </div>
+  <p class="lbl">Preparação PRF 2026</p>
+  <h1>Central de<br /><span>Planos</span></h1>
+  <p class="sub">Polícia Rodoviária Federal</p>
+  <div class="divider"><span>selecione um plano</span></div>
+
+  <div class="cards">
+    <!-- Card 1: Estudos -->
+    <a href="plano_estudos_prf.html" class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </div>
+      <p class="card-tag">Teórico</p>
+      <h2 class="card-title">Plano de Estudos</h2>
+      <p class="card-desc">Cronograma, pomodoro e registro de sessões de estudo.</p>
+      <div class="card-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </a>
+
+    <!-- Card 2: TAF -->
+    <a href="plano_taf_prf.html" class="card">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a5.5 5.5 0 0 0 0 4"/><path d="M17.5 8a5.5 5.5 0 0 1 0 4"/><path d="M12 8v4l2.5 2.5"/><path d="M8 21l2-6h4l2 6"/></svg>
+      </div>
+      <p class="card-tag">Físico</p>
+      <h2 class="card-title">Plano TAF</h2>
+      <p class="card-desc">Treinos, metas e histórico para o Teste de Aptidão Física.</p>
+      <div class="card-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+    </a>
+
+    <!-- Card 3: Calistenia -->
+    <a href="Calistenia.html" class="card" id="card-cal">
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><path d="M6.5 6.5h11"/><path d="M6.5 17.5h11"/><path d="M4 9.5v5"/><path d="M20 9.5v5"/><path d="M2 11v2"/><path d="M22 11v2"/></svg>
+      </div>
+      <p class="card-tag">Condicionamento</p>
+      <h2 class="card-title">Calistenia</h2>
+      <p class="card-desc">Módulo 1 · 15 treinos com séries e progresso diário.</p>
+      <div class="card-progress">
+        <div class="cp-row">
+          <span class="cp-label">Progresso</span>
+          <span class="cp-count" id="calCount">0 / 15</span>
+        </div>
+        <div class="cp-bar"><div class="cp-fill" id="calBar" style="width:0%"></div></div>
+      </div>
+    </a>
+  </div>
+
+  <div class="divider d2"><span>motivação do dia</span></div>
+  <div class="motiv-grid">
+    <div class="mc"><span class="mc-icon">📚</span><span class="mc-lbl">Estudos</span><p class="mc-txt" id="me"></p></div>
+    <div class="mc"><span class="mc-icon">🏃</span><span class="mc-lbl">Treino</span><p class="mc-txt" id="mt"></p></div>
+    <div class="mc"><span class="mc-icon">🛡️</span><span class="mc-lbl">Missão PRF</span><p class="mc-txt" id="mp"></p></div>
+  </div>
+  <p class="footer">Foco &nbsp;·&nbsp; Disciplina &nbsp;·&nbsp; Aprovação</p>
+</div>
+
+<script>
+// Motivacional
+const E=["Cada questão resolvida é um tijolo na sua aprovação.","O candidato aprovado estuda quando não tem vontade.","Disciplina hoje, resultado no dia da prova.","Não existe atalho. Existe método e consistência.","Seu futuro é construído nessa sessão de estudos.","A diferença entre aprovado e reprovado chama-se consistência.","Estude como se o edital saísse amanhã.","Uma hora focado vale mais que três horas distraído.","A prova mede quem preparou, não quem sonhou.","Transforme cada dificuldade em uma matéria dominada.","Quem domina CTB hoje, usa CTB na estrada amanhã.","O cansaço de hoje é a aprovação de amanhã.","Revise. O que não é revisado, não é aprendido.","Conhecimento acumulado: a única coisa que ninguém pode te tirar.","Cada simulado errado é uma lição comprada antes da prova real.","Sem consistência, talento não serve de nada.","O edital tem começo. Sua preparação também.","Foco é saber ignorar o que não importa."];
+const T=["Seu corpo está sendo preparado para o TAF mais importante da vida.","O Cooper não vai te respeitar se você não o treinar.","Cada barra completa te aproxima da farda.","Consistência no treino é confiança no teste.","O TAF elimina quem não preparou o corpo. Prepare o seu.","Não pule o treino. O TAF não vai esperar você estar pronto.","Suor no treino, segurança no TAF.","Sua capacidade atual é maior do que você acredita.","Cooper mínimo: 2.400 m. Mas você vai além do mínimo.","Barra, corrida, abdominal. Repita até virar rotina.","O corpo que você quer para a PRF começa a ser construído hoje.","Cada treino é um depósito na conta da aprovação.","Nenhum treino hoje é facilidade que o TAF vai cobrar amanhã.","O policial que você vai ser amanhã depende de quem treina hoje.","Não é sobre ser atleta. É sobre estar preparado.","Quem treina na chuva não treme no dia do teste.","Cada km corrido encurta a distância até a farda.","Dor de treino passa. Arrependimento de não treinar, não."];
+const P=["Ser PRF é mais que uma carreira — é uma missão.","A estrada espera por você. Não a decepcione.","A PRF não escolhe os mais talentosos. Escolhe os mais preparados.","Imagine você na viatura. Agora estude para que isso seja real.","Você está se tornando um guardião das rodovias brasileiras.","A farda não é dada. É conquistada com muito esforço.","Essa aprovação vai mudar a sua história.","Policial Rodoviário Federal: serve, protege, salva vidas.","A estrada precisa de um bom policial. Você pode ser esse policial.","Aprovação PRF: o início de uma carreira que faz diferença real.","Quem veste a farda verde carregou sonhos antes de carregá-la.","Cada dia de preparação é um investimento na sua missão.","O verde da PRF não é uma cor. É um compromisso.","Você está construindo hoje o servidor que o Brasil precisa.","Cada hora estudada é uma promessa ao policial que você será.","Não é só um cargo. É um chamado.","A PRF te espera. Você está chegando.","Quando estiver na estrada salvando vidas, vai lembrar desse momento."];
+const d=Math.floor(Date.now()/86400000);
+document.getElementById('me').textContent='\u201c'+E[d%E.length]+'\u201d';
+document.getElementById('mt').textContent='\u201c'+T[d%T.length]+'\u201d';
+document.getElementById('mp').textContent='\u201c'+P[d%P.length]+'\u201d';
+
+// Calistenia progress from localStorage
+try {
+  const raw = localStorage.getItem('calistenia_m1');
+  if (raw) {
+    const data = JSON.parse(raw);
+    const done = Object.values(data).filter(v => v && v.done).length;
+    document.getElementById('calCount').textContent = done + ' / 15';
+    document.getElementById('calBar').style.width = ((done/15)*100) + '%';
+  }
+} catch(e) {}
+</script>
 </body>
 </html>
