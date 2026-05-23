@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PRF — Central de Planos</title>
+  <title>PCDF — Central de Planos</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@300;700&display=swap" rel="stylesheet" />
   <style>
     :root{--bg:#0a0c10;--surface:#111318;--border:#1e2330;--gold:#c9a84c;--text:#dce3f0;--muted:#6b7796}
@@ -100,14 +100,14 @@
   <div class="badge">
     <svg viewBox="0 0 24 24"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.35C17.25 22.15 21 17.25 21 12V7L12 2z"/></svg>
   </div>
-  <p class="lbl">Preparação PRF 2026</p>
+  <p class="lbl">Preparação PCDF 2026</p>
   <h1>Central de<br /><span>Planos</span></h1>
-  <p class="sub">Polícia Rodoviária Federal</p>
+  <p class="sub">Polícia Civil do Distrito Federal</p>
   <div class="divider"><span>selecione um plano</span></div>
 
   <div class="cards">
     <!-- Card 1: Estudos -->
-    <a href="plano_estudos_prf.html" class="card">
+    <a href="plano_estudos_pcdf.html" class="card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       </div>
@@ -118,7 +118,7 @@
     </a>
 
     <!-- Card 2: TAF -->
-    <a href="plano_taf_prf.html" class="card">
+    <a href="plano_taf_pcdf.html" class="card">
       <div class="card-icon">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="3"/><path d="M6.5 8a5.5 5.5 0 0 0 0 4"/><path d="M17.5 8a5.5 5.5 0 0 1 0 4"/><path d="M12 8v4l2.5 2.5"/><path d="M8 21l2-6h4l2 6"/></svg>
       </div>
@@ -150,7 +150,7 @@
   <div class="motiv-grid">
     <div class="mc"><span class="mc-icon">📚</span><span class="mc-lbl">Estudos</span><p class="mc-txt" id="me"></p></div>
     <div class="mc"><span class="mc-icon">🏃</span><span class="mc-lbl">Treino</span><p class="mc-txt" id="mt"></p></div>
-    <div class="mc"><span class="mc-icon">🛡️</span><span class="mc-lbl">Missão PRF</span><p class="mc-txt" id="mp"></p></div>
+    <div class="mc"><span class="mc-icon">🛡️</span><span class="mc-lbl">Missão PCDF</span><p class="mc-txt" id="mp"></p></div>
   </div>
   <p class="footer">Foco &nbsp;·&nbsp; Disciplina &nbsp;·&nbsp; Aprovação</p>
 </div>
@@ -158,8 +158,8 @@
 <script>
 // Motivacional
 const E=["Cada questão resolvida é um tijolo na sua aprovação.","O candidato aprovado estuda quando não tem vontade.","Disciplina hoje, resultado no dia da prova.","Não existe atalho. Existe método e consistência.","Seu futuro é construído nessa sessão de estudos.","A diferença entre aprovado e reprovado chama-se consistência.","Estude como se o edital saísse amanhã.","Uma hora focado vale mais que três horas distraído.","A prova mede quem preparou, não quem sonhou.","Transforme cada dificuldade em uma matéria dominada.","Quem domina CTB hoje, usa CTB na estrada amanhã.","O cansaço de hoje é a aprovação de amanhã.","Revise. O que não é revisado, não é aprendido.","Conhecimento acumulado: a única coisa que ninguém pode te tirar.","Cada simulado errado é uma lição comprada antes da prova real.","Sem consistência, talento não serve de nada.","O edital tem começo. Sua preparação também.","Foco é saber ignorar o que não importa."];
-const T=["Seu corpo está sendo preparado para o TAF mais importante da vida.","O Cooper não vai te respeitar se você não o treinar.","Cada barra completa te aproxima da farda.","Consistência no treino é confiança no teste.","O TAF elimina quem não preparou o corpo. Prepare o seu.","Não pule o treino. O TAF não vai esperar você estar pronto.","Suor no treino, segurança no TAF.","Sua capacidade atual é maior do que você acredita.","Cooper mínimo: 2.400 m. Mas você vai além do mínimo.","Barra, corrida, abdominal. Repita até virar rotina.","O corpo que você quer para a PRF começa a ser construído hoje.","Cada treino é um depósito na conta da aprovação.","Nenhum treino hoje é facilidade que o TAF vai cobrar amanhã.","O policial que você vai ser amanhã depende de quem treina hoje.","Não é sobre ser atleta. É sobre estar preparado.","Quem treina na chuva não treme no dia do teste.","Cada km corrido encurta a distância até a farda.","Dor de treino passa. Arrependimento de não treinar, não."];
-const P=["Ser PRF é mais que uma carreira — é uma missão.","A estrada espera por você. Não a decepcione.","A PRF não escolhe os mais talentosos. Escolhe os mais preparados.","Imagine você na viatura. Agora estude para que isso seja real.","Você está se tornando um guardião das rodovias brasileiras.","A farda não é dada. É conquistada com muito esforço.","Essa aprovação vai mudar a sua história.","Policial Rodoviário Federal: serve, protege, salva vidas.","A estrada precisa de um bom policial. Você pode ser esse policial.","Aprovação PRF: o início de uma carreira que faz diferença real.","Quem veste a farda verde carregou sonhos antes de carregá-la.","Cada dia de preparação é um investimento na sua missão.","O verde da PRF não é uma cor. É um compromisso.","Você está construindo hoje o servidor que o Brasil precisa.","Cada hora estudada é uma promessa ao policial que você será.","Não é só um cargo. É um chamado.","A PRF te espera. Você está chegando.","Quando estiver na estrada salvando vidas, vai lembrar desse momento."];
+const T=["Seu corpo está sendo preparado para o TAF mais importante da vida.","O Cooper não vai te respeitar se você não o treinar.","Cada barra completa te aproxima da farda.","Consistência no treino é confiança no teste.","O TAF elimina quem não preparou o corpo. Prepare o seu.","Não pule o treino. O TAF não vai esperar você estar pronto.","Suor no treino, segurança no TAF.","Sua capacidade atual é maior do que você acredita.","Barra, corrida, abdominal, meio sugado. Repita até virar rotina.","Cada treino é um depósito na conta da aprovação.","Nenhum treino hoje é facilidade que o TAF vai cobrar amanhã.","O perito que você vai ser amanhã depende de quem treina hoje.","Não é sobre ser atleta. É sobre estar preparado.","Quem treina na chuva não treme no dia do teste.","Cada km corrido encurta a distância até a aprovação.","Dor de treino passa. Arrependimento de não treinar, não.","Cada nota no TAF soma. Treinar acima do mínimo é estratégia.","50% é o mínimo. Você vai além."];
+const P=["Ser perito da PCDF é mais que uma carreira — é ciência a serviço da justiça.","A cena do crime espera por você. Não a decepcione.","A PCDF não escolhe os mais talentosos. Escolhe os mais preparados.","Imagine você no instituto, resolvendo casos reais. Agora estude para que isso seja real.","Você está se tornando um guardião da verdade técnica.","A farda não é dada. É conquistada com muito esforço.","Essa aprovação vai mudar a sua história.","Perito Criminal PCDF: serve, investiga, prova.","A justiça precisa de bons peritos. Você pode ser esse perito.","Aprovação PCDF: o início de uma carreira que faz diferença real.","Quem veste a farda da perícia carregou sonhos antes de carregá-la.","Cada dia de preparação é um investimento na sua missão forense.","A PCDF é federalizada. O nível de exigência também.","Você está construindo hoje o servidor que o Distrito Federal precisa.","Cada hora estudada é uma promessa ao perito que você será.","Não é só um cargo. É um chamado técnico-científico.","A PCDF te espera. 150 vagas. Uma delas é sua.","Quando estiver na cena do crime analisando vestígios, vai lembrar desse momento."];
 const d=Math.floor(Date.now()/86400000);
 document.getElementById('me').textContent='\u201c'+E[d%E.length]+'\u201d';
 document.getElementById('mt').textContent='\u201c'+T[d%T.length]+'\u201d';

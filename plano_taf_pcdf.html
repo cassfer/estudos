@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Plano TAF — PCDF Perito</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@300;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#0a0c10;--surface:#111318;--surface2:#161b26;--border:#1e2330;
+  --gold:#c9a84c;--gold-bg:rgba(201,168,76,.12);--text:#dce3f0;--muted:#6b7796;
+  --blue:#2b5faa;--blue-bg:rgba(43,95,170,.18);--green:#639922;--green-bg:rgba(99,153,34,.18);
+  --amber:#d4831a;--amber-bg:rgba(212,131,26,.18);--red:#c0392b;--red-bg:rgba(192,57,43,.18);
+  --pink:#d4537e;--pink-bg:rgba(212,83,126,.18);--radius:8px;--radius-sm:4px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;
+  background-image:repeating-linear-gradient(-55deg,transparent,transparent 60px,rgba(201,168,76,.025) 60px,rgba(201,168,76,.025) 61px);
+  pointer-events:none;z-index:0}
+.ph{position:sticky;top:0;z-index:100;background:rgba(10,12,16,.92);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  padding:12px 20px;display:flex;align-items:center;gap:14px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);
+  text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--surface);transition:color .2s,border-color .2s}
+.back:hover{color:var(--text);border-color:rgba(201,168,76,.4)}
+.back svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ph-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:.06em;color:var(--text)}
+.ph-title span{color:var(--gold)}
+.tabs{position:sticky;top:49px;z-index:99;background:rgba(10,12,16,.92);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+  padding:0 20px;display:flex;gap:0;overflow-x:auto}
+.tab{padding:11px 16px;border:none;border-bottom:2px solid transparent;
+  background:transparent;font-size:13px;font-family:'Barlow';
+  color:var(--muted);cursor:pointer;white-space:nowrap;transition:color .2s,border-color .2s}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab:hover:not(.active){color:var(--text)}
+.panels{max-width:900px;margin:0 auto;padding:24px 20px 60px;position:relative;z-index:1}
+.panel{display:none}.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:.05em;color:var(--text);margin-bottom:4px}
+.card-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+/* Phase cards */
+.phase-block{border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;overflow:hidden}
+.phase-hdr{display:flex;align-items:center;gap:10px;padding:14px 18px;flex-wrap:wrap}
+.phase-badge{font-size:11px;font-weight:500;padding:3px 10px;border-radius:var(--radius-sm)}
+.phase-name{font-size:14px;font-weight:500;color:var(--text)}
+/* Exercise rows within phase */
+.ex-accordion{border-top:1px solid var(--border)}
+.ex-row{border-bottom:1px solid rgba(30,35,48,.6)}
+.ex-row:last-child{border-bottom:none}
+.ex-hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;cursor:pointer;transition:background .2s}
+.ex-hdr:hover{background:rgba(255,255,255,.02)}
+.ex-hdr-left{display:flex;align-items:center;gap:10px}
+.ex-icon{font-size:16px}
+.ex-name{font-size:13px;font-weight:500;color:var(--text)}
+.ex-quick{font-size:12px;color:var(--muted)}
+.ex-toggle{display:flex;align-items:center;gap:8px}
+.ex-count{font-size:11px;padding:2px 8px;border-radius:20px;background:var(--gold-bg);color:var(--gold)}
+.ex-arrow{font-size:10px;color:var(--muted);transition:transform .2s}
+.ex-arrow.open{transform:rotate(180deg)}
+.ex-body{display:none;padding:0 18px 16px;background:var(--surface2)}
+.ex-body.open{display:block}
+/* Phase selector tabs */
+.fase-sel{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.fs-btn{padding:5px 14px;border:1px solid var(--border);border-radius:20px;
+  background:transparent;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Barlow';transition:all .2s}
+.fs-btn.active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.tips-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:16px}
+.tips-row{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin-bottom:10px;align-items:baseline}
+.tips-key{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tips-val{font-size:13px;color:var(--text);line-height:1.5}
+.tips-dica{font-size:12px;color:var(--gold);border-top:1px solid var(--border);padding-top:10px;margin-top:4px;line-height:1.6;font-style:italic}
+/* Obs form */
+.obs-title{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.obs-mini-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-group label{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.form-group input,.form-group select,.form-group textarea{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  color:var(--text);padding:7px 9px;font-size:12px;font-family:'Barlow';outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:rgba(201,168,76,.5)}
+.form-group select option{background:var(--surface2)}
+.form-group textarea{resize:vertical;min-height:60px;grid-column:1/-1}
+.btn-sm{padding:7px 16px;border:1px solid var(--gold);border-radius:var(--radius-sm);
+  background:var(--gold-bg);color:var(--gold);font-size:12px;cursor:pointer;font-family:'Barlow';transition:all .2s}
+.btn-sm:hover{background:var(--gold);color:#0a0c10}
+/* Obs history inline */
+.obs-history{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.obs-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:10px 12px;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.obs-item-left{flex:1}
+.obs-item-date{font-size:10px;color:var(--muted);margin-bottom:3px}
+.obs-item-perf{font-size:13px;color:var(--text);margin-bottom:2px;font-weight:500}
+.obs-item-note{font-size:12px;color:var(--muted);font-style:italic}
+.obs-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;opacity:.4;transition:opacity .2s}
+.obs-del:hover{opacity:1;color:var(--red)}
+/* Sessoes */
+.ses-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.ses-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.ses-day-lbl{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ses-day-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:14px}
+.ses-ex{display:flex;flex-direction:column;gap:10px}
+.ses-ex-item{display:flex;gap:8px;align-items:flex-start}
+.ses-ex-icon{font-size:16px;margin-top:1px}
+.ses-ex-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.ses-ex-detail{font-size:12px;color:var(--muted);line-height:1.4}
+.gtg-note{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:12px 16px;margin-top:14px;font-size:13px;color:var(--muted);line-height:1.6}
+/* Metas */
+.meta-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 20px;margin-bottom:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.meta-info{flex:1;min-width:180px}
+.meta-ex-name{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px}
+.meta-detail{font-size:12px;color:var(--muted)}
+.meta-nums{display:flex;gap:18px;align-items:center}
+.meta-num{text-align:center}
+.meta-num-val{font-family:'Bebas Neue';font-size:28px;line-height:1;margin-bottom:2px}
+.meta-num-lbl{font-size:10px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.meta-num.min .meta-num-val{color:var(--amber)}
+.meta-num.ideal .meta-num-val{color:var(--gold)}
+.meta-achieved-btn{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--surface);color:var(--muted);font-size:12px;cursor:pointer;font-family:'Barlow';
+  transition:all .3s;white-space:nowrap}
+.meta-achieved-btn.done{background:var(--green-bg);border-color:var(--green);color:#8bc34a}
+.meta-achieved-date{font-size:10px;color:var(--muted);margin-top:4px;text-align:center}
+/* Histórico */
+.hist-form{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:24px}
+.hist-form h3{font-family:'Bebas Neue';font-size:20px;letter-spacing:.05em;color:var(--text);margin-bottom:14px}
+.hist-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hist-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.hf-lbl{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.hf-btn{padding:4px 12px;border:1px solid var(--border);border-radius:20px;
+  background:transparent;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Barlow';transition:all .2s}
+.hf-btn.active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.hist-list{display:flex;flex-direction:column;gap:10px}
+.hist-entry{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);
+  padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+.hist-date-block{display:flex;flex-direction:column;align-items:center;min-width:36px}
+.hist-date-d{font-family:'Bebas Neue';font-size:24px;color:var(--gold);line-height:1}
+.hist-date-m{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.hist-body{flex:1}
+.hist-ex-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px}
+.hist-perf{font-size:13px;color:var(--text);margin-bottom:3px;font-weight:500}
+.hist-note{font-size:12px;color:var(--muted);font-style:italic}
+.hist-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;opacity:.4;transition:opacity .2s;margin-left:auto;align-self:flex-start}
+.hist-del:hover{opacity:1;color:var(--red)}
+.empty-state{text-align:center;padding:36px 20px;color:var(--muted);font-size:14px}
+.tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:3px;font-family:'Barlow Condensed';margin-left:6px}
+@media(max-width:600px){.hist-grid,.obs-mini-form{grid-template-columns:1fr}.ses-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ph">
+  <a href="index.html" class="back">
+    <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Voltar
+  </a>
+  <div class="ph-title">Plano <span>TAF</span> — PCDF Perito</div>
+</div>
+<div class="tabs">
+  <button class="tab active" onclick="setTab(0)">Fases</button>
+  <button class="tab" onclick="setTab(1)">Sessões</button>
+  <button class="tab" onclick="setTab(2)">Metas do TAF</button>
+  <button class="tab" onclick="setTab(3)">📊 Histórico</button>
+</div>
+<div class="panels">
+
+<!-- ===== PANEL 0: FASES ===== -->
+<div class="panel active" id="p0">
+<div class="card">
+  <div class="card-title">Fases de Treino</div>
+  <div class="card-sub">16 semanas · 3 dias/semana · baseado no edital PCDF Perito Criminal (IADES) · mínimo 50% por prova</div>
+
+  <!-- FASE 1 -->
+  <div class="phase-block">
+    <div class="phase-hdr">
+      <span class="phase-badge" style="background:var(--blue-bg);color:#6eaaef">Fase 1 — Sem. 1–4</span>
+      <span class="phase-name">Adaptação — construir o hábito</span>
+    </div>
+    <div class="ex-accordion">
+      <div class="ex-row" id="ex-row-corrida-1">
+        <div class="ex-hdr" onclick="toggleEx('corrida-1')">
+          <div class="ex-hdr-left">
+            <span class="ex-icon">🏃</span>
+            <div><div class="ex-name">Corrida</div><div class="ex-quick">1 min trote + 2 min caminhada × 8 séries</div></div>
+          </div>
+          <div class="ex-toggle">
+            <span class="ex-count" id="cnt-corrida">0 treinos</span>
+            <span class="ex-arrow" id="arr-corrida-1">▼</span>
+          </div>
+        </div>
+        <div class="ex-body" id="body-corrida-1">
+          <div class="fase-sel" id="fsel-corrida-1">
+            <span style="font-size:11px;color:var(--muted);margin-right:4px;align-self:center">Fase:</span>
+            <button class="fs-btn active" onclick="setFaseTip('corrida-1',1)">1</button>
+            <button class="fs-btn" onclick="setFaseTip('corrida-1',2)">2</button>
+            <button class="fs-btn" onclick="setFaseTip('corrida-1',3)">3</button>
+            <button class="fs-btn" onclick="setFaseTip('corrida-1',4)">4</button>
+          </div>
+          <div class="tips-box" id="tips-corrida-1"></div>
+          <div class="obs-title">Registrar treino</div>
+          <div class="obs-mini-form">
+            <div class="form-group"><label>Data</label><input type="date" id="of-corrida-1-data"/></div>
+            <div class="form-group"><label>Resultado</label><input type="text" id="of-corrida-1-perf" placeholder="ex: 1.800m no Cooper, 20 min contínuos"/></div>
+            <div class="form-group"><label>Observações</label><textarea id="of-corrida-1-obs" placeholder="sensações, dificuldades, próximos passos..."></textarea></div>
+          </div>
+          <button class="btn-sm" onclick="addObs('corrida','Corrida','corrida-1')">+ Salvar registro</button>
+          <div class="obs-history" id="oh-corrida-1"></div>
+        </div>
+      </div>
+      <div class="ex-row" id="ex-row-barra-1">
+        <div class="ex-hdr" onclick="toggleEx('barra-1')">
+          <div class="ex-hdr-left">
+            <span class="ex-icon">🏋️</span>
+            <div><div class="ex-name">Barra fixa</div><div class="ex-quick">Remada invertida ou elástico · 3×8–10</div></div>
+          </div>
+          <div class="ex-toggle">
+            <span class="ex-count" id="cnt-barra">0 treinos</span>
+            <span class="ex-arrow" id="arr-barra-1">▼</span>
+          </div>
+        </div>
+        <div class="ex-body" id="body-barra-1">
+          <div class="fase-sel">
+            <span style="font-size:11px;color:var(--muted);margin-right:4px;align-self:center">Fase:</span>
+            <button class="fs-btn active" onclick="setFaseTip('barra-1',1)">1</button>
+            <button class="fs-btn" onclick="setFaseTip('barra-1',2)">2</button>
+            <button class="fs-btn" onclick="setFaseTip('barra-1',3)">3</button>
+            <button class="fs-btn" onclick="setFaseTip('barra-1',4)">4</button>
+          </div>
+          <div class="tips-box" id="tips-barra-1"></div>
+          <div class="obs-title">Registrar treino</div>
+          <div class="obs-mini-form">
+            <div class="form-group"><label>Data</label><input type="date" id="of-barra-1-data"/></div>
+            <div class="form-group"><label>Resultado</label><input type="text" id="of-barra-1-perf" placeholder="ex: 5 barras completas, 4×10 remadas"/></div>
+            <div class="form-group"><label>Observações</label><textarea id="of-barra-1-obs" placeholder="o que dificultou, pontos a melhorar..."></textarea></div>
+          </div>
+          <button class="btn-sm" onclick="addObs('barra','Barra fixa','barra-1')">+ Salvar registro</button>
+          <div class="obs-history" id="oh-barra-1"></div>
+        </div>
+      </div>
+      <div class="ex-row" id="ex-row-abdominal-1">
+        <div class="ex-hdr" onclick="toggleEx('abdominal-1')">
+          <div class="ex-hdr-left">
+            <span class="ex-icon">💪</span>
+            <div><div class="ex-name">Abdominal</div><div class="ex-quick">3×15 reps · técnica do TAF</div></div>
+          </div>
+          <div class="ex-toggle">
+            <span class="ex-count" id="cnt-abdominal">0 treinos</span>
+            <span class="ex-arrow" id="arr-abdominal-1">▼</span>
+          </div>
+        </div>
+        <div class="ex-body" id="body-abdominal-1">
+          <div class="fase-sel">
+            <span style="font-size:11px;color:var(--muted);margin-right:4px;align-self:center">Fase:</span>
+            <button class="fs-btn active" onclick="setFaseTip('abdominal-1',1)">1</button>
+            <button class="fs-btn" onclick="setFaseTip('abdominal-1',2)">2</button>
+            <button class="fs-btn" onclick="setFaseTip('abdominal-1',3)">3</button>
+            <button class="fs-btn" onclick="setFaseTip('abdominal-1',4)">4</button>
+          </div>
+          <div class="tips-box" id="tips-abdominal-1"></div>
+          <div class="obs-title">Registrar treino</div>
+          <div class="obs-mini-form">
+            <div class="form-group"><label>Data</label><input type="date" id="of-abdominal-1-data"/></div>
+            <div class="form-group"><label>Resultado</label><input type="text" id="of-abdominal-1-perf" placeholder="ex: 38 reps em 1 min, 3×35"/></div>
+            <div class="form-group"><label>Observações</label><textarea id="of-abdominal-1-obs" placeholder="ritmo, fadiga, técnica..."></textarea></div>
+          </div>
+          <button class="btn-sm" onclick="addObs('abdominal','Abdominal','abdominal-1')">+ Salvar registro</button>
+          <div class="obs-history" id="oh-abdominal-1"></div>
+        </div>
+      </div>
+      <div class="ex-row" id="ex-row-meiosugado-1">
+        <div class="ex-hdr" onclick="toggleEx('meiosugado-1')">
+          <div class="ex-hdr-left">
+            <span class="ex-icon">🤸</span>
+            <div><div class="ex-name">Meio Sugado</div><div class="ex-quick">1 min cronometrado · core isométrico + reps</div></div>
+          </div>
+          <div class="ex-toggle">
+            <span class="ex-count" id="cnt-meiosugado">0 treinos</span>
+            <span class="ex-arrow" id="arr-meiosugado-1">▼</span>
+          </div>
+        </div>
+        <div class="ex-body" id="body-meiosugado-1">
+          <div class="fase-sel">
+            <span style="font-size:11px;color:var(--muted);margin-right:4px;align-self:center">Fase:</span>
+            <button class="fs-btn active" onclick="setFaseTip('meiosugado-1',1)">1</button>
+            <button class="fs-btn" onclick="setFaseTip('meiosugado-1',2)">2</button>
+            <button class="fs-btn" onclick="setFaseTip('meiosugado-1',3)">3</button>
+            <button class="fs-btn" onclick="setFaseTip('meiosugado-1',4)">4</button>
+          </div>
+          <div class="tips-box" id="tips-meiosugado-1"></div>
+          <div class="obs-title">Registrar treino</div>
+          <div class="obs-mini-form">
+            <div class="form-group"><label>Data</label><input type="date" id="of-meiosugado-1-data"/></div>
+            <div class="form-group"><label>Resultado</label><input type="text" id="of-meiosugado-1-perf" placeholder="ex: 30 reps em 1 min, 3×20 séries"/></div>
+            <div class="form-group"><label>Observações</label><textarea id="of-meiosugado-1-obs" placeholder="controle do core, respiração, fadiga..."></textarea></div>
+          </div>
+          <button class="btn-sm" onclick="addObs('meiosugado','Meio Sugado','meiosugado-1')">+ Salvar registro</button>
+          <div class="obs-history" id="oh-meiosugado-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FASES 2, 3, 4 - headers only (sem exercícios duplicados, usuario usa o seletor de fase no bloco acima) -->
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="phase-badge" style="background:var(--amber-bg);color:#e8a84a">Fase 2 — Sem. 5–8</span>
+      <span style="font-size:14px;font-weight:500;color:var(--text)">Construção — primeiras barras reais</span>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">Corrida: trote contínuo 15–20 min · Barra: negativas 5s · Abdominal: 3×25 · Meio Sugado: 3×15 reps com técnica do edital</div>
+    <div style="font-size:11px;color:var(--gold);margin-top:6px;font-style:italic">↑ Use o seletor "Fase 2" nos exercícios acima para ver as dicas detalhadas.</div>
+  </div>
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="phase-badge" style="background:var(--green-bg);color:#8bc34a">Fase 3 — Sem. 9–12</span>
+      <span style="font-size:14px;font-weight:500;color:var(--text)">Desenvolvimento — ritmo e repetições</span>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">Corrida: 25–30 min + 6 tiros 400m · Barra: Grease the Groove · Abdominal: 3×35 + simulação · Meio Sugado: 3×25 + simulação 1 min</div>
+    <div style="font-size:11px;color:var(--gold);margin-top:6px;font-style:italic">↑ Use o seletor "Fase 3" nos exercícios acima para ver as dicas detalhadas.</div>
+  </div>
+  <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px">
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <span class="phase-badge" style="background:var(--pink-bg);color:#e87ab0">Fase 4 — Sem. 13–16</span>
+      <span style="font-size:14px;font-weight:500;color:var(--text)">Específico — simulação do TAF</span>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-top:8px">Corrida: Cooper semanal 12 min · Barra: máximo + GTG diário · Abdominal: 1 min cronometrado · Meio Sugado: 1 min simulado</div>
+    <div style="font-size:11px;color:var(--gold);margin-top:6px;font-style:italic">↑ Use o seletor "Fase 4" nos exercícios acima para ver as dicas detalhadas.</div>
+  </div>
+</div>
+</div>
+
+<!-- ===== PANEL 1: SESSÕES ===== -->
+<div class="panel" id="p1">
+<div class="card">
+  <div class="card-title">Estrutura das Sessões</div>
+  <div class="card-sub">3 dias por semana · o conteúdo evolui por fase, a estrutura não muda</div>
+  <div class="ses-grid">
+    <div class="ses-card">
+      <div class="ses-day-lbl">Dia A — ex: segunda</div>
+      <div class="ses-day-name">Corrida principal</div>
+      <div class="ses-ex">
+        <div class="ses-ex-item"><span class="ses-ex-icon">🏃</span><div><div class="ses-ex-name">Corrida</div><div class="ses-ex-detail">Sessão longa ou intervalada conforme a fase</div></div></div>
+        <div class="ses-ex-item"><span class="ses-ex-icon">💪</span><div><div class="ses-ex-name">Abdominal</div><div class="ses-ex-detail">Séries da fase, técnica do edital</div></div></div>
+        <div class="ses-ex-item"><span class="ses-ex-icon">🤸</span><div><div class="ses-ex-name">Meio Sugado</div><div class="ses-ex-detail">Séries da fase, técnica do edital PCDF</div></div></div>
+      </div>
+    </div>
+    <div class="ses-card">
+      <div class="ses-day-lbl">Dia B — ex: quarta</div>
+      <div class="ses-day-name">Força — tronco e braços</div>
+      <div class="ses-ex">
+        <div class="ses-ex-item"><span class="ses-ex-icon">🏋️</span><div><div class="ses-ex-name">Barra fixa</div><div class="ses-ex-detail">Remada / negativa / completa conforme a fase</div></div></div>
+        <div class="ses-ex-item"><span class="ses-ex-icon">⬇️</span><div><div class="ses-ex-name">Flexão de braço</div><div class="ses-ex-detail">Suporte para a barra · 3 × máx.</div></div></div>
+        <div class="ses-ex-item"><span class="ses-ex-icon">💪</span><div><div class="ses-ex-name">Abdominal</div><div class="ses-ex-detail">Séries da fase</div></div></div>
+      </div>
+    </div>
+    <div class="ses-card">
+      <div class="ses-day-lbl">Dia C — ex: sexta</div>
+      <div class="ses-day-name">Misto — tudo junto</div>
+      <div class="ses-ex">
+        <div class="ses-ex-item"><span class="ses-ex-icon">🏃</span><div><div class="ses-ex-name">Corrida curta</div><div class="ses-ex-detail">15–20 min em ritmo confortável</div></div></div>
+        <div class="ses-ex-item"><span class="ses-ex-icon">🏋️</span><div><div class="ses-ex-name">Barra + Flexão</div><div class="ses-ex-detail">Repetições da semana</div></div></div>
+        <div class="ses-ex-item"><span class="ses-ex-icon">💪</span><div><div class="ses-ex-name">Abdominal</div><div class="ses-ex-detail">Séries finais da semana</div></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="gtg-note">
+    <strong style="color:var(--gold)">Grease the Groove (GTG)</strong> — Nos dias de descanso, sempre que passar em uma barra, faça séries de 50–60% do seu máximo. Não conta como treino, não gera fadiga excessiva, mas acumula volume de forma eficiente. É o método mais testado para ganhar repetições na barra.
+  </div>
+</div>
+</div>
+
+<!-- ===== PANEL 2: METAS ===== -->
+<div class="panel" id="p2">
+<div class="card">
+  <div class="card-title">Metas do TAF</div>
+  <div class="card-sub">Referência edital PCDF Perito Criminal (IADES 2016) · cada prova vale 0–100 pts · aprovado com ≥ 50 pts por prova · confirme sempre no edital vigente</div>
+
+  <div style="background:var(--surface2);border:1px solid rgba(201,168,76,.3);border-radius:var(--radius);padding:12px 16px;margin-bottom:16px;font-size:12px;color:var(--gold);line-height:1.6">
+    ⚠️ <strong>Sistema de pontuação PCDF Perito:</strong> cada um dos 4 testes vale de 00 a 100 pontos. Reprovado em qualquer teste com menos de 50 pts. O score total classifica os aprovados — quanto mais acima do mínimo, melhor sua posição.
+  </div>
+
+  <div class="meta-card" id="meta-cooper">
+    <div class="meta-info">
+      <div class="meta-ex-name">🏃 Cooper — 12 minutos</div>
+      <div class="meta-detail">Prova mais eliminatória · pace constante é a chave · sem parar</div>
+    </div>
+    <div class="meta-nums">
+      <div class="meta-num min"><div class="meta-num-val">1.800m</div><div class="meta-num-lbl">mínimo masc.</div></div>
+      <div class="meta-num ideal"><div class="meta-num-val">2.200m+</div><div class="meta-num-lbl">meta confort.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <button class="meta-achieved-btn" id="mbtn-cooper" onclick="toggleMeta('cooper')">○ Ainda não</button>
+      <div class="meta-achieved-date" id="mdate-cooper"></div>
+    </div>
+  </div>
+
+  <div class="meta-card" id="meta-barra">
+    <div class="meta-info">
+      <div class="meta-ex-name">🏋️ Barra fixa dinâmica (masc.) / Isométrica (fem.)</div>
+      <div class="meta-detail">Masc: pegada livre, sobe e desce completo · Fem: queixo acima, mantenha</div>
+    </div>
+    <div class="meta-nums">
+      <div class="meta-num min"><div class="meta-num-val">4 reps</div><div class="meta-num-lbl">mínimo masc.</div></div>
+      <div class="meta-num ideal"><div class="meta-num-val">8+ reps</div><div class="meta-num-lbl">nota máx.</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <button class="meta-achieved-btn" id="mbtn-barra" onclick="toggleMeta('barra')">○ Ainda não</button>
+      <div class="meta-achieved-date" id="mdate-barra"></div>
+    </div>
+  </div>
+
+  <div class="meta-card" id="meta-abdominal">
+    <div class="meta-info">
+      <div class="meta-ex-name">💪 Flexão Abdominal — 1 minuto</div>
+      <div class="meta-detail">Mãos na nuca · cotovelo toca joelho oposto · técnica do edital</div>
+    </div>
+    <div class="meta-nums">
+      <div class="meta-num min"><div class="meta-num-val">25 reps</div><div class="meta-num-lbl">mínimo masc.</div></div>
+      <div class="meta-num ideal"><div class="meta-num-val">38+ reps</div><div class="meta-num-lbl">meta</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <button class="meta-achieved-btn" id="mbtn-abdominal" onclick="toggleMeta('abdominal')">○ Ainda não</button>
+      <div class="meta-achieved-date" id="mdate-abdominal"></div>
+    </div>
+  </div>
+
+  <div class="meta-card" id="meta-meiosugado">
+    <div class="meta-info">
+      <div class="meta-ex-name">🤸 Meio Sugado — 1 minuto</div>
+      <div class="meta-detail">Deitado, lordose anulada, pernas a 45° · conta repetições em 1 min · core ativado</div>
+    </div>
+    <div class="meta-nums">
+      <div class="meta-num min"><div class="meta-num-val">20 reps</div><div class="meta-num-lbl">mínimo masc.</div></div>
+      <div class="meta-num ideal"><div class="meta-num-val">32+ reps</div><div class="meta-num-lbl">meta</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+      <button class="meta-achieved-btn" id="mbtn-meiosugado" onclick="toggleMeta('meiosugado')">○ Ainda não</button>
+      <div class="meta-achieved-date" id="mdate-meiosugado"></div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface2);border-radius:var(--radius);padding:12px 16px;font-size:12px;color:var(--muted);line-height:1.6">
+    ⚡ Os índices acima são baseados no edital de 2016 (IADES). O próximo edital PCDF Perito 2026 pode ajustar os valores — consulte o edital oficial assim que publicado. Valores femininos têm índices diferentes; confira a tabela completa no edital.
+  </div>
+</div>
+</div>
+
+<!-- ===== PANEL 3: HISTÓRICO ===== -->
+<div class="panel" id="p3">
+  <div class="hist-form">
+    <h3>Adicionar Treino</h3>
+    <div class="hist-grid">
+      <div class="form-group">
+        <label>Exercício</label>
+        <select id="hExercicio">
+          <option value="corrida">🏃 Corrida</option>
+          <option value="barra">🏋️ Barra fixa</option>
+          <option value="abdominal">💪 Abdominal</option>
+          <option value="meiosugado">🤸 Meio Sugado</option>
+          <option value="outro">Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Data</label>
+        <input type="date" id="hData"/>
+      </div>
+      <div class="form-group">
+        <label>Resultado / Performance</label>
+        <input type="text" id="hPerf" placeholder="ex: 2.100m no Cooper · 6 barras · 32 abd/min"/>
+      </div>
+      <div class="form-group">
+        <label>Fase do treino</label>
+        <select id="hFase">
+          <option value="1">Fase 1 — Adaptação</option>
+          <option value="2">Fase 2 — Construção</option>
+          <option value="3">Fase 3 — Desenvolvimento</option>
+          <option value="4">Fase 4 — Específico</option>
+        </select>
+      </div>
+      <div class="form-group" style="grid-column:1/-1">
+        <label>Observações</label>
+        <textarea id="hObs" placeholder="como se sentiu, dificuldades, o que melhorou, próximos passos..."></textarea>
+      </div>
+    </div>
+    <button class="btn-sm" style="margin-top:4px" onclick="addHistEntry()">+ Salvar no histórico</button>
+  </div>
+
+  <div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:.05em;color:var(--text)">Histórico de Treinos</div>
+      <div style="font-size:12px;color:var(--muted)">Total: <span id="histTotal" style="color:var(--gold)">0</span> registros</div>
+    </div>
+    <div class="hist-filter">
+      <span class="hf-lbl">Filtrar:</span>
+      <button class="hf-btn active" onclick="filterHist('todos')">Todos</button>
+      <button class="hf-btn" onclick="filterHist('corrida')">🏃 Corrida</button>
+      <button class="hf-btn" onclick="filterHist('barra')">🏋️ Barra</button>
+      <button class="hf-btn" onclick="filterHist('abdominal')">💪 Abdominal</button>
+      <button class="hf-btn" onclick="filterHist('meiosugado')">🤸 Meio Sugado</button>
+    </div>
+    <div class="hist-list" id="histList"></div>
+  </div>
+</div>
+
+</div><!-- /panels -->
+
+<script>
+// ===== TABS =====
+function setTab(n){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',i===n));
+  document.querySelectorAll('.panel').forEach((p,i)=>p.classList.toggle('active',i===n));
+}
+
+// ===== SESSION STORAGE HELPERS =====
+function getS(k,def){try{const v=sessionStorage.getItem(k);return v?JSON.parse(v):def;}catch{return def;}}
+function setS(k,v){sessionStorage.setItem(k,JSON.stringify(v));}
+
+// ===== TIPS DATA =====
+const TIPS={
+  corrida:[null,
+    {fase:'Adaptação',intensidade:'Leve',duracao:'24 min total',
+     exec:'Alterne 1 min de trote com 2 min de caminhada × 8 séries. Respire pelo nariz. Mantenha postura ereta. Não force o ritmo.',
+     dica:'O objetivo é criar o hábito. Qualquer dia de treino é um dia de ganho.'},
+    {fase:'Construção',intensidade:'Moderada-baixa',duracao:'15–20 min contínuos',
+     exec:'Trote contínuo em ritmo que permita conversar. Aumente 2 min por semana. Se precisar caminhar, volte ao trote logo depois.',
+     dica:'Consistência supera intensidade nessa fase. Não pule treinos.'},
+    {fase:'Desenvolvimento',intensidade:'Moderada + Alta (tiros)',duracao:'25–30 min + tiros 400m',
+     exec:'2×/semana: corrida contínua 25–30 min. 1×/semana: 6 tiros de 400m com 2 min de descanso. Anote o tempo de cada tiro.',
+     dica:'Os tiros treinam o pace que você vai precisar para manter no Cooper. Registre a evolução.'},
+    {fase:'Específico — Cooper',intensidade:'Alta',duracao:'12 min (simulado)',
+     exec:'1×/semana: simule o Cooper (12 min, meça com GPS ou pista). Meta mínima PCDF ~1.800m, ideal 2.200m+. Pace guia: 6\'40"/km = 1.800m, 5\'27"/km = 2.200m. Vai além do mínimo para pontuar mais.',
+     dica:'Arrancar forte e morrer no final elimina. Encontre seu pace nos primeiros 3 min e mantenha.'}],
+  barra:[null,
+    {fase:'Adaptação',intensidade:'Leve',duracao:'3 séries × 8–10 reps',
+     exec:'Remadas invertidas embaixo de uma mesa: deite sob ela, segure a borda, puxe o peito até tocar. 3×8–10 reps. Sinta o dorsal trabalhar, não só os braços.',
+     dica:'Ativar o padrão de puxada agora acelera muito a transição para a barra real.'},
+    {fase:'Construção',intensidade:'Moderada',duracao:'4 séries',
+     exec:'Negativas: suba com ajuda (caixa/parceiro/elástico) e desça em 5 segundos controlados. 4 séries. Tente 2–3 completas ao final.',
+     dica:'A fase excêntrica (descida lenta) é o exercício mais eficiente para ganhar força na barra.'},
+    {fase:'Desenvolvimento — GTG',intensidade:'Moderada (nunca à falha)',duracao:'Ao longo do dia',
+     exec:'Grease the Groove: 3–5 reps completas várias vezes ao dia, NUNCA chegando à falha. No treino formal: 4–5 séries a 50–60% do máximo.',
+     dica:'GTG treina o padrão neuromotor sem gerar fadiga. O método mais testado para ganhar reps na barra.'},
+    {fase:'Específico — Máximo',intensidade:'Alta (teste semanal)',duracao:'Teste + GTG diário',
+     exec:'1×/semana: teste de máximo na barra (registre). GTG nos outros dias. Descanse 48h antes do teste. Meta mínima: 7. Meta ideal: 10+.',
+     dica:'Para nota máxima você vai precisar de 10+ reps. 7 passa, mas pontua menos. Cada rep extra conta.'}],
+  abdominal:[null,
+    {fase:'Adaptação',intensidade:'Leve',duracao:'3 séries × 15 reps',
+     exec:'Deitado, joelhos dobrados, mãos na nuca. Suba até o cotovelo tocar o joelho oposto. 3×15 reps. Descanso 90s entre séries. Técnica é tudo.',
+     dica:'A técnica correta desde o início evita vícios que tiram ponto no TAF.'},
+    {fase:'Construção',intensidade:'Moderada',duracao:'3 séries × 25 reps',
+     exec:'Mesmo padrão técnico. 3×25 reps em ritmo de 1s subindo e 1s descendo. Descanso 60s. Se ficar fácil, avance para 30.',
+     dica:'Você está construindo o volume necessário para sustentar o ritmo no teste de 1 minuto.'},
+    {fase:'Desenvolvimento',intensidade:'Alta',duracao:'3×35 + simulação semanal',
+     exec:'3×35 reps com 60s de descanso. Adicione 1 série cronometrada por semana: máximo possível em 1 minuto. Registre.',
+     dica:'O ritmo ideal no TAF é ~1 abdominal a cada 1,5s = 40 reps em 60s. Treine nessa cadência.'},
+    {fase:'Específico — Simulação',intensidade:'Alta + simulação',duracao:'1 minuto cronometrado',
+     exec:'1×/semana: simulação completa (1 minuto, conte e registre). Outros dias: 3×40 reps. Não perca a respiração no último terço.',
+     dica:'Meta mínima: 30 reps. Meta confortável: 40+. Cada rep acima do mínimo é ponto extra na nota.'}],
+  meiosugado:[null,
+    {fase:'Adaptação',intensidade:'Leve',duracao:'3 séries × 10 reps',
+     exec:'Deite de costas, joelhos a 90°, lordose lombar totalmente colada ao chão (anule o vão). Eleve as pernas a ~45° e retorne levemente. 3×10 reps. Foque em manter o core contraído.',
+     dica:'O principal desafio do meio sugado é manter a lombar no chão durante todo o movimento. Isso é o que os fiscais verificam.'},
+    {fase:'Construção',intensidade:'Moderada',duracao:'3 séries × 15–20 reps',
+     exec:'Mesma posição. Mantenha a contração abdominal (barriga para dentro e para cima). 3×15–20 reps com 60s de descanso. Aumente 2 reps por semana.',
+     dica:'Combine o meio sugado com a flexão abdominal no mesmo treino para fortalecer o core completo.'},
+    {fase:'Desenvolvimento',intensidade:'Alta',duracao:'3×25 + simulação semanal',
+     exec:'3×25 reps + 1 série cronometrada por semana (máximo em 1 min). Mantenha o ritmo constante, não acelere no início para morrer no final.',
+     dica:'Meta: ~1 rep a cada 2s = 30 reps em 1 min. Treine nessa cadência. A fadiga no core aparece depois de 40s.'},
+    {fase:'Específico — Simulação',intensidade:'Alta + simulação',duracao:'1 minuto cronometrado',
+     exec:'1×/semana: simulação completa (1 minuto, cronometrado, técnica de prova). Registre. Outros dias: 3×30 reps. Atenção: se a lombar levantar, o fiscal pode invalidar a rep.',
+     dica:'Meta mínima: ~20 reps. Meta confortável: 32+. Cada rep acima do mínimo é ponto classificatório.'}]
+};
+
+const EX_LABELS={corrida:'🏃 Corrida',barra:'🏋️ Barra fixa',abdominal:'💪 Abdominal',meiosugado:'🤸 Meio Sugado',outro:'Outro'};
+const MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+
+// ===== ACCORDION =====
+function toggleEx(id){
+  const body=document.getElementById('body-'+id);
+  const arr=document.getElementById('arr-'+id);
+  const open=body.classList.toggle('open');
+  arr.classList.toggle('open',open);
+  if(open){
+    // Init tip display and dates
+    const ex=id.split('-')[0];
+    setFaseTip(id,1);
+    const dateEl=document.getElementById('of-'+id+'-data');
+    if(dateEl&&!dateEl.value)dateEl.value=new Date().toISOString().slice(0,10);
+    renderInlineObs(ex,id);
+  }
+}
+
+// ===== TIPS =====
+function setFaseTip(exId,fase){
+  const ex=exId.split('-')[0];
+  const t=TIPS[ex]&&TIPS[ex][fase];
+  const box=document.getElementById('tips-'+exId);
+  if(!box||!t)return;
+  box.innerHTML=`
+    <div class="tips-row">
+      <span class="tips-key">Fase</span><span class="tips-val">${t.fase}</span>
+      <span class="tips-key">Intensidade</span><span class="tips-val">${t.intensidade}</span>
+      <span class="tips-key">Duração</span><span class="tips-val">${t.duracao}</span>
+      <span class="tips-key">Execução</span><span class="tips-val">${t.exec}</span>
+    </div>
+    <div class="tips-dica">💡 ${t.dica}</div>`;
+  // Update selector buttons
+  const sel=document.getElementById('fsel-'+exId);
+  if(sel)sel.querySelectorAll('.fs-btn').forEach((b,i)=>b.classList.toggle('active',i+1===fase));
+}
+
+// ===== INLINE OBS (per exercise in Fases tab) =====
+function addObs(exKey,exLabel,rowId){
+  const data=document.getElementById('of-'+rowId+'-data').value;
+  const perf=document.getElementById('of-'+rowId+'-perf').value.trim();
+  if(!data||!perf){alert('Preencha data e resultado.');return;}
+  const obs=document.getElementById('of-'+rowId+'-obs').value.trim();
+  const list=getS('taf_obs',[]);
+  list.unshift({id:Date.now(),ex:exKey,exLabel,data,perf,obs});
+  setS('taf_obs',list);
+  document.getElementById('of-'+rowId+'-perf').value='';
+  document.getElementById('of-'+rowId+'-obs').value='';
+  renderInlineObs(exKey,rowId);
+  updateExCounts();
+  renderHistList();
+}
+
+function renderInlineObs(exKey,rowId){
+  const el=document.getElementById('oh-'+rowId);
+  if(!el)return;
+  const list=getS('taf_obs',[]).filter(e=>e.ex===exKey);
+  if(!list.length){el.innerHTML='';return;}
+  el.innerHTML=list.slice(0,5).map(e=>{
+    const d=new Date(e.data+'T12:00:00');
+    return`<div class="obs-item">
+      <div class="obs-item-left">
+        <div class="obs-item-date">${String(d.getDate()).padStart(2,'0')} ${MESES[d.getMonth()]} ${d.getFullYear()}</div>
+        <div class="obs-item-perf">${e.perf}</div>
+        ${e.obs?`<div class="obs-item-note">${e.obs}</div>`:''}
+      </div>
+      <button class="obs-del" onclick="delObs(${e.id},'${exKey}','${rowId}')">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function delObs(id,exKey,rowId){
+  setS('taf_obs',getS('taf_obs',[]).filter(e=>e.id!==id));
+  renderInlineObs(exKey,rowId);
+  updateExCounts();
+  renderHistList();
+}
+
+function updateExCounts(){
+  const list=getS('taf_obs',[]);
+  ['corrida','barra','abdominal','meiosugado'].forEach(ex=>{
+    const cnt=list.filter(e=>e.ex===ex).length;
+    const el=document.getElementById('cnt-'+ex);
+    if(el)el.textContent=cnt+' treino'+(cnt!==1?'s':'');
+  });
+}
+
+// ===== METAS =====
+function toggleMeta(key){
+  const metas=getS('taf_metas',{});
+  const btn=document.getElementById('mbtn-'+key);
+  const dateEl=document.getElementById('mdate-'+key);
+  if(metas[key]){
+    delete metas[key];
+    btn.classList.remove('done');
+    btn.textContent='○ Ainda não';
+    dateEl.textContent='';
+  } else {
+    const today=new Date();
+    metas[key]={date:`${String(today.getDate()).padStart(2,'0')} ${MESES[today.getMonth()]} ${today.getFullYear()}`};
+    btn.classList.add('done');
+    btn.textContent='✓ Meta atingida!';
+    dateEl.textContent='Atingida em '+metas[key].date;
+  }
+  setS('taf_metas',metas);
+}
+
+function loadMetas(){
+  const metas=getS('taf_metas',{});
+  Object.entries(metas).forEach(([k,v])=>{
+    const btn=document.getElementById('mbtn-'+k);
+    const dateEl=document.getElementById('mdate-'+k);
+    if(btn){btn.classList.add('done');btn.textContent='✓ Meta atingida!';}
+    if(dateEl)dateEl.textContent='Atingida em '+v.date;
+  });
+}
+
+// ===== HISTÓRICO GLOBAL =====
+let histFiltro='todos';
+document.getElementById('hData').value=new Date().toISOString().slice(0,10);
+
+function addHistEntry(){
+  const ex=document.getElementById('hExercicio').value;
+  const data=document.getElementById('hData').value;
+  const perf=document.getElementById('hPerf').value.trim();
+  const fase=document.getElementById('hFase').value;
+  const obs=document.getElementById('hObs').value.trim();
+  if(!data||!perf){alert('Preencha data e performance.');return;}
+  const exLabel=EX_LABELS[ex]||ex;
+  const list=getS('taf_obs',[]);
+  list.unshift({id:Date.now(),ex,exLabel,data,perf,obs,fase});
+  setS('taf_obs',list);
+  document.getElementById('hPerf').value='';
+  document.getElementById('hObs').value='';
+  renderHistList();
+  updateExCounts();
+}
+
+function filterHist(f){
+  histFiltro=f;
+  document.querySelectorAll('.hf-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('onclick').includes("'"+f+"'")));
+  renderHistList();
+}
+
+function renderHistList(){
+  const all=getS('taf_obs',[]);
+  const filtered=histFiltro==='todos'?all:all.filter(e=>e.ex===histFiltro);
+  document.getElementById('histTotal').textContent=all.length;
+  if(!filtered.length){document.getElementById('histList').innerHTML='<div class="empty-state">Nenhum treino registrado ainda.</div>';return;}
+  document.getElementById('histList').innerHTML=filtered.map(e=>{
+    const d=new Date(e.data+'T12:00:00');
+    const dd=String(d.getDate()).padStart(2,'0');
+    const mm=MESES[d.getMonth()];
+    const yr=d.getFullYear();
+    return`<div class="hist-entry">
+      <div class="hist-date-block"><div class="hist-date-d">${dd}</div><div class="hist-date-m">${mm} ${yr}</div></div>
+      <div class="hist-body">
+        <div class="hist-ex-name">${e.exLabel||e.ex}${e.fase?`<span class="tag" style="background:var(--gold-bg);color:var(--gold)">Fase ${e.fase}</span>`:''}</div>
+        <div class="hist-perf">${e.perf}</div>
+        ${e.obs?`<div class="hist-note">${e.obs}</div>`:''}
+      </div>
+      <button class="hist-del" onclick="delHist(${e.id})">✕</button>
+    </div>`;
+  }).join('');
+}
+
+function delHist(id){
+  setS('taf_obs',getS('taf_obs',[]).filter(e=>e.id!==id));
+  renderHistList();
+  updateExCounts();
+  // Refresh inline obs if any accordion is open
+  ['corrida','barra','abdominal','meiosugado'].forEach(ex=>{
+    const body=document.getElementById('body-'+ex+'-1');
+    if(body&&body.classList.contains('open'))renderInlineObs(ex,ex+'-1');
+  });
+}
+
+// ===== INIT =====
+loadMetas();
+updateExCounts();
+renderHistList();
+</script>
+</body>
+</html>
