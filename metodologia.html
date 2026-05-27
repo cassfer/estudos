@@ -46,6 +46,42 @@
     opacity: 0.4;
   }
 
+  /* ─── BOTÃO VOLTAR ─── */
+  .back-container {
+    max-width: 1100px;
+    margin: 100px auto -40px auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .btn-back {
+    display: inline-flex;
+    align-items: center;
+    background: var(--dark-3);
+    color: var(--text-soft);
+    border: 1px solid rgba(201,168,76,0.15);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    border-color: var(--gold);
+    color: var(--text);
+    background: var(--gold-dim);
+    transform: translateX(-2px);
+  }
+
+  .btn-back svg {
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+  }
+
   /* ─── HERO ─── */
   .hero {
     min-height: 100vh;
@@ -80,30 +116,9 @@
     letter-spacing: 3px;
     text-transform: uppercase;
     padding: 6px 18px;
-    margin-bottom: 24px;
+    margin-bottom: 36px;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.2s;
-  }
-
-  .hero-publication {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease forwards 0.3s;
-  }
-
-  .hero-publication a {
-    color: var(--gold-light);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--gold-light);
-  }
-
-  .hero-publication a:hover {
-    color: var(--text);
-    border-bottom: 1px solid var(--text);
   }
 
   .hero h1 {
@@ -123,12 +138,13 @@
   }
 
   .hero-sub {
-    font-size: 18px;
+    font-size: 17px;
     color: var(--text-soft);
-    max-width: 680px;
+    max-width: 750px;
     margin: 24px auto 48px;
     opacity: 0;
     animation: fadeUp 0.8s ease forwards 0.6s;
+    text-align: justify;
   }
 
   .hero-stats {
@@ -714,36 +730,12 @@
     border-bottom: 1px solid rgba(201,168,76,0.1);
   }
 
-  .nav-logo-area {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
   .nav-logo {
     font-family: 'Playfair Display', serif;
     font-size: 18px;
     font-weight: 700;
     color: var(--gold);
     letter-spacing: 1px;
-  }
-
-  .nav-back-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 1px;
-    color: var(--text-muted);
-    text-decoration: none;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 4px 12px;
-    border-radius: 2px;
-    transition: all 0.2s ease;
-  }
-
-  .nav-back-btn:hover {
-    color: var(--text);
-    border-color: var(--gold);
-    background: var(--gold-dim);
   }
 
   .nav-links {
@@ -875,10 +867,7 @@
 <body>
 
 <nav>
-  <div class="nav-logo-area">
-    <div class="nav-logo">CICLO CRA</div>
-    <a href="index.html" class="nav-back-btn">← Voltar</a>
-  </div>
+  <div class="nav-logo">CICLO CRA</div>
   <ul class="nav-links">
     <li><a href="#metodologia">Metodologia</a></li>
     <li><a href="#diario">Ciclo Diário</a></li>
@@ -888,14 +877,23 @@
   </ul>
 </nav>
 
+<div class="back-container">
+  <button class="btn-back" onclick="window.history.back();">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Voltar
+  </button>
+</div>
+
 <div class="hero">
   <div class="hero-badge">Cássio Fernandes · Ciclo de Retenção Ativa (CRA)</div>
-  <div class="hero-publication">Publicação Oficial: <a href="https://zenodo.org/records/20418890" target="_blank">Zenodo DOI 20418890</a></div>
   <h1>
     Estude Menos.
     <span>Retenha Mais.</span>
   </h1>
-  <p class="hero-sub">O Ciclo de Retenção Ativa (CRA), desenvolvido por Cássio Fernandes, fundamenta-se nos princípios da Teoria da Carga Cognitiva (Sweller, 1988) e em sólidas evidências da ciência da aprendizagem, baseando-se especialmente nas descobertas sobre a curva do esquecimento (Ebbinghaus, 1885), a eficácia do efeito de teste (Roediger & Karpicke, 2006) e o impacto das técnicas de prática distribuída e estudo intercalado (Dunlosky et al., 2013).</p>
+  <p class="hero-sub">O Ciclo de Retenção Ativa (CRA), desenvolvido por Cássio Fernandes, é uma metodologia de ensino-aprendizagem estruturada que integra princípios da ciência cognitiva para otimizar o tempo de estudo e maximizar a retenção sustentável a longo prazo. Seus pilares fundamentam-se estritamente na Teoria da Carga Cognitiva (Sweller, 1988), no comportamento preditivo da Curva do Esquecimento (Ebbinghaus, 1885), e na robustez empírica do Efeito de Teste (Roediger & Karpicke, 2006) e das técnicas de Prática Distribuída e Estudo Intercalado (Dunlosky et al., 2013).</p>
   <div class="hero-stats">
     <div class="stat">
       <div class="stat-num">4</div>
@@ -903,7 +901,7 @@
     </div>
     <div class="stat">
       <div class="stat-num">30'</div>
-      <div class="stat-label">Blocos de recall</div>
+      <div class="stat-label">Blocos de estudo</div>
     </div>
     <div class="stat">
       <div class="stat-num">1</div>
@@ -924,48 +922,48 @@
 
 <section id="metodologia" class="reveal">
   <div class="section-label">Fundamentos Científicos</div>
-  <h2 class="section-title">Ciclo de Retenção Ativa (CRA)</h2>
-  <p class="section-desc">Toda a metodologia é construída sobre princípios que a ciência cognitiva comprova como os mais eficientes para retenção de longo prazo, reduzindo a carga cognitiva extrínseca e favorecendo a germinativa.</p>
+  <h2 class="section-title">Pilares do Ciclo CRA</h2>
+  <p class="section-desc">A metodologia substitui rotinas passivas tradicionais por um ecossistema sinérgico amparado em três pilares cognitivos principais.</p>
 
   <div class="principles-grid">
     <div class="principle-card">
       <div class="principle-icon">🔁</div>
-      <div class="principle-title">Repetição Espaçada & Prática Distribuída</div>
-      <div class="principle-text">Revisar no momento certo com base no espaçamento ideal (Cepeda et al., 2006). O intervalo crescente força o cérebro a reconsolidar a memória no limite do esquecimento parcial, fortalecendo as conexões neurais. O Anki automatiza esse processo.</div>
+      <div class="principle-title">Repetição Espaçada</div>
+      <div class="principle-text">Combate o declínio exponencial da memória descrito por Ebbinghaus (1885). Ao revisar conteúdos estrategicamente no momento do esquecimento parcial, o cérebro fortalece as conexões neurais essenciais e reconsolida os caminhos de recuperação (Cepeda et al., 2006; Karpicke & Roediger, 2008).</div>
     </div>
     <div class="principle-card">
       <div class="principle-icon">⚡</div>
-      <div class="principle-title">Active Recall & Estudo Intercalado</div>
-      <div class="principle-text">A recuperação ativa de informações produz retenção de longo prazo muito superior à releitura passiva (Roediger & Karpicke, 2006). Fechar o material e explicar com os próprios termos fixa o conhecimento e expõe lacunas mentais estruturais.</div>
+      <div class="principle-title">Active Recall (Efeito de Teste)</div>
+      <div class="principle-text">A recuperação ativamente forçada de dados gera uma consolidação infinitamente superior à releitura passiva (Roediger & Karpicke, 2006). Evidências empíricas atestam que o active recall eleva os patamares de retenção a longo prazo para marcas entre 70% e 90% (Karpicke & Blunt, 2011).</div>
     </div>
     <div class="principle-card">
       <div class="principle-icon">📊</div>
       <div class="principle-title">Revisão Orientada por Erros</div>
-      <div class="principle-text">Fundamentada na prática deliberada (Deliberate Practice — Ericsson et al., 1993), transforma falhas em oportunidades diagnósticas para reforço cirúrgico. Cada erro vira um flashcard Cloze, fechando o ciclo de feedback imediato.</div>
+      <div class="principle-text">Fundamentada nos preceitos de Prática Deliberada (Ericsson et al., 1993), as falhas não representam punição, mas sim ferramentas de diagnóstico preciso para o mapeamento e preenchimento cirúrgico de lacunas (Metcalfe, 2017).</div>
     </div>
   </div>
 
   <div class="progress-row" style="margin-top: 60px;">
-    <div class="section-label" style="margin-bottom: 8px;">Impacto por técnica (retenção de longo prazo observada)</div>
+    <div class="section-label" style="margin-bottom: 8px;">Níveis de Retenção Estimados por Técnica (Ciência Cognitiva)</div>
     <div class="progress-item">
-      <div class="progress-label">Releitura passiva (Tradicional)</div>
+      <div class="progress-label">Releitura passiva</div>
       <div class="progress-bar"><div class="progress-fill" data-width="20"></div></div>
       <div class="progress-val">20%</div>
     </div>
     <div class="progress-item">
-      <div class="progress-label">Resumo / Métodos Passivos</div>
+      <div class="progress-label">Resumo escrito</div>
       <div class="progress-bar"><div class="progress-fill" data-width="45"></div></div>
       <div class="progress-val">45%</div>
     </div>
     <div class="progress-item">
-      <div class="progress-label">Active Recall Isolado</div>
-      <div class="progress-bar"><div class="progress-fill" data-width="80"></div></div>
-      <div class="progress-val">80%</div>
+      <div class="progress-label">Active Recall</div>
+      <div class="progress-bar"><div class="progress-fill" data-width="70"></div></div>
+      <div class="progress-val">70%</div>
     </div>
     <div class="progress-item">
-      <div class="progress-label">CRA (Recall + Espaçada + Erros)</div>
-      <div class="progress-bar"><div class="progress-fill" data-width="92"></div></div>
-      <div class="progress-val">92%</div>
+      <div class="progress-label">Recall + Espaçada (CRA)</div>
+      <div class="progress-bar"><div class="progress-fill" data-width="90"></div></div>
+      <div class="progress-val">90%</div>
     </div>
   </div>
 </section>
@@ -973,9 +971,9 @@
 <div class="full-divider"></div>
 
 <section id="diario" class="reveal">
-  <div class="section-label">Execução</div>
-  <h2 class="section-title">O Ciclo Diário</h2>
-  <p class="section-desc">Quatro etapas encadeadas. Execute nessa ordem todos os dias, sem exceção.</p>
+  <div class="section-label">Execução Diária</div>
+  <h2 class="section-title">A Estrutura Operacional</h2>
+  <p class="section-desc">Quatro etapas encadeadas que mitigam a carga cognitiva extrínseca e maximizam o processamento germinativo (Sweller, Ayres & Kalyuga, 2011).</p>
 
   <div class="cycle-wrapper">
     <div class="cycle-steps">
@@ -983,9 +981,9 @@
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-content">
-          <div class="step-title">Aula + Anotações Ativas</div>
-          <div class="step-desc">Assista a aula no Ifar anotando apenas conceitos-chave, comparações e pegadinhas — sempre com suas próprias palavras. Nunca transcreva slides.</div>
-          <div class="step-tip">⚑ Dividir a aula em blocos de 30 min e pausar para um mini-recall entre blocos.</div>
+          <div class="step-title">Aula + Anotações Ativas (30 min por bloco)</div>
+          <div class="step-desc">Acompanhamento conceitual (ex: plataforma Ifar) anotando estritamente palavras-chave, analogias e armadilhas identificadas com suas próprias palavras. Proíbe-se cópias e transcrições extensas literais.</div>
+          <div class="step-tip">⚑ Pausas programadas a cada 30 min com pequenos mini-recalls intermediários sustentam o foco produtivo.</div>
         </div>
       </div>
 
@@ -993,26 +991,26 @@
         <div class="step-num">02</div>
         <div class="step-content">
           <div class="step-title">Recall Imediato + Voz Alta</div>
-          <div class="step-desc">Feche tudo. Folha em branco. Escreva tudo que lembra do bloco. Depois, explique em voz alta como se estivesse ensinando. A verbalização expõe gaps que o papel esconde.</div>
-          <div class="step-tip">⚑ O que você não conseguiu lembrar = prioridade no próximo passo.</div>
+          <div class="step-desc">Feche todo o material de suporte. Esboce livremente as ramificações de conteúdo lembradas em uma folha em branco. Na sequência, explique o conteúdo em voz alta. A verbalização ativa múltiplas modalidades cognitivas e escancara os pontos cegos (Rowland, 2014).</div>
+          <div class="step-tip">⚑ Lacunas evidenciadas na sua autocomprovação indicam o foco da próxima etapa.</div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">03</div>
         <div class="step-content">
-          <div class="step-title">Anki — Pontos Fracos</div>
-          <div class="step-desc">Crie flashcards apenas do que falhou no recall. Para TI: portas de protocolo, comandos Linux/SQL, siglas de segurança, estruturas de dados. Use formato Cloze para conceitos jurídicos e de TI aplicada.</div>
-          <div class="step-tip">⚑ Deixe o algoritmo do Anki decidir o que revisar — não pule cards "fáceis".</div>
+          <div class="step-title">Anki — Pontos Fracos Mapeados</div>
+          <div class="step-desc">Gere flashcards focados unicamente nas lacunas constatadas no passo anterior, priorizando o formato de omissão de termos (Cloze), deixando que o algoritmo cuide do timing ideal (Mochizuki et al., 2019).</div>
+          <div class="step-tip">⚑ Concentre-se nas portas de protocolos, sintaxes Linux/SQL e conceitos de segurança da informação.</div>
         </div>
       </div>
 
       <div class="step">
         <div class="step-num">04</div>
         <div class="step-content">
-          <div class="step-title">10–20 Questões CEBRASPE</div>
-          <div class="step-desc">Resolva questões do tema do dia — mesmo de outros concursos (PF, ABIN, CGU, TRF). Foque no padrão de raciocínio da banca. Questões do dia servem para entender a banca, não para medir desempenho real.</div>
-          <div class="step-tip">⚑ Todo erro vira imediatamente um card Cloze no Anki.</div>
+          <div class="step-title">10–20 Questões de Fixação (CEBRASPE)</div>
+          <div class="step-desc">Resolva baterias focadas no assunto estudado. Todo e qualquer erro de marcação ou interpretação é convertido em novos flashcards Cloze no Anki, fechando o ciclo de feedback e reforço imediato (Butler & Roediger, 2007).</div>
+          <div class="step-tip">⚑ Questões diárias funcionam prioritariamente como ferramenta diagnóstica da banca.</div>
         </div>
       </div>
 
@@ -1020,41 +1018,41 @@
 
     <div>
       <div class="side-box">
-        <div class="side-box-title">Regras do Ciclo</div>
+        <div class="side-box-title">Regras Fundamentais</div>
 
         <div class="rule-item">
           <div class="rule-icon">⏱</div>
           <div class="rule-text">
-            <strong>Blocos de 30 minutos</strong>
-            Não faça recall de uma aula inteira. Divida em blocos e pause no meio para gerenciar a carga cognitiva de trabalho.
+            <strong>Fracionamento de Carga</strong>
+            O bloqueio de tempo de 30 minutos impede o esgotamento precoce da memória de trabalho (Paas & van Merriënboer, 2020).
           </div>
         </div>
         <div class="rule-item">
           <div class="rule-icon">🎯</div>
           <div class="rule-text">
-            <strong>Desempenho real = revisão semanal</strong>
-            Com memória fresca as questões do dia não refletem o real — só o dia de revisão mede.
+            <strong>Mapeamento Metacognitivo</strong>
+            A clareza sobre o próprio nível real de domínio impede falsas ilusões de competência comuns causadas pela familiaridade da releitura.
           </div>
         </div>
         <div class="rule-item">
           <div class="rule-icon">🔉</div>
           <div class="rule-text">
-            <strong>Voz alta é obrigatório</strong>
-            Verbalizar força uma articulação diferente da escrita e activa múltiplas modalidades cognitivas.
+            <strong>Verbalização Mandatória</strong>
+            Explicar oralmente exige coordenação e síntese mental superior que a simples escrita fragmentada.
           </div>
         </div>
         <div class="rule-item">
           <div class="rule-icon">🗃</div>
           <div class="rule-text">
-            <strong>Cloze para erros</strong>
-            Formato de omissão de palavras é mais eficiente que pergunta/resposta para fixar o trecho exato que você errou.
+            <strong>Omissão Cloze Cirúrgica</strong>
+            Ocultar o termo crítico estimula o esforço germinativo ideal de busca textual exata que o cérebro realiza em avaliações de itens estilo Certo/Errado.
           </div>
         </div>
         <div class="rule-item">
           <div class="rule-icon">🚫</div>
           <div class="rule-text">
-            <strong>Não avance sem fixar</strong>
-            Volume controlado vence volume alto. Consistência diária sustentável evita sobrecarga e burnout.
+            <strong>Consistência sobre Intensidade</strong>
+            Sessões constantes e algoritmicamente gerenciadas previnem sobrecarga metabólica neural e o burnout competitivo.
           </div>
         </div>
       </div>
@@ -1065,40 +1063,40 @@
 <div class="full-divider"></div>
 
 <section id="semanal" class="reveal">
-  <div class="section-label">Organização</div>
+  <div class="section-label">Macroestrutura Temporal</div>
   <h2 class="section-title">Rotina Semanal</h2>
-  <p class="section-desc">5–6 dias de conteúdo novo com ciclo completo. 1 dia de revisão pesada para consolidação e metacognição. Anki todos os dias.</p>
+  <p class="section-desc">A distribuição concilia 5 a 6 dias de processamento conceitual ativo cumulativo com um dia integral voltado ao aprofundamento estratégico.</p>
 
   <div class="week-grid">
     <div class="day-card">
       <div class="day-name">Seg</div>
       <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
+      <div class="day-label">Conteúdo novo + ciclo diário completo</div>
     </div>
     <div class="day-card">
       <div class="day-name">Ter</div>
       <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
+      <div class="day-label">Conteúdo novo + ciclo diário completo</div>
     </div>
     <div class="day-card">
       <div class="day-name">Qua</div>
       <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
+      <div class="day-label">Conteúdo novo + ciclo diário completo</div>
     </div>
     <div class="day-card">
       <div class="day-name">Qui</div>
       <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
+      <div class="day-label">Conteúdo novo + ciclo diário completo</div>
     </div>
     <div class="day-card">
       <div class="day-name">Sex</div>
       <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
+      <div class="day-label">Conteúdo novo + ciclo diário completo</div>
     </div>
     <div class="day-card">
       <div class="day-name">Sáb</div>
       <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
+      <div class="day-label">Conteúdo novo + ciclo diário completo</div>
     </div>
     <div class="day-card special">
       <div class="day-name">Dom</div>
@@ -1109,29 +1107,25 @@
 
   <div class="week-tasks">
     <div class="task-block">
-      <div class="task-block-title">Todo dia</div>
+      <div class="task-block-title">Rotina Inegociável</div>
       <ul class="task-list">
-        <li>Anki (15–25 minutos)</li>
-        <li>Revisar os cards do dia anterior</li>
-        <li>Nenhum dia sem Anki — consistência algorítmica</li>
+        <li>Manutenção e liquidação diária de cards vencidos no Anki (15-25 minutos).</li>
+        <li>O algoritmo opera linearmente: pular dias de revisão compromete a integridade do índice de retenção futura.</li>
       </ul>
     </div>
     <div class="task-block">
-      <div class="task-block-title">Dias de conteúdo</div>
+      <div class="task-block-title">Dias de Progresso</div>
       <ul class="task-list">
-        <li>Ciclo completo das 4 etapas</li>
-        <li>Blocos de 30 min com recall no meio</li>
-        <li>Questões do tema no mesmo dia</li>
+        <li>Execução sequencial rigorosa das etapas 1 a 4.</li>
+        <li>Fracionamento estrito em blocos de 30 minutos com intervalos controlados.</li>
       </ul>
     </div>
     <div class="task-block">
-      <div class="task-block-title">Domingo — Revisão Pesada</div>
+      <div class="task-block-title">Ciclo de Domingo: Revisão Pesada</div>
       <ul class="task-list">
-        <li>Refazer e analisar detalhadamente todos os erros da semana</li>
-        <li>Simulado cronometrado completo (CEBRASPE)</li>
-        <li>Análise metacognitiva profunda e diagnóstico de falhas</li>
-        <li>Atualizar o Anki com novos cards Cloze derivados dos erros</li>
-        <li>Planejar a estrutura lógica da próxima semana</li>
+        <li>Reanálise metacognitiva completa e reestudo focal de todos os erros semanais.</li>
+        <li>Simulados completos cronometrados em ambiente simulando as condições de prova.</li>
+        <li>Avaliação diagnóstica de erros e realimentação imediata de novos cards estruturados no Anki.</li>
       </ul>
     </div>
   </div>
@@ -1140,9 +1134,9 @@
 <div class="full-divider"></div>
 
 <section id="mensal" class="reveal">
-  <div class="section-label">Progressão</div>
-  <h2 class="section-title">O Plano Mensal</h2>
-  <p class="section-desc">Cada mês tem uma missão estruturada. Não pule fases — a progressão segue um modelo de aprendizagem escalonada.</p>
+  <div class="section-label">Evolução de Aprendizagem</div>
+  <h2 class="section-title">O Cronograma de Progressão</h2>
+  <p class="section-desc">Progressão de aprendizagem escalonada planejada para converter volume massivo de informações em domínio consolidado (Bjork & Bjork, 2011).</p>
 
   <div class="monthly-phases">
     <div class="phase">
@@ -1150,10 +1144,9 @@
       <div class="phase-week">Fase 1</div>
       <div class="phase-title">Fundação</div>
       <ul class="phase-items">
-        <li>Mapear as matérias do edital</li>
-        <li>Configurar decks estruturados no Anki</li>
-        <li>Automatizar a rotina do ciclo diário</li>
-        <li>Mapeamento inicial da banca de dados</li>
+        <li>Mapeamento estruturado das ementas.</li>
+        <li>Sistematização de decks e bancos iniciais do Anki.</li>
+        <li>Consolidação e adaptação do ciclo prático operacional diário.</li>
       </ul>
     </div>
     <div class="phase">
@@ -1161,10 +1154,9 @@
       <div class="phase-week">Fase 2</div>
       <div class="phase-title">Volume</div>
       <ul class="phase-items">
-        <li>Avançar verticalmente no conteúdo do Ifar</li>
-        <li>Consolidar banco de dados de flashcards</li>
-        <li>Mínimo de 30 questões aplicadas por dia</li>
-        <li>Primeiras simulações de blocos de prova</li>
+        <li>Expansão acelerada de tópicos e editais correlatos no Ifar.</li>
+        <li>Crescimento orgânico controlado do banco de cartões Anki.</li>
+        <li>Adoção contínua de questões diárias focadas de fixação.</li>
       </ul>
     </div>
     <div class="phase">
@@ -1172,10 +1164,9 @@
       <div class="phase-week">Fase 3</div>
       <div class="phase-title">Consolidação</div>
       <ul class="phase-items">
-        <li>Revisão cumulativa pesada total</li>
-        <li>Reforço cirúrgico em pontos fracos</li>
-        <li>Intensificação para 50+ questões/dia</li>
-        <li>Ajuste fino de cards ineficientes</li>
+        <li>Aprofundamento de revisões cumulativas cruzadas entre disciplinas.</li>
+        <li>Ajustes e refinamentos em cartões com índices deficientes de acerto.</li>
+        <li>Mapeamento e isolamento estatístico de fraquezas latentes.</li>
       </ul>
     </div>
     <div class="phase">
@@ -1183,10 +1174,9 @@
       <div class="phase-week">Fase 4</div>
       <div class="phase-title">Domínio</div>
       <ul class="phase-items">
-        <li>Simulados cumulativos cronometrados</li>
-        <li>Revisão total e análise de recorrência</li>
-        <li>Foco em engenharia reversa via questões</li>
-        <li>Foco absoluto em Anki + Questões avançadas</li>
+        <li>Intensificação de simulados globais cronometrados e baterias integradas.</li>
+        <li>Revisão cumulativa total acelerada via estímulos reativos.</li>
+        <li>Engenharia reversa extensiva focada nos padrões históricos e comportamento da banca.</li>
       </ul>
     </div>
   </div>
@@ -1195,22 +1185,22 @@
 <div class="full-divider"></div>
 
 <section id="materias" class="reveal">
-  <div class="section-label">Estratégia por disciplina</div>
-  <h2 class="section-title">Como Estudar Cada Matéria</h2>
-  <p class="section-desc">A abordagem muda conforme a natureza do conteúdo. Usar a técnica correta para o tipo de disciplina otimiza a transferência de conhecimento.</p>
+  <div class="section-label">Adequação por Natureza de Conteúdo</div>
+  <h2 class="section-title">Estratégias Adaptativas por Disciplina</h2>
+  <p class="section-desc">A metodologia exige adaptações táticas com base na natureza conceitual ou prática de cada matéria (Dunlosky et al., 2013).</p>
 
   <table class="subject-table">
     <thead>
       <tr>
-        <th>Matéria</th>
-        <th>Foco Principal</th>
-        <th>Técnicas Recomendadas</th>
+        <th>Natureza / Disciplina</th>
+        <th>Alvo Operacional Exigido</th>
+        <th>Técnicas Direcionadas</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Redes / Protocolos</td>
-        <td>Portas, camadas OSI/TCP-IP, protocolos por função</td>
+        <td>Redes, Arquiteturas e Protocolos</td>
+        <td>Portas, mapeamentos de camadas OSI/TCP-IP e especificações técnicas de dados.</td>
         <td>
           <span class="tag tag-anki">Anki</span>
           <span class="tag tag-questoes">Questões</span>
@@ -1218,7 +1208,7 @@
       </tr>
       <tr>
         <td>Segurança da Informação</td>
-        <td>Tipos de ataque, criptografia, autenticação — definição precisa</td>
+        <td>Vulnerabilidades, taxonomias de ataques, assinaturas e conceitos criptográficos.</td>
         <td>
           <span class="tag tag-anki">Anki</span>
           <span class="tag tag-questoes">Questões</span>
@@ -1226,53 +1216,53 @@
         </td>
       </tr>
       <tr>
-        <td>Banco de Dados</td>
-        <td>SQL, normalização, modelagem — questões aplicadas</td>
+        <td>Banco de Dados e SQL</td>
+        <td>Modelagem estrutural, comandos DDL/DML, álgebra relacional e normalizações.</td>
         <td>
           <span class="tag tag-questoes">Questões</span>
-          <span class="tag tag-anki">Anki (SQL)</span>
+          <span class="tag tag-anki">Anki (Sintaxes)</span>
         </td>
       </tr>
       <tr>
-        <td>SO / Linux</td>
-        <td>Comandos, permissões, processos — prática</td>
+        <td>Sistemas Operacionais e Linux</td>
+        <td>Comandos de terminal, estruturas de diretórios, permissões e chamadas de sistema.</td>
         <td>
-          <span class="tag tag-anki">Anki (comandos)</span>
+          <span class="tag tag-anki">Anki</span>
           <span class="tag tag-questoes">Questões</span>
         </td>
       </tr>
       <tr>
         <td>Direito Constitucional</td>
-        <td>Artigos da CF, princípios, direitos fundamentais</td>
+        <td>Artigos da Carta Magna, competências federativas e remédios constitucionais.</td>
         <td>
           <span class="tag tag-anki">Anki</span>
-          <span class="tag tag-mapa">Mapa Mental</span>
+          <span class="tag tag-mapa">Mapas Mentais</span>
           <span class="tag tag-questoes">Questões</span>
         </td>
       </tr>
       <tr>
         <td>Direito Administrativo</td>
-        <td>Princípios, atos, organização — hierarquia de conceitos</td>
+        <td>Atos administrativos, regimes jurídicos, licitações e estruturas do Estado.</td>
         <td>
-          <span class="tag tag-mapa">Mapa Mental</span>
+          <span class="tag tag-mapa">Mapas Mentais</span>
           <span class="tag tag-anki">Anki</span>
           <span class="tag tag-questoes">Questões</span>
         </td>
       </tr>
       <tr>
-        <td>Dir. Penal / Proc. Penal</td>
-        <td>Lei seca + exceções + jurisprudência STF/STJ</td>
+        <td>Direito Penal e Processual Penal</td>
+        <td>Tipicidades estruturais, excludentes, súmulas vinculantes e jurisprudência consolidada.</td>
         <td>
-          <span class="tag tag-questoes">Questões por casos</span>
+          <span class="tag tag-questoes">Questões Práticas</span>
           <span class="tag tag-anki">Anki (Súmulas)</span>
         </td>
       </tr>
       <tr>
-        <td>Português</td>
-        <td>Reescrita de frases e substituição de termos (coração do CEBRASPE)</td>
+        <td>Língua Portuguesa</td>
+        <td>Relações de coordenação, reescrita de trechos, regências e análises discursivas.</td>
         <td>
-          <span class="tag tag-questoes">Questões acima de tudo</span>
-          <span class="tag tag-anki">Anki (gramática)</span>
+          <span class="tag tag-questoes">Baterias Diversas</span>
+          <span class="tag tag-anki">Anki</span>
         </td>
       </tr>
     </tbody>
@@ -1282,50 +1272,54 @@
 <div class="full-divider"></div>
 
 <section class="reveal">
-  <div class="section-label">Arsenal</div>
-  <h2 class="section-title">Ferramentas do Método</h2>
-  <p class="section-desc">Use apenas o necessário. Complexidade de ferramentas é procrastinação disfarçada.</p>
+  <div class="section-label">Recursos Operacionais</div>
+  <h2 class="section-title">O Ecossistema Tecnológico</h2>
+  <p class="section-desc">Ferramentas enxutas integradas com foco absoluto na eficiência, evitando armadilhas de complexidade disfarçada.</p>
 
   <div class="tools-grid">
     <div class="tool-card">
       <div class="tool-emoji">🃏</div>
       <div class="tool-name">Anki</div>
-      <div class="tool-use">Repetição espaçada e recall automatizado. Gratuito. Use sessões focadas diárias com formato Cloze.</div>
+      <div class="tool-use">Mecanismo central de automação da repetição espaçada por algoritmos, garantindo revisões cirúrgicas no limiar do esquecimento.</div>
     </div>
     <div class="tool-card">
       <div class="tool-emoji">❓</div>
       <div class="tool-name">QConcursos / Tecconcursos</div>
-      <div class="tool-use">Bancos de questões aplicadas. Filtre por engenharia reversa do padrão lógico da banca examinadora.</div>
+      <div class="tool-use">Bancos de dados para engenharia reversa. O alvo é dissecar as estruturas lógicas e preferências doutrinárias da banca examinadora.</div>
     </div>
     <div class="tool-card">
       <div class="tool-emoji">🎓</div>
-      <div class="tool-name">Ifar</div>
-      <div class="tool-use">Conteúdo estruturado por matéria. Fonte primária para anotações ativas em blocos de alta retenção.</div>
+      <div class="tool-name">Plataforma Ifar</div>
+      <div class="tool-use">Provedor primário e estruturado de conteúdos conceituais, servindo de base para o fracionamento diário ativo.</div>
     </div>
     <div class="tool-card">
       <div class="tool-emoji">📄</div>
       <div class="tool-name">Folha em Branco</div>
-      <div class="tool-use">Ferramenta de active recall físico mais poderosa. Força a recuperação ativa sem guias visuais.</div>
+      <div class="tool-use">A interface primária e de maior custo cognitivo do método. Indispensável para o esforço do Active Recall imediato pós-bloco.</div>
     </div>
     <div class="tool-card">
       <div class="tool-emoji">🧠</div>
-      <div class="tool-name">Mapa Mental</div>
-      <div class="tool-use">Uso restrito e cirúrgico para disciplinas de ordenação conceitual complexa e hierarquias estruturadas (Direito).</div>
+      <div class="tool-name">Mapas Mentais Hierárquicos</div>
+      <div class="tool-use">Exclusivos para disciplinas jurídicas e tópicos com alta árvore de subconceitos, organizando cadeias de dependência lógica.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">📊</div>
+      <div class="tool-name">Métricas de Erros</div>
+      <div class="tool-use">Sistemas de acompanhamento analítico para guiar a prática deliberada e monitoramento do progresso metacognitivo real.</div>
     </div>
   </div>
 </section>
 
 <div class="golden-rule reveal">
-  <div class="golden-rule-label">A regra que resume tudo</div>
+  <div class="golden-rule-label">A Máxima Axiomática do Método</div>
   <blockquote>
-    "Estudar mais não bate quem <strong>revisa melhor</strong>. Volume sem retenção é ilusão de progresso."
+    "A mera expansão de volume conceitual sem um mecanismo contínuo de revisão algorítmica constitui apenas uma <strong>ilusão de progresso acadêmico</strong>."
   </blockquote>
 </div>
 
 <div class="full-divider"></div>
-<footer style="text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 13px; letter-spacing: 1px; font-family: 'DM Mono', monospace; line-height: 1.8;">
-  CICLO DE RETENÇÃO ATIVA (CRA) &copy; 2026 — Desenvolvido por Cássio Fernandes<br>
-  Metodologia Científica Registrada — <a href="https://zenodo.org/records/20418890" target="_blank" style="color: var(--gold-light); text-decoration: none;">Zenodo Public Record (DOI: 20418890)</a>
+<footer style="text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 13px; letter-spacing: 1px; font-family: 'DM Mono', monospace;">
+  CICLO DE RETENÇÃO ATIVA (CRA) — Publicação Oficial Zenodo (Record 20418890) &nbsp;·&nbsp; Cássio Fernandes · 2026
 </footer>
 
 <script>
@@ -1335,7 +1329,6 @@
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('visible');
-        // Animate progress bars inside
         e.target.querySelectorAll('.progress-fill').forEach(bar => {
           bar.style.width = bar.dataset.width + '%';
         });
@@ -1345,7 +1338,6 @@
 
   reveals.forEach(el => observer.observe(el));
 
-  // Also trigger progress bars on load if visible
   document.querySelectorAll('.progress-fill').forEach(bar => {
     setTimeout(() => {
       const parent = bar.closest('.reveal');
