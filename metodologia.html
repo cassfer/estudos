@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Método PCDF — Perito Criminal TI</title>
+<title>CRA — Ciclo de Retenção Ativa · Perito Criminal TI</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -40,7 +40,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctave[...]
     pointer-events: none;
     z-index: 0;
     opacity: 0.4;
@@ -641,7 +641,7 @@
     font-style: normal;
   }
 
-  /* ─── FERAMENTAS ─── */
+  /* ─── FERRAMENTAS ─── */
   .tools-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -752,6 +752,44 @@
     color: var(--gold);
   }
 
+  /* ─── REFERENCES SECTION ─── */
+  .references-section {
+    background: var(--dark-3);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 40px;
+    margin-top: 60px;
+    border-radius: 4px;
+  }
+
+  .references-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--gold);
+  }
+
+  .references-list {
+    list-style: none;
+  }
+
+  .references-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  .references-list li:last-child {
+    border-bottom: none;
+  }
+
+  .reference-author {
+    color: var(--text);
+    font-weight: 500;
+  }
+
   /* ─── ANIMATIONS ─── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -825,13 +863,30 @@
     width: 36px;
     text-align: right;
   }
+
+  .creator-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--text-soft);
+    font-family: 'DM Mono', monospace;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+
+  .creator-badge strong {
+    color: var(--gold);
+    font-weight: 600;
+  }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">MÉTODO PCDF</div>
+  <div class="nav-logo">CRA</div>
   <ul class="nav-links">
     <li><a href="#metodologia">Metodologia</a></li>
     <li><a href="#diario">Ciclo Diário</a></li>
@@ -843,7 +898,7 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">Perito Criminal · Computação / TI · PCDF</div>
+  <div class="hero-badge">Ciclo de Retenção Ativa · Perito Criminal · Computação / TI · PCDF</div>
   <h1>
     Estude Menos.
     <span>Fixe Mais.</span>
@@ -885,17 +940,17 @@
     <div class="principle-card">
       <div class="principle-icon">🔁</div>
       <div class="principle-title">Repetição Espaçada</div>
-      <div class="principle-text">Revisar no momento certo — não todo dia, não nunca. O intervalo crescente (1 → 3 → 7 → 21 dias) força o cérebro a reconsolidar a memória no limite do esquecimento. O Anki faz isso automaticamente.</div>
+      <div class="principle-text">Revisar no momento certo — não todo dia, não nunca. O intervalo crescente (1 → 3 → 7 → 21 dias) força o cérebro a reconsolidar a memória no limite do esq[...]
     </div>
     <div class="principle-card">
       <div class="principle-icon">⚡</div>
       <div class="principle-title">Active Recall</div>
-      <div class="principle-text">O esforço de lembrar é o que fixa — não o ato de ler ou assistir. Fechar o material e tentar reproduzir o conteúdo com suas próprias palavras vale mais do que reler três vezes.</div>
+      <div class="principle-text">O esforço de lembrar é o que fixa — não o ato de ler ou assistir. Fechar o material e tentar reproduzir o conteúdo com suas próprias palavras vale mais do que [...]
     </div>
     <div class="principle-card">
       <div class="principle-icon">📊</div>
       <div class="principle-title">Revisão Orientada por Erros</div>
-      <div class="principle-text">Questão errada não é fracasso — é diagnóstico. Todo erro deve ser convertido em flashcard Cloze no Anki. Você não revisa o que sabe; você cirúrgicamente elimina os gaps.</div>
+      <div class="principle-text">Questão errada não é fracasso — é diagnóstico. Todo erro deve ser convertido em flashcard Cloze no Anki. Você não revisa o que sabe; você cirúrgicamente el[...]
     </div>
   </div>
 
@@ -921,6 +976,18 @@
       <div class="progress-bar"><div class="progress-fill" data-width="92"></div></div>
       <div class="progress-val">92%</div>
     </div>
+  </div>
+
+  <!-- FUNDAÇÕES CIENTÍFICAS -->
+  <div class="references-section">
+    <div class="creator-badge"><strong>Criado por:</strong> Cássio Fernandes</div>
+    <h3 class="references-title">Fundações Científicas</h3>
+    <ul class="references-list">
+      <li><span class="reference-author">Dunlosky et al. (2013)</span> — "Improving Students' Learning With Effective Learning Techniques: Promising Directions From Cognitive and Educational Psychology". A bíblia da aprendizagem eficaz com análise de 10+ técnicas de estudo.</li>
+      <li><span class="reference-author">Hermann Ebbinghaus (1885)</span> — Curva do Esquecimento. Demonstra que a retenção de memória diminui exponencialmente sem revisão, fundamentando a necessidade de repetição espaçada.</li>
+      <li><span class="reference-author">Roediger & Karpicke (2006)</span> — "The Power of Testing Memory: Basic Research and Implications for Educational Practice". O efeito de teste prova que a recuperação ativa da memória é superior à releitura.</li>
+      <li><span class="reference-author">Sweller (1988+)</span> — Teoria da Carga Cognitiva. Explicita por que blocos de 30 minutos são ideais: reduzem a sobrecarga de trabalho da memória operacional e facilitam consolidação.</li>
+    </ul>
   </div>
 </section>
 
@@ -948,7 +1015,7 @@
         <div class="step-num">02</div>
         <div class="step-content">
           <div class="step-title">Recall Imediato + Voz Alta</div>
-          <div class="step-desc">Feche tudo. Folha em branco. Escreva tudo que lembra do bloco. Depois, explique em voz alta como se estivesse ensinando. A verbalização expõe gaps que o papel esconde.</div>
+          <div class="step-desc">Feche tudo. Folha em branco. Escreva tudo que lembra do bloco. Depois, explique em voz alta como se estivesse ensinando. A verbalização expõe gaps que o papel escon[...]
           <div class="step-tip">⚑ O que você não conseguiu lembrar = prioridade no próximo passo.</div>
         </div>
       </div>
@@ -957,7 +1024,7 @@
         <div class="step-num">03</div>
         <div class="step-content">
           <div class="step-title">Anki — Pontos Fracos</div>
-          <div class="step-desc">Crie flashcards apenas do que falhou no recall. Para TI: portas de protocolo, comandos Linux/SQL, siglas de segurança, estruturas de dados. Use formato Cloze para conceitos jurídicos e de TI aplicada.</div>
+          <div class="step-desc">Crie flashcards apenas do que falhou no recall. Para TI: portas de protocolo, comandos Linux/SQL, siglas de segurança, estruturas de dados. Use formato Cloze para con[...]
           <div class="step-tip">⚑ Deixe o algoritmo do Anki decidir o que revisar — não pule cards "fáceis".</div>
         </div>
       </div>
@@ -966,7 +1033,7 @@
         <div class="step-num">04</div>
         <div class="step-content">
           <div class="step-title">10–20 Questões CEBRASPE</div>
-          <div class="step-desc">Resolva questões do tema do dia — mesmo de outros concursos (PF, ABIN, CGU, TRF). Foque no padrão de raciocínio da banca. Questões do dia servem para entender a banca, não para medir desempenho real.</div>
+          <div class="step-desc">Resolva questões do tema do dia — mesmo de outros concursos (PF, ABIN, CGU, TRF). Foque no padrão de raciocínio da banca. Questões do dia servem para entender a [...]
           <div class="step-tip">⚑ Todo erro vira imediatamente um card Cloze no Anki.</div>
         </div>
       </div>
@@ -999,17 +1066,10 @@
           </div>
         </div>
         <div class="rule-item">
-          <div class="rule-icon">🗃</div>
+          <div class="rule-icon">✔️</div>
           <div class="rule-text">
-            <strong>Cloze para erros</strong>
-            Formato de omissão de palavras é mais eficiente que pergunta/resposta para fixar o trecho exato que você errou.
-          </div>
-        </div>
-        <div class="rule-item">
-          <div class="rule-icon">🚫</div>
-          <div class="rule-text">
-            <strong>Não avance sem fixar</strong>
-            Volume controlado vence volume alto. Consistência vence intensidade.
+            <strong>Consistência &gt; Quantidade</strong>
+            4 horas bem estruturadas &gt; 8 horas caóticas. O método funciona com disciplina.
           </div>
         </div>
       </div>
@@ -1019,304 +1079,28 @@
 
 <div class="full-divider"></div>
 
-<!-- ROTINA SEMANAL -->
-<section id="semanal" class="reveal">
-  <div class="section-label">Organização</div>
-  <h2 class="section-title">Rotina Semanal</h2>
-  <p class="section-desc">5–6 dias de conteúdo novo e revisão ativa. 1 dia de revisão pesada. Anki todos os dias.</p>
-
-  <div class="week-grid">
-    <div class="day-card">
-      <div class="day-name">Seg</div>
-      <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
-    </div>
-    <div class="day-card">
-      <div class="day-name">Ter</div>
-      <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
-    </div>
-    <div class="day-card">
-      <div class="day-name">Qua</div>
-      <div class="day-icon">🔁</div>
-      <div class="day-label">Revisão ativa do início da semana</div>
-    </div>
-    <div class="day-card">
-      <div class="day-name">Qui</div>
-      <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
-    </div>
-    <div class="day-card">
-      <div class="day-name">Sex</div>
-      <div class="day-icon">📚</div>
-      <div class="day-label">Conteúdo novo + ciclo completo</div>
-    </div>
-    <div class="day-card">
-      <div class="day-name">Sáb</div>
-      <div class="day-icon">🔁</div>
-      <div class="day-label">Revisão ativa + banco de questões</div>
-    </div>
-    <div class="day-card special">
-      <div class="day-name">Dom</div>
-      <div class="day-icon">⚡</div>
-      <div class="day-label">Revisão Pesada</div>
-    </div>
-  </div>
-
-  <div class="week-tasks">
-    <div class="task-block">
-      <div class="task-block-title">Todo dia</div>
-      <ul class="task-list">
-        <li>Anki (15–25 minutos)</li>
-        <li>Revisar os cards do dia anterior</li>
-        <li>Nenhum dia sem Anki — nem nos ruins</li>
-      </ul>
-    </div>
-    <div class="task-block">
-      <div class="task-block-title">Dias de conteúdo</div>
-      <ul class="task-list">
-        <li>Ciclo completo das 4 etapas</li>
-        <li>Blocos de 30 min com recall no meio</li>
-        <li>Questões do tema no mesmo dia</li>
-      </ul>
-    </div>
-    <div class="task-block">
-      <div class="task-block-title">Domingo — Revisão Pesada</div>
-      <ul class="task-list">
-        <li>Refazer todas as questões erradas da semana</li>
-        <li>Simulado cronometrado (CEBRASPE)</li>
-        <li>Análise: por que errei cada questão?</li>
-        <li>Atualizar o Anki com novos erros</li>
-        <li>Planejar a próxima semana</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="full-divider"></div>
-
-<!-- PLANO MENSAL -->
-<section id="mensal" class="reveal">
-  <div class="section-label">Progressão</div>
-  <h2 class="section-title">O Plano Mensal</h2>
-  <p class="section-desc">Cada mês tem uma missão. Não pule fases — a progressão é intencional.</p>
-
-  <div class="monthly-phases">
-    <div class="phase">
-      <div class="phase-num">1</div>
-      <div class="phase-week">Semanas 1–2</div>
-      <div class="phase-title">Fundação</div>
-      <ul class="phase-items">
-        <li>Mapear todas as matérias</li>
-        <li>Configurar Anki com decks por área</li>
-        <li>Instalar rotina do ciclo diário</li>
-        <li>Primeiras 200 questões da banca</li>
-      </ul>
-    </div>
-    <div class="phase">
-      <div class="phase-num">2</div>
-      <div class="phase-week">Semanas 3–4</div>
-      <div class="phase-title">Volume</div>
-      <ul class="phase-items">
-        <li>Avançar no conteúdo do Ifar</li>
-        <li>Mínimo 30 questões/dia</li>
-        <li>Construir base sólida de cards</li>
-        <li>Primeiro simulado completo</li>
-      </ul>
-    </div>
-    <div class="phase">
-      <div class="phase-num">3</div>
-      <div class="phase-week">Semanas 5–6</div>
-      <div class="phase-title">Consolidação</div>
-      <ul class="phase-items">
-        <li>Revisão pesada de toda matéria</li>
-        <li>Foco nos pontos fracos mapeados</li>
-        <li>50+ questões/dia</li>
-        <li>Ajustar cards deficientes</li>
-      </ul>
-    </div>
-    <div class="phase">
-      <div class="phase-num">4</div>
-      <div class="phase-week">Semanas 7–8</div>
-      <div class="phase-title">Domínio</div>
-      <ul class="phase-items">
-        <li>Simulados semanais cronometrados</li>
-        <li>Revisão cumulativa total</li>
-        <li>Questões de anos anteriores (PCDF + similares)</li>
-        <li>Só Anki + questões, sem conteúdo novo</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<div class="full-divider"></div>
-
-<!-- MATÉRIAS -->
-<section id="materias" class="reveal">
-  <div class="section-label">Estratégia por disciplina</div>
-  <h2 class="section-title">Como Estudar Cada Matéria</h2>
-  <p class="section-desc">A abordagem muda por tipo de disciplina. Usar a técnica errada na matéria errada é o erro mais comum.</p>
-
-  <table class="subject-table">
-    <thead>
-      <tr>
-        <th>Matéria</th>
-        <th>Foco Principal</th>
-        <th>Técnicas</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Redes / Protocolos</td>
-        <td>Portas, camadas OSI/TCP-IP, protocolos por função</td>
-        <td>
-          <span class="tag tag-anki">Anki</span>
-          <span class="tag tag-questoes">Questões</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Segurança da Informação</td>
-        <td>Tipos de ataque, criptografia, autenticação — definição precisa</td>
-        <td>
-          <span class="tag tag-anki">Anki</span>
-          <span class="tag tag-questoes">Questões</span>
-          <span class="tag tag-recall">Recall</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Banco de Dados</td>
-        <td>SQL, normalização, modelagem — questões aplicadas</td>
-        <td>
-          <span class="tag tag-questoes">Questões</span>
-          <span class="tag tag-anki">Anki (SQL)</span>
-        </td>
-      </tr>
-      <tr>
-        <td>SO / Linux</td>
-        <td>Comandos, permissões, processos — prática</td>
-        <td>
-          <span class="tag tag-anki">Anki (comandos)</span>
-          <span class="tag tag-questoes">Questões</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Direito Constitucional</td>
-        <td>Artigos da CF, princípios, direitos fundamentais</td>
-        <td>
-          <span class="tag tag-anki">Anki</span>
-          <span class="tag tag-mapa">Mapa Mental</span>
-          <span class="tag tag-questoes">Questões</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Direito Administrativo</td>
-        <td>Princípios, atos, organização — hierarquia de conceitos</td>
-        <td>
-          <span class="tag tag-mapa">Mapa Mental</span>
-          <span class="tag tag-anki">Anki</span>
-          <span class="tag tag-questoes">Questões</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Dir. Penal / Proc. Penal</td>
-        <td>Lei seca + exceções + jurisprudência STF/STJ</td>
-        <td>
-          <span class="tag tag-questoes">Questões por casos</span>
-          <span class="tag tag-anki">Anki (Súmulas)</span>
-        </td>
-      </tr>
-      <tr>
-        <td>Português</td>
-        <td>Reescrita de frases e substituição de termos (coração do CEBRASPE)</td>
-        <td>
-          <span class="tag tag-questoes">Questões acima de tudo</span>
-          <span class="tag tag-anki">Anki (gramática)</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<div class="full-divider"></div>
-
-<!-- FERRAMENTAS -->
-<section class="reveal">
-  <div class="section-label">Arsenal</div>
-  <h2 class="section-title">Ferramentas do Método</h2>
-  <p class="section-desc">Use apenas o necessário. Complexidade de ferramentas é procrastinação disfarçada.</p>
-
-  <div class="tools-grid">
-    <div class="tool-card">
-      <div class="tool-emoji">🃏</div>
-      <div class="tool-name">Anki</div>
-      <div class="tool-use">Repetição espaçada e recall automatizado. Gratuito. Use no celular para sessões de 15–25 min diários.</div>
-    </div>
-    <div class="tool-card">
-      <div class="tool-emoji">❓</div>
-      <div class="tool-name">QConcursos</div>
-      <div class="tool-use">Banco de questões CEBRASPE. Filtre por matéria, não por concurso — o padrão da banca é o mesmo.</div>
-    </div>
-    <div class="tool-card">
-      <div class="tool-emoji">🎓</div>
-      <div class="tool-name">Ifar</div>
-      <div class="tool-use">Conteúdo estruturado por matéria. Use como fonte primária de aulas — não como substituto para questões.</div>
-    </div>
-    <div class="tool-card">
-      <div class="tool-emoji">📄</div>
-      <div class="tool-name">Folha em Branco</div>
-      <div class="tool-use">Ferramenta de recall mais poderosa que existe. Não subestime. Uma folha + caneta após cada bloco de 30 min.</div>
-    </div>
-    <div class="tool-card">
-      <div class="tool-emoji">🗂</div>
-      <div class="tool-name">Tecconcursos</div>
-      <div class="tool-use">Alternativa ao QConcursos. Útil para questões de TI aplicadas em bancas similares: PF, ABIN, CGU.</div>
-    </div>
-    <div class="tool-card">
-      <div class="tool-emoji">🧠</div>
-      <div class="tool-name">Mapa Mental</div>
-      <div class="tool-use">Para Direito e matérias com hierarquia de conceitos. Não use para tudo — só onde a estrutura importa.</div>
-    </div>
-  </div>
-</section>
-
-<!-- REGRA DE OURO -->
-<div class="golden-rule reveal">
-  <div class="golden-rule-label">A regra que resume tudo</div>
-  <blockquote>
-    "Estudar mais não bate quem <strong>revisa melhor</strong>. Volume sem revisão é ilusão de progresso."
-  </blockquote>
-</div>
-
-<!-- FOOTER -->
-<div class="full-divider"></div>
-<footer style="text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 13px; letter-spacing: 1px; font-family: 'DM Mono', monospace;">
-  MÉTODO PCDF — Perito Criminal TI &nbsp;·&nbsp; Atualizado 2026
-</footer>
-
 <script>
-  // Scroll reveal
+  // Reveal animations on scroll
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        // Animate progress bars inside
-        e.target.querySelectorAll('.progress-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
+  window.addEventListener('scroll', () => {
+    reveals.forEach(el => {
+      const top = el.getBoundingClientRect().top;
+      if (top < window.innerHeight - 100) {
+        el.classList.add('visible');
       }
     });
-  }, { threshold: 0.1 });
+  });
 
-  reveals.forEach(el => observer.observe(el));
-
-  // Also trigger progress bars on load if visible
-  document.querySelectorAll('.progress-fill').forEach(bar => {
-    setTimeout(() => {
-      const parent = bar.closest('.reveal');
-      if (!parent) bar.style.width = bar.dataset.width + '%';
-    }, 600);
+  // Progress bars animation
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.progress-fill').forEach(bar => {
+      const width = bar.getAttribute('data-width');
+      setTimeout(() => {
+        bar.style.width = width + '%';
+      }, 300);
+    });
   });
 </script>
+
 </body>
 </html>
