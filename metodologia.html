@@ -1,200 +1,1357 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciclo de Retenção Ativa (CRA) - Metodologia de Ensino</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        header {
-            background-color: #1e3a8a;
-            color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2.2em;
-        }
-        header p {
-            margin: 10px 0 0 0;
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-        .meta-box {
-            background-color: #eff6ff;
-            border-left: 4px solid #3b82f6;
-            padding: 15px;
-            margin-bottom: 30px;
-            border-radius: 0 8px 8px 0;
-        }
-        h2 {
-            color: #1e3a8a;
-            border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
-            margin-top: 40px;
-        }
-        h3 {
-            color: #2563eb;
-            margin-top: 20px;
-        }
-        ul, ol {
-            padding-left: 20px;
-        }
-        li {
-            margin-bottom: 10px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        th {
-            background-color: #3b82f6;
-            color: white;
-            font-weight: bold;
-        }
-        tr:hover {
-            background-color: #f1f5f9;
-        }
-        .badge {
-            background-color: #e2e8f0;
-            color: #475569;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            font-weight: bold;
-        }
-        footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #e2e8f0;
-            font-size: 0.9em;
-            color: #64748b;
-            text-align: center;
-        }
-        a {
-            color: #2563eb;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciclo de Retenção Ativa (CRA) — Perito Criminal TI</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #800020;
+    --gold-light: #B01E3E;
+    --gold-dim: rgba(128,0,32,0.15);
+    --dark: #0D0D0D;
+    --dark-2: #141414;
+    --dark-3: #1C1C1C;
+    --dark-4: #252525;
+    --text: #E8E2D9;
+    --text-muted: #8A8278;
+    --text-soft: #C4BAB0;
+    --red: #C0392B;
+    --green: #27AE60;
+    --blue: #2980B9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-publication {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-publication a {
+    color: var(--gold-light);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--gold-light);
+  }
+
+  .hero-publication a:hover {
+    color: var(--text);
+    border-bottom: 1px solid var(--text);
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero h1 span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-soft);
+    max-width: 680px;
+    margin: 24px auto 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+    color: var(--text-muted);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: pulse 2s ease infinite;
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 100px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .section-desc {
+    color: var(--text-soft);
+    font-size: 17px;
+    max-width: 600px;
+    margin-bottom: 64px;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ─── PRINCÍPIOS ─── */
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .principle-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .principle-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--gold);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+    transform-origin: top;
+  }
+
+  .principle-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    transform: translateY(-4px);
+  }
+
+  .principle-card:hover::before {
+    transform: scaleY(1);
+  }
+
+  .principle-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+  }
+
+  .principle-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  .principle-text {
+    color: var(--text-soft);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ─── CICLO DIÁRIO ─── */
+  .cycle-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  @media (max-width: 768px) {
+    .cycle-wrapper { grid-template-columns: 1fr; }
+  }
+
+  .cycle-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 24px;
+    position: relative;
+  }
+
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 48px;
+    width: 1px;
+    height: calc(100% - 8px);
+    background: linear-gradient(to bottom, rgba(201,168,76,0.4), rgba(201,168,76,0.1));
+  }
+
+  .step-num {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    background: var(--gold-dim);
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  .step-content {
+    padding-bottom: 36px;
+  }
+
+  .step-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  .step-tip {
+    margin-top: 8px;
+    background: var(--gold-dim);
+    border-left: 2px solid var(--gold);
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--gold-light);
+    font-style: italic;
+  }
+
+  /* SIDE BOX */
+  .side-box {
+    background: var(--dark-3);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 36px;
+    position: sticky;
+    top: 24px;
+  }
+
+  .side-box-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--gold);
+  }
+
+  .rule-item {
+    display: flex;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    align-items: flex-start;
+  }
+
+  .rule-item:last-child { border-bottom: none; }
+
+  .rule-icon {
+    color: var(--gold);
+    font-size: 16px;
+    margin-top: 2px;
+  }
+
+  .rule-text {
+    font-size: 14px;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  .rule-text strong {
+    color: var(--text);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ─── ROTINA SEMANAL ─── */
+  .week-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 48px;
+  }
+
+  @media (max-width: 768px) {
+    .week-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .day-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 16px 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .day-card.special {
+    border-color: rgba(201,168,76,0.3);
+    background: var(--gold-dim);
+  }
+
+  .day-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .day-card.special .day-name { color: var(--gold); }
+
+  .day-icon { font-size: 22px; margin-bottom: 8px; }
+
+  .day-label {
+    font-size: 11px;
+    color: var(--text-soft);
+    line-height: 1.4;
+  }
+
+  .day-card.special .day-label { color: var(--gold-light); }
+
+  /* WEEK TASKS */
+  .week-tasks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .task-block {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 24px;
+  }
+
+  .task-block-title {
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 14px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .task-list {
+    list-style: none;
+  }
+
+  .task-list li {
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .task-list li::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ─── PLANO MENSAL ─── */
+  .monthly-phases {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .phase {
+    padding: 32px 28px;
+    border-right: 1px solid rgba(201,168,76,0.1);
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .phase:last-child { border-right: none; }
+
+  .phase:hover { background: var(--gold-dim); }
+
+  .phase-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .phase-week {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .phase-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .phase-items {
+    list-style: none;
+  }
+
+  .phase-items li {
+    font-size: 13px;
+    color: var(--text-soft);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  /* ─── MATÉRIAS ─── */
+  .subject-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+
+  .subject-table th {
+    text-align: left;
+    padding: 14px 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    background: var(--dark-3);
+  }
+
+  .subject-table td {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: var(--text-soft);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+  }
+
+  .subject-table tr:hover td {
+    background: var(--dark-3);
+    color: var(--text);
+  }
+
+  .subject-table td:first-child {
+    color: var(--text);
+    font-weight: 500;
+    font-size: 15px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    font-family: 'DM Mono', monospace;
+    border-radius: 2px;
+    margin: 2px 2px 2px 0;
+  }
+
+  .tag-anki { background: rgba(41,128,185,0.2); color: #5DADE2; border: 1px solid rgba(41,128,185,0.3); }
+  .tag-questoes { background: rgba(39,174,96,0.2); color: #58D68D; border: 1px solid rgba(39,174,96,0.3); }
+  .tag-recall { background: rgba(201,168,76,0.2); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.3); }
+  .tag-mapa { background: rgba(192,57,43,0.2); color: #E74C3C; border: 1px solid rgba(192,57,43,0.3); }
+
+  /* ─── REGRA DE OURO ─── */
+  .golden-rule {
+    background: var(--dark-2);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 60px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    max-width: 1100px;
+    margin: 0 auto 100px;
+  }
+
+  .golden-rule::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .golden-rule::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+  }
+
+  .golden-rule-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+  }
+
+  .golden-rule blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--text);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .golden-rule blockquote strong {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* ─── FERRAMENTAS ─── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .tool-card {
+    background: var(--dark-2);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: all 0.3s ease;
+  }
+
+  .tool-card:hover {
+    border-color: rgba(201,168,76,0.3);
+    transform: translateY(-2px);
+  }
+
+  .tool-emoji { font-size: 28px; }
+
+  .tool-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .tool-use {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 16px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .nav-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 1px;
+  }
+
+  .nav-back-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 4px 12px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+  }
+
+  .nav-back-btn:hover {
+    color: var(--text);
+    border-color: var(--gold);
+    background: var(--gold-dim);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    nav { padding: 16px 20px; }
+  }
+
+  .nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ─── CHECKBOX STYLE ─── */
+  .checklist {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-size: 15px;
+    color: var(--text-soft);
+  }
+
+  .check-box {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 1px solid rgba(201,168,76,0.4);
+    background: var(--gold-dim);
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--gold);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── FULL-WIDTH DIVIDER ─── */
+  .full-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  /* Progress bar decorative */
+  .progress-row {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 24px;
+  }
+
+  .progress-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-label {
+    font-size: 13px;
+    color: var(--text-soft);
+    width: 160px;
+    flex-shrink: 0;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+    transition: width 1.5s ease;
+    width: 0%;
+  }
+
+  .progress-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    width: 36px;
+    text-align: right;
+  }
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>O Ciclo de Retenção Ativa (CRA)</h1>
-        <p>Uma Abordagem Baseada em Evidências para Aprendizagem Eficiente em Contextos Concursais e Profissionais</p>
-    </header>
+<nav>
+  <div class="nav-logo-area">
+    <div class="nav-logo">CICLO CRA</div>
+    <a href="index.html" class="nav-back-btn">← Voltar</a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#metodologia">Metodologia</a></li>
+    <li><a href="#diario">Ciclo Diário</a></li>
+    <li><a href="#semanal">Rotina Semanal</a></li>
+    <li><a href="#mensal">Plano Mensal</a></li>
+    <li><a href="#materias">Matérias</a></li>
+  </ul>
+</nav>
 
-    <div class="meta-box">
-        <strong>Desenvolvido por:</strong> Cássio Fernandes<br>
-        <strong>Publicação Oficial:</strong> <a href="https://zenodo.org/records/20418890" target="_blank">Zenodo (Record 20418890)</a><br>
-        <strong>Palavras-chave:</strong> Ciclo de Retenção Ativa; Active Recall; Repetição Espaçada; Aprendizagem Baseada em Evidências.
+<div class="hero">
+  <div class="hero-badge">Cássio Fernandes · Ciclo de Retenção Ativa (CRA)</div>
+  <div class="hero-publication">Publicação Oficial: <a href="https://zenodo.org/records/20418890" target="_blank">Zenodo DOI 20418890</a></div>
+  <h1>
+    Estude Menos.
+    <span>Retenha Mais.</span>
+  </h1>
+  <p class="hero-sub">O Ciclo de Retenção Ativa (CRA), desenvolvido por Cássio Fernandes, fundamenta-se nos princípios da Teoria da Carga Cognitiva (Sweller, 1988) e em sólidas evidências da ciência da aprendizagem, baseando-se especialmente nas descobertas sobre a curva do esquecimento (Ebbinghaus, 1885), a eficácia do efeito de teste (Roediger & Karpicke, 2006) e o impacto das técnicas de prática distribuída e estudo intercalado (Dunlosky et al., 2013).</p>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Etapas diárias</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">30'</div>
+      <div class="stat-label">Blocos de recall</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1</div>
+      <div class="stat-label">Revisão pesada / semana</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Consistência</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Descer</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="full-divider"></div>
+
+<section id="metodologia" class="reveal">
+  <div class="section-label">Fundamentos Científicos</div>
+  <h2 class="section-title">Ciclo de Retenção Ativa (CRA)</h2>
+  <p class="section-desc">Toda a metodologia é construída sobre princípios que a ciência cognitiva comprova como os mais eficientes para retenção de longo prazo, reduzindo a carga cognitiva extrínseca e favorecendo a germinativa.</p>
+
+  <div class="principles-grid">
+    <div class="principle-card">
+      <div class="principle-icon">🔁</div>
+      <div class="principle-title">Repetição Espaçada & Prática Distribuída</div>
+      <div class="principle-text">Revisar no momento certo com base no espaçamento ideal (Cepeda et al., 2006). O intervalo crescente força o cérebro a reconsolidar a memória no limite do esquecimento parcial, fortalecendo as conexões neurais. O Anki automatiza esse processo.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon">⚡</div>
+      <div class="principle-title">Active Recall & Estudo Intercalado</div>
+      <div class="principle-text">A recuperação ativa de informações produz retenção de longo prazo muito superior à releitura passiva (Roediger & Karpicke, 2006). Fechar o material e explicar com os próprios termos fixa o conhecimento e expõe lacunas mentais estruturais.</div>
+    </div>
+    <div class="principle-card">
+      <div class="principle-icon">📊</div>
+      <div class="principle-title">Revisão Orientada por Erros</div>
+      <div class="principle-text">Fundamentada na prática deliberada (Deliberate Practice — Ericsson et al., 1993), transforma falhas em oportunidades diagnósticas para reforço cirúrgico. Cada erro vira um flashcard Cloze, fechando o ciclo de feedback imediato.</div>
+    </div>
+  </div>
+
+  <div class="progress-row" style="margin-top: 60px;">
+    <div class="section-label" style="margin-bottom: 8px;">Impacto por técnica (retenção de longo prazo observada)</div>
+    <div class="progress-item">
+      <div class="progress-label">Releitura passiva (Tradicional)</div>
+      <div class="progress-bar"><div class="progress-fill" data-width="20"></div></div>
+      <div class="progress-val">20%</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-label">Resumo / Métodos Passivos</div>
+      <div class="progress-bar"><div class="progress-fill" data-width="45"></div></div>
+      <div class="progress-val">45%</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-label">Active Recall Isolado</div>
+      <div class="progress-bar"><div class="progress-fill" data-width="80"></div></div>
+      <div class="progress-val">80%</div>
+    </div>
+    <div class="progress-item">
+      <div class="progress-label">CRA (Recall + Espaçada + Erros)</div>
+      <div class="progress-bar"><div class="progress-fill" data-width="92"></div></div>
+      <div class="progress-val">92%</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<section id="diario" class="reveal">
+  <div class="section-label">Execução</div>
+  <h2 class="section-title">O Ciclo Diário</h2>
+  <p class="section-desc">Quatro etapas encadeadas. Execute nessa ordem todos os dias, sem exceção.</p>
+
+  <div class="cycle-wrapper">
+    <div class="cycle-steps">
+
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-title">Aula + Anotações Ativas</div>
+          <div class="step-desc">Assista a aula no Ifar anotando apenas conceitos-chave, comparações e pegadinhas — sempre com suas próprias palavras. Nunca transcreva slides.</div>
+          <div class="step-tip">⚑ Dividir a aula em blocos de 30 min e pausar para um mini-recall entre blocos.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-title">Recall Imediato + Voz Alta</div>
+          <div class="step-desc">Feche tudo. Folha em branco. Escreva tudo que lembra do bloco. Depois, explique em voz alta como se estivesse ensinando. A verbalização expõe gaps que o papel esconde.</div>
+          <div class="step-tip">⚑ O que você não conseguiu lembrar = prioridade no próximo passo.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-title">Anki — Pontos Fracos</div>
+          <div class="step-desc">Crie flashcards apenas do que falhou no recall. Para TI: portas de protocolo, comandos Linux/SQL, siglas de segurança, estruturas de dados. Use formato Cloze para conceitos jurídicos e de TI aplicada.</div>
+          <div class="step-tip">⚑ Deixe o algoritmo do Anki decidir o que revisar — não pule cards "fáceis".</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-title">10–20 Questões CEBRASPE</div>
+          <div class="step-desc">Resolva questões do tema do dia — mesmo de outros concursos (PF, ABIN, CGU, TRF). Foque no padrão de raciocínio da banca. Questões do dia servem para entender a banca, não para medir desempenho real.</div>
+          <div class="step-tip">⚑ Todo erro vira imediatamente um card Cloze no Anki.</div>
+        </div>
+      </div>
+
     </div>
 
-    <h2>1. Resumo da Metodologia</h2>
-    <p>O Ciclo de Retenção Ativa (CRA) é uma metodologia de ensino-aprendizagem desenhada para integrar princípios consolidados da ciência cognitiva. O objetivo central é maximizar a retenção de conteúdo a longo prazo minimizando o tempo total dedicado aos estudos, transformando o aprendizado passivo em um processo cirúrgico, mensurável e sustentável.</p>
+    <div>
+      <div class="side-box">
+        <div class="side-box-title">Regras do Ciclo</div>
 
-    <h2>2. Fundamentos Teóricos</h2>
-    <p>A estrutura do CRA é rigorosamente amparada pelos seguintes pilares científicos:</p>
-    <ul>
-        <li><strong>Teoria da Carga Cognitiva (Sweller):</strong> Reduz a carga extrínseca (eliminando anotações passivas e extensas) e prioriza a carga germinativa através do esforço mental focado.</li>
-        <li><strong>Curva do Esquecimento (Ebbinghaus):</strong> Combate o declínio exponencial da memória por meio de revisões programadas no momento do esquecimento parcial.</li>
-        <li><strong>Efeito de Teste (Active Recall):</strong> Substitui a releitura passiva pela recuperação forçada da informação, o que pode elevar os níveis de retenção para uma faixa entre 70% e 90%.</li>
-        <li><strong>Prática Distribuída e Estudo Intercalado:</strong> Promovem a variabilidade necessária para consolidar conceitos de maneira robusta.</li>
-        <li><strong>Revisão Orientada por Erros (Deliberate Practice):</strong> Trata cada erro não como uma falha, mas como uma oportunidade diagnóstica para preenchimento imediato de lacunas.</li>
-    </ul>
+        <div class="rule-item">
+          <div class="rule-icon">⏱</div>
+          <div class="rule-text">
+            <strong>Blocos de 30 minutos</strong>
+            Não faça recall de uma aula inteira. Divida em blocos e pause no meio para gerenciar a carga cognitiva de trabalho.
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🎯</div>
+          <div class="rule-text">
+            <strong>Desempenho real = revisão semanal</strong>
+            Com memória fresca as questões do dia não refletem o real — só o dia de revisão mede.
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🔉</div>
+          <div class="rule-text">
+            <strong>Voz alta é obrigatório</strong>
+            Verbalizar força uma articulação diferente da escrita e activa múltiplas modalidades cognitivas.
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🗃</div>
+          <div class="rule-text">
+            <strong>Cloze para erros</strong>
+            Formato de omissão de palavras é mais eficiente que pergunta/resposta para fixar o trecho exato que você errou.
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🚫</div>
+          <div class="rule-text">
+            <strong>Não avance sem fixar</strong>
+            Volume controlado vence volume alto. Consistência diária sustentável evita sobrecarga e burnout.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <h2>3. Estrutura Operacional Diária</h2>
-    <p>O ciclo diário é estruturado em quatro etapas sequenciais e interdependentes:</p>
+<div class="full-divider"></div>
 
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 25%;">Etapa</th>
-                <th style="width: 20%;">Duração / Formato</th>
-                <th>Descrição Operacional</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>1. Aula + Anotações Ativas</strong></td>
-                <td><span class="badge">30 min por bloco</span></td>
-                <td>Acompanhamento do conteúdo anotando estritamente palavras-chave, comparações e armadilhas com os próprios termos, evitando a cópia literal.</td>
-            </tr>
-            <tr>
-                <td><strong>2. Recall Imediato e Voz Alta</strong></td>
-                <td><span class="badge">Imediato</span></td>
-                <td>Reprodução do conteúdo em uma folha em branco seguida pela explicação do tema em voz alta, simulando uma aula para expor lacunas de compreensão.</td>
-            </tr>
-            <tr>
-                <td><strong>3. Flashcards focados</strong></td>
-                <td><span class="badge">Anki</span></td>
-                <td>Criação de cartões baseados em pontos fracos observados no recall, utilizando preferencialmente o formato de omissão de termos (Cloze).</td>
-            </tr>
-            <tr>
-                <td><strong>4. Resolução de Questões</strong></td>
-                <td><span class="badge">10 a 20 itens</span></td>
-                <td>Prática focada com questões (estilo CEBRASPE). Cada erro cometido é imediatamente convertido em um flashcard Cloze no Anki para fechar o ciclo de feedback.</td>
-            </tr>
-        </tbody>
-    </table>
+<section id="semanal" class="reveal">
+  <div class="section-label">Organização</div>
+  <h2 class="section-title">Rotina Semanal</h2>
+  <p class="section-desc">5–6 dias de conteúdo novo com ciclo completo. 1 dia de revisão pesada para consolidação e metacognição. Anki todos os dias.</p>
 
-    <h2>4. Rotina Semanal e Progressão Mensal</h2>
-    <h3>Rotina Semanal</h3>
-    <p>A preparação distribui-se em 5 a 6 dias de aquisição de novos conteúdos utilizando o ciclo completo. Um dia da semana é reservado exclusivamente para a <strong>revisão pesada</strong>, que inclui o reestudo detalhado de erros cometidos, aplicação de simulados cronometrados e uma análise metacognitiva aprofundada.</p>
+  <div class="week-grid">
+    <div class="day-card">
+      <div class="day-name">Seg</div>
+      <div class="day-icon">📚</div>
+      <div class="day-label">Conteúdo novo + ciclo completo</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Ter</div>
+      <div class="day-icon">📚</div>
+      <div class="day-label">Conteúdo novo + ciclo completo</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Qua</div>
+      <div class="day-icon">📚</div>
+      <div class="day-label">Conteúdo novo + ciclo completo</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Qui</div>
+      <div class="day-icon">📚</div>
+      <div class="day-label">Conteúdo novo + ciclo completo</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Sex</div>
+      <div class="day-icon">📚</div>
+      <div class="day-label">Conteúdo novo + ciclo completo</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Sáb</div>
+      <div class="day-icon">📚</div>
+      <div class="day-label">Conteúdo novo + ciclo completo</div>
+    </div>
+    <div class="day-card special">
+      <div class="day-name">Dom</div>
+      <div class="day-icon">⚡</div>
+      <div class="day-label">Revisão Pesada</div>
+    </div>
+  </div>
 
-    <h3>Progressão Mensal</h3>
-    <p>O avanço de conteúdo é planejado de maneira escalonada, respeitando quatro fases de evolução:</p>
-    <ol>
-        <li><strong>Fundação:</strong> Base conceitual e estruturação do conhecimento.</li>
-        <li><strong>Volume:</strong> Expansão e acúmulo de tópicos correlacionados.</li>
-        <li><strong>Consolidação:</strong> Intensificação de revisões cumulativas e cruzamento de matérias.</li>
-        <li><strong>Domínio:</strong> Simulações avançadas e refinamento de pontos críticos.</li>
-    </ol>
+  <div class="week-tasks">
+    <div class="task-block">
+      <div class="task-block-title">Todo dia</div>
+      <ul class="task-list">
+        <li>Anki (15–25 minutos)</li>
+        <li>Revisar os cards do dia anterior</li>
+        <li>Nenhum dia sem Anki — consistência algorítmica</li>
+      </ul>
+    </div>
+    <div class="task-block">
+      <div class="task-block-title">Dias de conteúdo</div>
+      <ul class="task-list">
+        <li>Ciclo completo das 4 etapas</li>
+        <li>Blocos de 30 min com recall no meio</li>
+        <li>Questões do tema no mesmo dia</li>
+      </ul>
+    </div>
+    <div class="task-block">
+      <div class="task-block-title">Domingo — Revisão Pesada</div>
+      <ul class="task-list">
+        <li>Refazer e analisar detalhadamente todos os erros da semana</li>
+        <li>Simulado cronometrado completo (CEBRASPE)</li>
+        <li>Análise metacognitiva profunda e diagnóstico de falhas</li>
+        <li>Atualizar o Anki com novos cards Cloze derivados dos erros</li>
+        <li>Planejar a estrutura lógica da próxima semana</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-    <h2>5. Vantagens e Limitações</h2>
-    <h3>Vantagens</h3>
-    <ul>
-        <li>Otimização drástica do tempo diário de estudo.</li>
-        <li>Alta taxa de transferência do conhecimento memorizado para situações reais de prova.</li>
-        <li>Desenvolvimento contínuo da metacognição (saber exatamente o que sabe e o que precisa revisar).</li>
-        <li>Mitigação do cansaço extremo e burnout através de rotinas previsíveis e eficientes.</li>
-    </ul>
+<div class="full-divider"></div>
 
-    <h3>Limitações e Adaptações</h3>
-    <ul>
-        <li>Exigência contínua de disciplina e consistência diária.</li>
-        <li>Barreira inicial de aprendizado no manejo do software Anki e na formulação de cartões estilo Cloze eficientes.</li>
-        <li>Necessidade de adequação prática dependendo da disciplina (ex: mapas mentais para estruturas do Direito, ou codificação ativa para Programação e TI).</li>
-    </ul>
+<section id="mensal" class="reveal">
+  <div class="section-label">Progressão</div>
+  <h2 class="section-title">O Plano Mensal</h2>
+  <p class="section-desc">Cada mês tem uma missão estruturada. Não pule fases — a progressão segue um modelo de aprendizagem escalonada.</p>
 
-    <footer>
-        <p>Ciclo de Retenção Ativa (CRA) &copy; 2026 - Metodologia Baseada em Evidências Científicas.</p>
-        <p>Referência bibliográfica completa disponível em: <a href="https://zenodo.org/records/20418890" target="_blank">https://zenodo.org/records/20418890</a></p>
-    </footer>
+  <div class="monthly-phases">
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-week">Fase 1</div>
+      <div class="phase-title">Fundação</div>
+      <ul class="phase-items">
+        <li>Mapear as matérias do edital</li>
+        <li>Configurar decks estruturados no Anki</li>
+        <li>Automatizar a rotina do ciclo diário</li>
+        <li>Mapeamento inicial da banca de dados</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-week">Fase 2</div>
+      <div class="phase-title">Volume</div>
+      <ul class="phase-items">
+        <li>Avançar verticalmente no conteúdo do Ifar</li>
+        <li>Consolidar banco de dados de flashcards</li>
+        <li>Mínimo de 30 questões aplicadas por dia</li>
+        <li>Primeiras simulações de blocos de prova</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-week">Fase 3</div>
+      <div class="phase-title">Consolidação</div>
+      <ul class="phase-items">
+        <li>Revisão cumulativa pesada total</li>
+        <li>Reforço cirúrgico em pontos fracos</li>
+        <li>Intensificação para 50+ questões/dia</li>
+        <li>Ajuste fino de cards ineficientes</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-week">Fase 4</div>
+      <div class="phase-title">Domínio</div>
+      <ul class="phase-items">
+        <li>Simulados cumulativos cronometrados</li>
+        <li>Revisão total e análise de recorrência</li>
+        <li>Foco em engenharia reversa via questões</li>
+        <li>Foco absoluto em Anki + Questões avançadas</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
+<div class="full-divider"></div>
+
+<section id="materias" class="reveal">
+  <div class="section-label">Estratégia por disciplina</div>
+  <h2 class="section-title">Como Estudar Cada Matéria</h2>
+  <p class="section-desc">A abordagem muda conforme a natureza do conteúdo. Usar a técnica correta para o tipo de disciplina otimiza a transferência de conhecimento.</p>
+
+  <table class="subject-table">
+    <thead>
+      <tr>
+        <th>Matéria</th>
+        <th>Foco Principal</th>
+        <th>Técnicas Recomendadas</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Redes / Protocolos</td>
+        <td>Portas, camadas OSI/TCP-IP, protocolos por função</td>
+        <td>
+          <span class="tag tag-anki">Anki</span>
+          <span class="tag tag-questoes">Questões</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Segurança da Informação</td>
+        <td>Tipos de ataque, criptografia, autenticação — definição precisa</td>
+        <td>
+          <span class="tag tag-anki">Anki</span>
+          <span class="tag tag-questoes">Questões</span>
+          <span class="tag tag-recall">Recall</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Banco de Dados</td>
+        <td>SQL, normalização, modelagem — questões aplicadas</td>
+        <td>
+          <span class="tag tag-questoes">Questões</span>
+          <span class="tag tag-anki">Anki (SQL)</span>
+        </td>
+      </tr>
+      <tr>
+        <td>SO / Linux</td>
+        <td>Comandos, permissões, processos — prática</td>
+        <td>
+          <span class="tag tag-anki">Anki (comandos)</span>
+          <span class="tag tag-questoes">Questões</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Direito Constitucional</td>
+        <td>Artigos da CF, princípios, direitos fundamentais</td>
+        <td>
+          <span class="tag tag-anki">Anki</span>
+          <span class="tag tag-mapa">Mapa Mental</span>
+          <span class="tag tag-questoes">Questões</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Direito Administrativo</td>
+        <td>Princípios, atos, organização — hierarquia de conceitos</td>
+        <td>
+          <span class="tag tag-mapa">Mapa Mental</span>
+          <span class="tag tag-anki">Anki</span>
+          <span class="tag tag-questoes">Questões</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Dir. Penal / Proc. Penal</td>
+        <td>Lei seca + exceções + jurisprudência STF/STJ</td>
+        <td>
+          <span class="tag tag-questoes">Questões por casos</span>
+          <span class="tag tag-anki">Anki (Súmulas)</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Português</td>
+        <td>Reescrita de frases e substituição de termos (coração do CEBRASPE)</td>
+        <td>
+          <span class="tag tag-questoes">Questões acima de tudo</span>
+          <span class="tag tag-anki">Anki (gramática)</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<div class="full-divider"></div>
+
+<section class="reveal">
+  <div class="section-label">Arsenal</div>
+  <h2 class="section-title">Ferramentas do Método</h2>
+  <p class="section-desc">Use apenas o necessário. Complexidade de ferramentas é procrastinação disfarçada.</p>
+
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-emoji">🃏</div>
+      <div class="tool-name">Anki</div>
+      <div class="tool-use">Repetição espaçada e recall automatizado. Gratuito. Use sessões focadas diárias com formato Cloze.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">❓</div>
+      <div class="tool-name">QConcursos / Tecconcursos</div>
+      <div class="tool-use">Bancos de questões aplicadas. Filtre por engenharia reversa do padrão lógico da banca examinadora.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">🎓</div>
+      <div class="tool-name">Ifar</div>
+      <div class="tool-use">Conteúdo estruturado por matéria. Fonte primária para anotações ativas em blocos de alta retenção.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">📄</div>
+      <div class="tool-name">Folha em Branco</div>
+      <div class="tool-use">Ferramenta de active recall físico mais poderosa. Força a recuperação ativa sem guias visuais.</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-emoji">🧠</div>
+      <div class="tool-name">Mapa Mental</div>
+      <div class="tool-use">Uso restrito e cirúrgico para disciplinas de ordenação conceitual complexa e hierarquias estruturadas (Direito).</div>
+    </div>
+  </div>
+</section>
+
+<div class="golden-rule reveal">
+  <div class="golden-rule-label">A regra que resume tudo</div>
+  <blockquote>
+    "Estudar mais não bate quem <strong>revisa melhor</strong>. Volume sem retenção é ilusão de progresso."
+  </blockquote>
+</div>
+
+<div class="full-divider"></div>
+<footer style="text-align: center; padding: 48px 24px; color: var(--text-muted); font-size: 13px; letter-spacing: 1px; font-family: 'DM Mono', monospace; line-height: 1.8;">
+  CICLO DE RETENÇÃO ATIVA (CRA) &copy; 2026 — Desenvolvido por Cássio Fernandes<br>
+  Metodologia Científica Registrada — <a href="https://zenodo.org/records/20418890" target="_blank" style="color: var(--gold-light); text-decoration: none;">Zenodo Public Record (DOI: 20418890)</a>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Animate progress bars inside
+        e.target.querySelectorAll('.progress-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Also trigger progress bars on load if visible
+  document.querySelectorAll('.progress-fill').forEach(bar => {
+    setTimeout(() => {
+      const parent = bar.closest('.reveal');
+      if (!parent) bar.style.width = bar.dataset.width + '%';
+    }, 600);
+  });
+</script>
 </body>
 </html>
