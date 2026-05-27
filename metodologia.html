@@ -40,7 +40,7 @@
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctave[...]
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
     opacity: 0.4;
@@ -392,373 +392,30 @@
     margin-bottom: 2px;
   }
 
-  /* ─── ROTINA SEMANAL ─── */
-  .week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
-    margin-bottom: 48px;
-  }
-
-  @media (max-width: 768px) {
-    .week-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  .day-card {
-    background: var(--dark-2);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 16px 12px;
-    text-align: center;
-    transition: all 0.3s ease;
-  }
-
-  .day-card.special {
-    border-color: rgba(201,168,76,0.3);
-    background: var(--gold-dim);
-  }
-
-  .day-name {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 10px;
-  }
-
-  .day-card.special .day-name { color: var(--gold); }
-
-  .day-icon { font-size: 22px; margin-bottom: 8px; }
-
-  .day-label {
-    font-size: 11px;
-    color: var(--text-soft);
-    line-height: 1.4;
-  }
-
-  .day-card.special .day-label { color: var(--gold-light); }
-
-  /* WEEK TASKS */
-  .week-tasks {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
-  }
-
-  .task-block {
-    background: var(--dark-2);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 24px;
-  }
-
-  .task-block-title {
-    font-size: 13px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 600;
-    margin-bottom: 14px;
-    font-family: 'DM Mono', monospace;
-  }
-
-  .task-list {
-    list-style: none;
-  }
-
-  .task-list li {
-    padding: 6px 0;
-    font-size: 14px;
-    color: var(--text-soft);
-    display: flex;
-    gap: 10px;
-    align-items: flex-start;
-  }
-
-  .task-list li::before {
-    content: '→';
-    color: var(--gold);
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
-  /* ─── PLANO MENSAL ─── */
-  .monthly-phases {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 0;
-    border: 1px solid rgba(201,168,76,0.2);
-  }
-
-  .phase {
-    padding: 32px 28px;
-    border-right: 1px solid rgba(201,168,76,0.1);
-    position: relative;
-    transition: background 0.3s ease;
-  }
-
-  .phase:last-child { border-right: none; }
-
-  .phase:hover { background: var(--gold-dim); }
-
-  .phase-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 900;
-    color: rgba(201,168,76,0.15);
-    line-height: 1;
-    margin-bottom: 12px;
-  }
-
-  .phase-week {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 8px;
-  }
-
-  .phase-title {
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-
-  .phase-items {
-    list-style: none;
-  }
-
-  .phase-items li {
-    font-size: 13px;
-    color: var(--text-soft);
-    padding: 4px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-
-  /* ─── MATÉRIAS ─── */
-  .subject-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 8px;
-  }
-
-  .subject-table th {
-    text-align: left;
-    padding: 14px 20px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gold);
-    border-bottom: 1px solid rgba(201,168,76,0.25);
-    background: var(--dark-3);
-  }
-
-  .subject-table td {
-    padding: 16px 20px;
-    font-size: 14px;
-    color: var(--text-soft);
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    vertical-align: top;
-  }
-
-  .subject-table tr:hover td {
-    background: var(--dark-3);
-    color: var(--text);
-  }
-
-  .subject-table td:first-child {
-    color: var(--text);
-    font-weight: 500;
-    font-size: 15px;
-  }
-
-  .tag {
-    display: inline-block;
-    padding: 3px 10px;
-    font-size: 11px;
-    letter-spacing: 1px;
-    font-family: 'DM Mono', monospace;
-    border-radius: 2px;
-    margin: 2px 2px 2px 0;
-  }
-
-  .tag-anki { background: rgba(41,128,185,0.2); color: #5DADE2; border: 1px solid rgba(41,128,185,0.3); }
-  .tag-questoes { background: rgba(39,174,96,0.2); color: #58D68D; border: 1px solid rgba(39,174,96,0.3); }
-  .tag-recall { background: rgba(201,168,76,0.2); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.3); }
-  .tag-mapa { background: rgba(192,57,43,0.2); color: #E74C3C; border: 1px solid rgba(192,57,43,0.3); }
-
-  /* ─── REGRA DE OURO ─── */
-  .golden-rule {
-    background: var(--dark-2);
-    border: 1px solid rgba(201,168,76,0.3);
-    padding: 60px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    max-width: 1100px;
-    margin: 0 auto 100px;
-  }
-
-  .golden-rule::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--gold), transparent);
-  }
-
-  .golden-rule::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, transparent, var(--gold), transparent);
-  }
-
-  .golden-rule-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 24px;
-  }
-
-  .golden-rule blockquote {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(22px, 4vw, 36px);
-    font-weight: 400;
-    font-style: italic;
-    line-height: 1.4;
-    color: var(--text);
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .golden-rule blockquote strong {
-    color: var(--gold);
-    font-style: normal;
-  }
-
-  /* ─── FERRAMENTAS ─── */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-  }
-
-  .tool-card {
-    background: var(--dark-2);
-    border: 1px solid rgba(255,255,255,0.06);
-    padding: 28px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: all 0.3s ease;
-  }
-
-  .tool-card:hover {
-    border-color: rgba(201,168,76,0.3);
-    transform: translateY(-2px);
-  }
-
-  .tool-emoji { font-size: 28px; }
-
-  .tool-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text);
-  }
-
-  .tool-use {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.5;
-  }
-
-  /* ─── NAV ─── */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    padding: 16px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(13,13,13,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(201,168,76,0.1);
-  }
-
-  .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 1px;
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-  }
-
-  @media (max-width: 600px) {
-    .nav-links { display: none; }
-    nav { padding: 16px 20px; }
-  }
-
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 13px;
-    letter-spacing: 1px;
-    transition: color 0.2s;
-  }
-
-  .nav-links a:hover { color: var(--gold); }
-
-  /* ─── CHECKBOX STYLE ─── */
-  .checklist {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .checklist li {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    font-size: 15px;
-    color: var(--text-soft);
-  }
-
-  .check-box {
-    width: 20px;
-    height: 20px;
-    min-width: 20px;
-    border: 1px solid rgba(201,168,76,0.4);
-    background: var(--gold-dim);
-    margin-top: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: var(--gold);
-  }
-
-  /* ─── REFERENCES SECTION ─── */
+  /* ─── FUNDAÇÕES CIENTÍFICAS ─── */
   .references-section {
     background: var(--dark-3);
     border: 1px solid rgba(201,168,76,0.15);
     padding: 40px;
     margin-top: 60px;
     border-radius: 4px;
+  }
+
+  .creator-badge {
+    display: inline-block;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    padding: 8px 16px;
+    font-size: 12px;
+    color: var(--text-soft);
+    font-family: 'DM Mono', monospace;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+
+  .creator-badge strong {
+    color: var(--gold);
+    font-weight: 600;
   }
 
   .references-title {
@@ -863,23 +520,6 @@
     width: 36px;
     text-align: right;
   }
-
-  .creator-badge {
-    display: inline-block;
-    background: rgba(201,168,76,0.1);
-    border: 1px solid rgba(201,168,76,0.25);
-    padding: 8px 16px;
-    font-size: 12px;
-    color: var(--text-soft);
-    font-family: 'DM Mono', monospace;
-    border-radius: 2px;
-    margin-bottom: 12px;
-  }
-
-  .creator-badge strong {
-    color: var(--gold);
-    font-weight: 600;
-  }
 </style>
 </head>
 <body>
@@ -890,9 +530,6 @@
   <ul class="nav-links">
     <li><a href="#metodologia">Metodologia</a></li>
     <li><a href="#diario">Ciclo Diário</a></li>
-    <li><a href="#semanal">Rotina Semanal</a></li>
-    <li><a href="#mensal">Plano Mensal</a></li>
-    <li><a href="#materias">Matérias</a></li>
   </ul>
 </nav>
 
@@ -940,17 +577,17 @@
     <div class="principle-card">
       <div class="principle-icon">🔁</div>
       <div class="principle-title">Repetição Espaçada</div>
-      <div class="principle-text">Revisar no momento certo — não todo dia, não nunca. O intervalo crescente (1 → 3 → 7 → 21 dias) força o cérebro a reconsolidar a memória no limite do esq[...]
+      <div class="principle-text">Revisar no momento certo — não todo dia, não nunca. O intervalo crescente (1 → 3 → 7 → 21 dias) força o cérebro a reconsolidar a memória no limite do esquecimento. O Anki faz isso automaticamente.</div>
     </div>
     <div class="principle-card">
       <div class="principle-icon">⚡</div>
       <div class="principle-title">Active Recall</div>
-      <div class="principle-text">O esforço de lembrar é o que fixa — não o ato de ler ou assistir. Fechar o material e tentar reproduzir o conteúdo com suas próprias palavras vale mais do que [...]
+      <div class="principle-text">O esforço de lembrar é o que fixa — não o ato de ler ou assistir. Fechar o material e tentar reproduzir o conteúdo com suas próprias palavras vale mais do que reler três vezes.</div>
     </div>
     <div class="principle-card">
       <div class="principle-icon">📊</div>
       <div class="principle-title">Revisão Orientada por Erros</div>
-      <div class="principle-text">Questão errada não é fracasso — é diagnóstico. Todo erro deve ser convertido em flashcard Cloze no Anki. Você não revisa o que sabe; você cirúrgicamente el[...]
+      <div class="principle-text">Questão errada não é fracasso — é diagnóstico. Todo erro deve ser convertido em flashcard Cloze no Anki. Você não revisa o que sabe; você cirúrgicamente elimina os gaps.</div>
     </div>
   </div>
 
@@ -1001,7 +638,6 @@
 
   <div class="cycle-wrapper">
     <div class="cycle-steps">
-
       <div class="step">
         <div class="step-num">01</div>
         <div class="step-content">
@@ -1010,40 +646,35 @@
           <div class="step-tip">⚑ Dividir a aula em blocos de 30 min e pausar para um mini-recall entre blocos.</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">02</div>
         <div class="step-content">
           <div class="step-title">Recall Imediato + Voz Alta</div>
-          <div class="step-desc">Feche tudo. Folha em branco. Escreva tudo que lembra do bloco. Depois, explique em voz alta como se estivesse ensinando. A verbalização expõe gaps que o papel escon[...]
+          <div class="step-desc">Feche tudo. Folha em branco. Escreva tudo que lembra do bloco. Depois, explique em voz alta como se estivesse ensinando. A verbalização expõe gaps que o papel esconde.</div>
           <div class="step-tip">⚑ O que você não conseguiu lembrar = prioridade no próximo passo.</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">03</div>
         <div class="step-content">
           <div class="step-title">Anki — Pontos Fracos</div>
-          <div class="step-desc">Crie flashcards apenas do que falhou no recall. Para TI: portas de protocolo, comandos Linux/SQL, siglas de segurança, estruturas de dados. Use formato Cloze para con[...]
+          <div class="step-desc">Crie flashcards apenas do que falhou no recall. Para TI: portas de protocolo, comandos Linux/SQL, siglas de segurança, estruturas de dados. Use formato Cloze para conceitos jurídicos e de TI aplicada.</div>
           <div class="step-tip">⚑ Deixe o algoritmo do Anki decidir o que revisar — não pule cards "fáceis".</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">04</div>
         <div class="step-content">
           <div class="step-title">10–20 Questões CEBRASPE</div>
-          <div class="step-desc">Resolva questões do tema do dia — mesmo de outros concursos (PF, ABIN, CGU, TRF). Foque no padrão de raciocínio da banca. Questões do dia servem para entender a [...]
+          <div class="step-desc">Resolva questões do tema do dia — mesmo de outros concursos (PF, ABIN, CGU, TRF). Foque no padrão de raciocínio da banca. Questões do dia servem para entender a banca, não para medir desempenho real.</div>
           <div class="step-tip">⚑ Todo erro vira imediatamente um card Cloze no Anki.</div>
         </div>
       </div>
-
     </div>
 
     <div>
       <div class="side-box">
         <div class="side-box-title">Regras do Ciclo</div>
-
         <div class="rule-item">
           <div class="rule-icon">⏱</div>
           <div class="rule-text">
@@ -1063,6 +694,13 @@
           <div class="rule-text">
             <strong>Voz alta é obrigatório</strong>
             Verbalizar força uma articulação diferente da escrita. Gaps ficam evidentes.
+          </div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-icon">🗃</div>
+          <div class="rule-text">
+            <strong>Cloze para erros</strong>
+            Formato de omissão de palavras é mais eficiente que pergunta/resposta para fixar o trecho exato que você errou.
           </div>
         </div>
         <div class="rule-item">
