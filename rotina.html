@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRA — Rotina Diária</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent:       #800020;
+  --accent-light: #B01E3E;
+  --accent-dim:   rgba(128,0,32,0.15);
+  --accent-b:     rgba(128,0,32,0.3);
+  --dark:   #0D0D0D;
+  --dark-2: #141414;
+  --dark-3: #1C1C1C;
+  --dark-4: #252525;
+  --text:      #E8E2D9;
+  --text-muted:#8A8278;
+  --text-soft: #C4BAB0;
+  --green:     #27AE60;
+  --green-dim: rgba(39,174,96,0.12);
+  --blue:      #2980B9;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--dark);}
+::-webkit-scrollbar-thumb{background:rgba(128,0,32,0.3);}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;padding:14px 32px;display:flex;justify-content:space-between;align-items:center;background:rgba(13,13,13,0.93);backdrop-filter:blur(14px);border-bottom:1px solid rgba(128,0,32,0.15);}
+.nav-left{display:flex;align-items:center;gap:20px;}
+.btn-back{color:var(--text-muted);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;text-decoration:none;transition:color .2s;}
+.btn-back:hover{color:var(--accent-light);}
+.nav-title{font-family:'DM Mono',monospace;font-size:13px;letter-spacing:2px;color:var(--accent);text-transform:uppercase;}
+.nav-date{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);letter-spacing:1px;}
+
+/* LAYOUT */
+.app{max-width:1140px;margin:0 auto;padding:28px 20px 80px;display:grid;grid-template-columns:1fr 340px;gap:20px;}
+@media(max-width:860px){.app{grid-template-columns:1fr;}}
+.col-main{display:flex;flex-direction:column;gap:20px;}
+.col-side{display:flex;flex-direction:column;gap:20px;}
+
+/* CARD */
+.card{background:var(--dark-2);border:1px solid rgba(255,255,255,0.06);padding:26px;animation:fadeIn .35s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:5px;}
+.card-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;}
+
+/* DAY BADGE */
+.day-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent-light);background:var(--accent-dim);}
+.day-badge.rev{border-color:rgba(41,128,185,.5);color:#5DADE2;background:rgba(41,128,185,.1);}
+
+/* PROGRESS */
+.prog-wrap{margin-top:18px;}
+.prog-head{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:11px;color:var(--text-muted);margin-bottom:7px;}
+.prog-bar{height:4px;background:rgba(255,255,255,0.06);position:relative;overflow:hidden;}
+.prog-fill{position:absolute;top:0;left:0;bottom:0;background:linear-gradient(to right,var(--accent),var(--accent-light));transition:width .4s ease;}
+.prog-fill.ok{background:linear-gradient(to right,#27AE60,#58D68D);}
+
+/* CHECKLIST */
+.chk-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.chk-item{display:flex;align-items:flex-start;gap:11px;padding:11px 13px;background:var(--dark-3);border:1px solid transparent;cursor:pointer;transition:all .2s;user-select:none;}
+.chk-item:hover{border-color:rgba(128,0,32,.2);}
+.chk-item.done{opacity:.45;border-color:rgba(39,174,96,.18);background:rgba(39,174,96,.04);}
+.chk-box{width:20px;height:20px;min-width:20px;border:1px solid rgba(128,0,32,.4);background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--green);margin-top:1px;transition:all .2s;flex-shrink:0;}
+.chk-item.done .chk-box{background:var(--green-dim);border-color:var(--green);}
+.chk-label{font-size:13.5px;color:var(--text-soft);line-height:1.5;flex:1;}
+.chk-item.done .chk-label{text-decoration:line-through;color:var(--text-muted);}
+.chk-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 7px;flex-shrink:0;margin-top:2px;}
+.t-must{background:rgba(128,0,32,.18);color:var(--accent-light);border:1px solid rgba(128,0,32,.3);}
+.t-anki{background:rgba(41,128,185,.13);color:#5DADE2;border:1px solid rgba(41,128,185,.25);}
+.t-recall{background:rgba(39,174,96,.13);color:#58D68D;border:1px solid rgba(39,174,96,.25);}
+
+/* WEEK STRIP */
+.week-strip{display:flex;gap:7px;}
+.wday{flex:1;background:var(--dark-3);border:1px solid rgba(255,255,255,.05);padding:11px 5px;text-align:center;transition:all .2s;}
+.wday.today{border-color:var(--accent);background:var(--accent-dim);}
+.wday.done80{border-color:rgba(39,174,96,.3);background:rgba(39,174,96,.05);}
+.wday-n{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px;}
+.wday.today .wday-n{color:var(--accent);}
+.wday-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.07);margin:0 auto 7px;}
+.wday.done80 .wday-dot{background:var(--green);}
+.wday.today .wday-dot{background:var(--accent);}
+.wday-pct{font-family:'DM Mono',monospace;font-size:9px;color:var(--text-muted);}
+.wday.done80 .wday-pct{color:var(--green);}
+.wday.today .wday-pct{color:var(--accent-light);}
+
+/* NOTES */
+textarea.notes{width:100%;background:var(--dark-3);border:1px solid rgba(255,255,255,.06);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;padding:13px;resize:vertical;min-height:96px;outline:none;transition:border-color .2s;line-height:1.6;}
+textarea.notes:focus{border-color:rgba(128,0,32,.4);}
+textarea.notes::placeholder{color:var(--text-muted);}
+.saved-hint{font-family:'DM Mono',monospace;font-size:10px;color:var(--green);height:14px;margin-top:8px;}
+
+/* STREAK */
+.streak-box{display:flex;align-items:center;gap:16px;padding:20px;background:var(--dark-3);border:1px solid rgba(128,0,32,.2);}
+.streak-n{font-family:'Playfair Display',serif;font-size:52px;font-weight:900;color:var(--accent);line-height:1;}
+.streak-lbl{font-size:15px;font-weight:600;}
+.streak-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--text-muted);margin-top:4px;}
+
+/* POMODORO */
+.pomo-tabs{display:flex;gap:0;margin-bottom:16px;}
+.ptab{flex:1;padding:8px;text-align:center;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(255,255,255,.06);color:var(--text-muted);background:var(--dark-3);transition:all .2s;}
+.ptab.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent-light);}
+.ptab:not(:first-child){border-left:none;}
+.ring-wrap{position:relative;width:176px;height:176px;margin:0 auto;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:rgba(255,255,255,.05);stroke-width:6;}
+.ring-prog{fill:none;stroke:var(--accent);stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset 1s linear;}
+.ring-prog.brk{stroke:var(--blue);}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;}
+.timer-num{font-family:'Playfair Display',serif;font-size:38px;font-weight:700;line-height:1;}
+.timer-lbl{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);}
+.pomo-ctrl{display:flex;gap:9px;justify-content:center;margin-top:16px;}
+.btn{padding:10px 22px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border:1px solid;transition:all .2s;background:transparent;color:var(--text-soft);border-color:rgba(255,255,255,.1);}
+.btn:hover{border-color:var(--accent);color:var(--accent-light);}
+.btn.pri{background:var(--accent-dim);border-color:var(--accent);color:var(--accent-light);}
+.btn.pri:hover{background:rgba(128,0,32,.25);}
+.btn.sm{padding:7px 13px;font-size:10px;}
+.btn.danger{border-color:rgba(192,57,43,.25);color:rgba(192,57,43,.55);}
+.btn.danger:hover{border-color:#C0392B;color:#E74C3C;}
+.pomo-stats{display:flex;gap:10px;margin-top:16px;}
+.pstat{flex:1;text-align:center;background:var(--dark-3);padding:11px 6px;}
+.pstat-n{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--accent);line-height:1;}
+.pstat-l{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;}
+
+/* MONTHLY */
+.phase-sel{display:flex;gap:7px;margin-bottom:14px;}
+.ph-btn{flex:1;padding:9px 5px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;border:1px solid rgba(255,255,255,.06);color:var(--text-muted);background:var(--dark-3);transition:all .2s;}
+.ph-btn.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent-light);}
+.ph-lbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:13px;line-height:1.5;}
+.mchk-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.mchk-item{display:flex;align-items:flex-start;gap:9px;padding:9px 11px;background:var(--dark-3);border:1px solid transparent;cursor:pointer;transition:all .2s;font-size:13px;color:var(--text-soft);line-height:1.5;}
+.mchk-item:hover{border-color:rgba(128,0,32,.2);}
+.mchk-item.done{opacity:.45;text-decoration:line-through;color:var(--text-muted);border-color:rgba(39,174,96,.15);}
+.mchk-box{width:16px;height:16px;min-width:16px;border:1px solid rgba(128,0,32,.3);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--green);margin-top:1px;transition:all .2s;}
+.mchk-item.done .mchk-box{background:var(--green-dim);border-color:var(--green);}
+
+/* divider */
+.div{height:1px;background:rgba(255,255,255,.04);margin:14px 0;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a href="https://cassfer.github.io/estudos/" class="btn-back">← Hub</a>
+    <div class="nav-title">CRA · Rotina Diária</div>
+  </div>
+  <div class="nav-date" id="nav-date"></div>
+</nav>
+
+<div class="app">
+
+  <!-- ─── COLUNA PRINCIPAL ─── -->
+  <div class="col-main">
+
+    <!-- HEADER DO DIA -->
+    <div class="card">
+      <div class="card-header">
+        <div>
+          <div class="card-label" id="hdr-type">—</div>
+          <div class="card-title" id="hdr-day">—</div>
+        </div>
+        <div id="hdr-badge"></div>
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-head">
+          <span>Progresso do dia</span>
+          <span id="prog-pct">0%</span>
+        </div>
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST DIÁRIO -->
+    <div class="card">
+      <div class="card-label">Tarefas</div>
+      <div class="card-title" style="margin-bottom:18px;">Lista do Dia</div>
+      <ul class="chk-list" id="daily-list"></ul>
+    </div>
+
+    <!-- VISÃO SEMANAL -->
+    <div class="card">
+      <div class="card-label">Semana</div>
+      <div class="card-title" style="margin-bottom:18px;">Visão Semanal</div>
+      <div class="week-strip" id="week-strip"></div>
+    </div>
+
+    <!-- ANOTAÇÕES -->
+    <div class="card">
+      <div class="card-label">Diário</div>
+      <div class="card-title" style="margin-bottom:14px;">Anotações do Dia</div>
+      <textarea class="notes" id="notes" placeholder="Erros, dificuldades, insights do estudo de hoje..."></textarea>
+      <div class="saved-hint" id="saved-hint"></div>
+    </div>
+
+  </div>
+
+  <!-- ─── COLUNA LATERAL ─── -->
+  <div class="col-side">
+
+    <!-- STREAK -->
+    <div class="card" style="padding:22px;">
+      <div class="card-label" style="margin-bottom:12px;">Consistência</div>
+      <div class="streak-box">
+        <div class="streak-n" id="streak-n">0</div>
+        <div>
+          <div class="streak-lbl">dias seguidos</div>
+          <div class="streak-sub" id="streak-sub">comece hoje</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POMODORO -->
+    <div class="card">
+      <div class="card-label" style="margin-bottom:12px;">Foco</div>
+      <div class="card-title" style="margin-bottom:16px;">Pomodoro</div>
+
+      <div class="pomo-tabs">
+        <div class="ptab active" id="ptab-work"  onclick="setMode('work')">Foco 25'</div>
+        <div class="ptab"        id="ptab-short" onclick="setMode('short')">Pausa 5'</div>
+        <div class="ptab"        id="ptab-long"  onclick="setMode('long')">Longa 15'</div>
+      </div>
+
+      <div class="ring-wrap">
+        <svg width="176" height="176" viewBox="0 0 176 176">
+          <circle class="ring-bg"   cx="88" cy="88" r="78"/>
+          <circle class="ring-prog" id="ring" cx="88" cy="88" r="78"
+            stroke-dasharray="490.09" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ring-center">
+          <div class="timer-num" id="t-display">25:00</div>
+          <div class="timer-lbl" id="t-mode">Foco</div>
+        </div>
+      </div>
+
+      <div class="pomo-ctrl">
+        <button class="btn pri" id="btn-play" onclick="toggleTimer()">Iniciar</button>
+        <button class="btn sm"  onclick="resetTimer()">Reset</button>
+      </div>
+
+      <div class="pomo-stats">
+        <div class="pstat"><div class="pstat-n" id="p-hoje">0</div><div class="pstat-l">Hoje</div></div>
+        <div class="pstat"><div class="pstat-n" id="p-total">0</div><div class="pstat-l">Total</div></div>
+        <div class="pstat"><div class="pstat-n" id="p-min">0</div><div class="pstat-l">Min foco</div></div>
+      </div>
+    </div>
+
+    <!-- META MENSAL -->
+    <div class="card">
+      <div class="card-label" style="margin-bottom:12px;">Mês</div>
+      <div class="card-title" style="margin-bottom:14px;">Meta Mensal</div>
+
+      <div class="phase-sel">
+        <div class="ph-btn" id="ph1" onclick="setPhase(1)">F1</div>
+        <div class="ph-btn" id="ph2" onclick="setPhase(2)">F2</div>
+        <div class="ph-btn" id="ph3" onclick="setPhase(3)">F3</div>
+        <div class="ph-btn" id="ph4" onclick="setPhase(4)">F4</div>
+      </div>
+
+      <div class="ph-lbl" id="ph-lbl"></div>
+      <ul class="mchk-list" id="month-list"></ul>
+
+      <div class="prog-wrap" style="margin-top:14px;">
+        <div class="prog-head"><span>Fase concluída</span><span id="m-pct">0%</span></div>
+        <div class="prog-bar"><div class="prog-fill" id="m-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- AÇÕES -->
+    <div class="card" style="padding:20px;">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:1px;margin-bottom:12px;text-transform:uppercase;">Dados</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn sm danger" onclick="resetDay()">Resetar dia</button>
+        <button class="btn sm danger" onclick="resetMonth()">Resetar mês</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer style="text-align:center;padding:28px 24px;border-top:1px solid rgba(255,255,255,.04);color:var(--text-muted);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;">
+  CRA · CICLO DE RETENÇÃO ATIVA — CÁSSIO FERNANDES · 2026
+</footer>
+
+<script>
+// ─── DADOS ───────────────────────────────────────────────────────────────────
+
+const TASKS = {
+  content: [
+    { id:'anki',    l:'Anki — 15 a 25 min (inegociável)',                          tag:'t-must',  tl:'todo dia' },
+    { id:'aula1',   l:'Ifar — Bloco 1 · 30 min + mini-recall ao pausar',           tag:'t-recall', tl:'recall'  },
+    { id:'recall1', l:'Recall imediato — folha em branco + explicar em voz alta',  tag:'t-recall', tl:'recall'  },
+    { id:'aula2',   l:'Ifar — Bloco 2 · 30 min (se houver) + mini-recall',        tag:null,       tl:null      },
+    { id:'recall2', l:'Recall do bloco 2 — folha em branco + voz alta',            tag:'t-recall', tl:'recall'  },
+    { id:'cards',   l:'Anki — criar cards Cloze dos pontos fracos mapeados',       tag:'t-anki',   tl:'anki'   },
+    { id:'quest',   l:'10 a 20 questões CEBRASPE do tema do dia',                  tag:null,       tl:null      },
+    { id:'erros',   l:'Converter todos os erros em flashcards Cloze no Anki',      tag:'t-anki',   tl:'anki'   },
+  ],
+  revision: [
+    { id:'anki',    l:'Anki — 15 a 25 min (inegociável)',                          tag:'t-must',  tl:'todo dia' },
+    { id:'recall_r',l:'Recall dos temas dos dois dias anteriores — folha em branco',tag:'t-recall', tl:'recall'  },
+    { id:'quest_r', l:'Bateria de questões dos mesmos temas revisados',            tag:null,       tl:null      },
+    { id:'cards_l', l:'Revisar e refinar cards com baixa taxa de acerto no Anki',  tag:'t-anki',   tl:'anki'   },
+    { id:'update',  l:'Atualizar flashcards com base nos erros do dia',            tag:'t-anki',   tl:'anki'   },
+  ],
+  heavy: [
+    { id:'anki',    l:'Anki — 15 a 25 min (inegociável)',                          tag:'t-must',  tl:'todo dia' },
+    { id:'erros_s', l:'Reanalisar todas as questões erradas da semana',            tag:null,       tl:null      },
+    { id:'simul',   l:'Simulado cronometrado — condições reais de prova (quinzenal)',tag:null,      tl:null      },
+    { id:'analise', l:'Análise: por que errei? Qual padrão a banca explorou?',     tag:'t-recall', tl:'análise' },
+    { id:'cards_e', l:'Criar flashcards Cloze com os erros do simulado',           tag:'t-anki',   tl:'anki'   },
+    { id:'plan',    l:'Planejar temas e metas da próxima semana',                  tag:null,       tl:null      },
+    { id:'rest',    l:'Descanso real — memória consolida durante o repouso',        tag:'t-must',  tl:'essencial'},
+  ],
+};
+
+const PHASES = {
+  1:{ lbl:'Fase 1 — Fundação · Sem. 1–2', tasks:[
+    'Mapear ementa completa do edital por disciplina',
+    'Criar decks Anki por área (TI, Direito, Português)',
+    'Instalar e rodar o ciclo diário das 4 etapas sem falhas',
+    'Resolver primeiras 200 questões — reconhecer padrão CEBRASPE',
+    'Rotina estabilizada — sem falhas nos 14 dias',
+  ]},
+  2:{ lbl:'Fase 2 — Volume · Sem. 3–6', tasks:[
+    'Avançar no Ifar seguindo a ementa por disciplina',
+    'Mínimo 30 questões/dia nos dias de conteúdo',
+    'Base de cards Anki crescendo organicamente por sessão',
+    'Primeiro simulado completo ao final da semana 6',
+    'Cobrir 80% da ementa mapeada',
+  ]},
+  3:{ lbl:'Fase 3 — Consolidação · Sem. 7–9', tasks:[
+    'Zero conteúdo novo — revisão cruzada de todas as disciplinas',
+    'Foco nas disciplinas com menor taxa de acerto',
+    'Mínimo 50 questões/dia incluindo dias de revisão',
+    'Recriar cards com acerto abaixo de 70%',
+    'Nenhuma disciplina abaixo de 65% nas questões',
+  ]},
+  4:{ lbl:'Fase 4 — Domínio · Sem. 10–12', tasks:[
+    'Simulado cronometrado todo domingo sem exceção',
+    'Revisão cumulativa total de todas as matérias',
+    'Engenharia reversa dos padrões históricos da banca',
+    'Zero conteúdo novo — 100% revisão e questões',
+    'Consistência acima de 75% nos simulados finais',
+  ]},
+};
+
+const DN   = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DFULL= ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const DTYPE= { 0:'heavy', 1:'content', 2:'content', 3:'revision', 4:'content', 5:'content', 6:'revision' };
+const DTLBL= { content:'Dia de Conteúdo', revision:'Revisão Ativa', heavy:'Revisão Pesada' };
+const CIRC = 2 * Math.PI * 78; // 490.09
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+
+const now      = new Date();
+const dayKey   = now.toISOString().slice(0,10);
+const monKey   = dayKey.slice(0,7);
+const dow      = now.getDay();
+
+let DS = load(`cra_d_${dayKey}`,  { done:[], notes:'', pomos:0, focMin:0 });
+let MS = load(`cra_m_${monKey}`,  { phase:1, done:[] });
+let PT = parseInt(localStorage.getItem('cra_pt') || '0');
+
+// Pomodoro
+const PDUR = { work:25, short:5, long:15 };
+let pMode='work', pRun=false, pSec=25*60, pTot=25*60, pIv=null;
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+
+function load(k, def){ try{ return JSON.parse(localStorage.getItem(k)) || def; } catch(e){ return def; } }
+function saveDS(){ localStorage.setItem(`cra_d_${dayKey}`, JSON.stringify(DS)); }
+function saveMS(){ localStorage.setItem(`cra_m_${monKey}`,  JSON.stringify(MS)); }
+function dayData(k){ try{ return JSON.parse(localStorage.getItem(`cra_d_${k}`)); } catch(e){ return null; } }
+function dayTaskLen(k){ const d=new Date(k+'T12:00:00'); return TASKS[DTYPE[d.getDay()]].length; }
+function dayPct(k){
+  if(k===dayKey){ const t=TASKS[DTYPE[dow]].length; return t?Math.round(DS.done.length/t*100):0; }
+  const d=dayData(k); if(!d) return null;
+  const t=dayTaskLen(k); return t?Math.round(d.done.length/t*100):null;
+}
+function streak(){
+  let s=0; const d=new Date(now);
+  if((dayPct(dayKey)||0)>0){
+    s=1; d.setDate(d.getDate()-1);
+    for(;;){ const k=d.toISOString().slice(0,10); const p=dayPct(k); if(!p||p===0) break; s++; d.setDate(d.getDate()-1); }
+  }
+  return s;
+}
+function beep(f=880,dur=0.6,delay=0){
+  setTimeout(()=>{ try{
+    const c=new(window.AudioContext||window.webkitAudioContext)();
+    const o=c.createOscillator(), g=c.createGain();
+    o.connect(g); g.connect(c.destination);
+    o.frequency.value=f;
+    g.gain.setValueAtTime(.35,c.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dur);
+    o.start(c.currentTime); o.stop(c.currentTime+dur);
+  }catch(e){} }, delay);
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+
+function renderHeader(){
+  const opts={weekday:'long',day:'numeric',month:'long',year:'numeric'};
+  document.getElementById('nav-date').textContent = now.toLocaleDateString('pt-BR',opts);
+  document.getElementById('hdr-day').textContent  = DFULL[dow];
+  document.getElementById('hdr-type').textContent = DTLBL[DTYPE[dow]];
+  const icons={content:'📚',revision:'🔁',heavy:'⚡'};
+  const cls = DTYPE[dow]==='revision'?'rev':'';
+  document.getElementById('hdr-badge').innerHTML =
+    `<div class="day-badge ${cls}">${icons[DTYPE[dow]]} ${DTLBL[DTYPE[dow]]}</div>`;
+}
+
+function renderList(){
+  const tasks=TASKS[DTYPE[dow]];
+  const ul=document.getElementById('daily-list');
+  ul.innerHTML='';
+  tasks.forEach(t=>{
+    const done=DS.done.includes(t.id);
+    const li=document.createElement('li');
+    li.className=`chk-item${done?' done':''}`;
+    li.onclick=()=>toggleTask(t.id);
+    li.innerHTML=`<div class="chk-box">${done?'✓':''}</div>
+      <div class="chk-label">${t.l}</div>
+      ${t.tag?`<span class="chk-tag ${t.tag}">${t.tl}</span>`:''}`;
+    ul.appendChild(li);
+  });
+  updateProg();
+}
+
+function updateProg(){
+  const t=TASKS[DTYPE[dow]].length;
+  const pct=t?Math.round(DS.done.length/t*100):0;
+  document.getElementById('prog-pct').textContent=pct+'%';
+  const f=document.getElementById('prog-fill');
+  f.style.width=pct+'%';
+  f.className='prog-fill'+(pct>=100?' ok':'');
+  const s=streak();
+  document.getElementById('streak-n').textContent=s;
+  document.getElementById('streak-sub').textContent=s===0?'comece hoje':s===1?'primeiro dia!':'dias consecutivos';
+}
+
+function toggleTask(id){
+  const i=DS.done.indexOf(id);
+  if(i===-1) DS.done.push(id); else DS.done.splice(i,1);
+  saveDS(); renderList(); renderWeek();
+}
+
+function renderWeek(){
+  const w=document.getElementById('week-strip');
+  w.innerHTML='';
+  // show current week Sun–Sat
+  const weekStart=new Date(now);
+  weekStart.setDate(now.getDate()-dow);
+  for(let i=0;i<7;i++){
+    const d=new Date(weekStart); d.setDate(weekStart.getDate()+i);
+    const k=d.toISOString().slice(0,10);
+    const isT=(k===dayKey);
+    const pct=dayPct(k);
+    const ok=pct!==null&&pct>=80;
+    const div=document.createElement('div');
+    div.className=`wday${isT?' today':ok&&!isT?' done80':''}`;
+    div.innerHTML=`<div class="wday-n">${DN[d.getDay()]}</div><div class="wday-dot"></div><div class="wday-pct">${pct!==null?pct+'%':'—'}</div>`;
+    w.appendChild(div);
+  }
+}
+
+function renderNotes(){
+  const el=document.getElementById('notes');
+  el.value=DS.notes||'';
+  let st;
+  el.addEventListener('input',()=>{
+    DS.notes=el.value; saveDS();
+    document.getElementById('saved-hint').textContent='✓ Salvo';
+    clearTimeout(st); st=setTimeout(()=>{ document.getElementById('saved-hint').textContent=''; },2000);
+  });
+}
+
+function renderMonthly(){
+  const ph=MS.phase||1;
+  [1,2,3,4].forEach(i=>{
+    const el=document.getElementById('ph'+i);
+    el.className='ph-btn'+(i===ph?' active':'');
+  });
+  const p=PHASES[ph];
+  document.getElementById('ph-lbl').textContent=p.lbl;
+  const ul=document.getElementById('month-list');
+  ul.innerHTML='';
+  p.tasks.forEach((t,i)=>{
+    const done=MS.done.includes(i);
+    const li=document.createElement('li');
+    li.className=`mchk-item${done?' done':''}`;
+    li.onclick=()=>toggleMonth(i);
+    li.innerHTML=`<div class="mchk-box">${done?'✓':''}</div>${t}`;
+    ul.appendChild(li);
+  });
+  const pct=p.tasks.length?Math.round(MS.done.length/p.tasks.length*100):0;
+  document.getElementById('m-pct').textContent=pct+'%';
+  document.getElementById('m-fill').style.width=pct+'%';
+}
+
+function toggleMonth(i){
+  const idx=MS.done.indexOf(i);
+  if(idx===-1) MS.done.push(i); else MS.done.splice(idx,1);
+  saveMS(); renderMonthly();
+}
+
+function setPhase(p){
+  MS.phase=p; MS.done=[]; saveMS(); renderMonthly();
+}
+
+// ─── POMODORO ────────────────────────────────────────────────────────────────
+
+function setMode(m){
+  if(pRun) return;
+  pMode=m; pSec=PDUR[m]*60; pTot=pSec;
+  ['work','short','long'].forEach(k=>{
+    document.getElementById('ptab-'+k).className='ptab'+(k===m?' active':'');
+  });
+  const ml={work:'Foco',short:'Pausa curta',long:'Pausa longa'};
+  document.getElementById('t-mode').textContent=ml[m];
+  document.getElementById('ring').className='ring-prog'+(m!=='work'?' brk':'');
+  updateRing();
+}
+
+function toggleTimer(){
+  if(pRun){
+    clearInterval(pIv); pRun=false;
+    document.getElementById('btn-play').textContent='Continuar';
+  } else {
+    pRun=true;
+    document.getElementById('btn-play').textContent='Pausar';
+    pIv=setInterval(()=>{ pSec--; updateRing(); if(pSec<=0){ clearInterval(pIv); pRun=false; onEnd(); } },1000);
+  }
+}
+
+function resetTimer(){
+  clearInterval(pIv); pRun=false;
+  pSec=PDUR[pMode]*60; pTot=pSec;
+  document.getElementById('btn-play').textContent='Iniciar';
+  updateRing();
+}
+
+function onEnd(){
+  beep(660,.4); beep(880,.7,320);
+  if(pMode==='work'){
+    DS.pomos=(DS.pomos||0)+1;
+    DS.focMin=(DS.focMin||0)+25;
+    PT++; localStorage.setItem('cra_pt',PT);
+    saveDS(); updatePomoStats();
+  }
+  document.getElementById('btn-play').textContent='Iniciar';
+  pSec=PDUR[pMode]*60; pTot=pSec; updateRing();
+}
+
+function updateRing(){
+  const m=String(Math.floor(pSec/60)).padStart(2,'0');
+  const s=String(pSec%60).padStart(2,'0');
+  document.getElementById('t-display').textContent=`${m}:${s}`;
+  const off=CIRC*(1-pSec/pTot);
+  document.getElementById('ring').style.strokeDashoffset=off;
+}
+
+function updatePomoStats(){
+  document.getElementById('p-hoje').textContent=DS.pomos||0;
+  document.getElementById('p-total').textContent=PT;
+  document.getElementById('p-min').textContent=DS.focMin||0;
+}
+
+// ─── RESET ───────────────────────────────────────────────────────────────────
+
+function resetDay(){
+  if(!confirm('Resetar checklist e anotações de hoje?')) return;
+  DS={done:[],notes:'',pomos:DS.pomos,focMin:DS.focMin};
+  saveDS(); renderList(); renderWeek();
+  document.getElementById('notes').value='';
+}
+
+function resetMonth(){
+  if(!confirm('Resetar progresso mensal?')) return;
+  MS.done=[]; saveMS(); renderMonthly();
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+renderHeader();
+renderList();
+renderWeek();
+renderNotes();
+renderMonthly();
+updateRing();
+updatePomoStats();
+
+document.addEventListener('visibilitychange',()=>{ if(document.hidden&&pRun) toggleTimer(); });
+</script>
+</body>
+</html>
